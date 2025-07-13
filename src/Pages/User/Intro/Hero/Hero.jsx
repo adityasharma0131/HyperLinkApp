@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../../../Components/Loading";
 import HeroTop from "../../../../assets/herotop.png";
 import HalfLogo from "../../../../assets/halflogo.png";
 
 import Button from "../../../../Components/Button";
-import "./style.css";
+// import "./style.css";
 
 const Hero = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
+  const handleAgree = () => {
+    navigate("/signin/phone");
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -51,8 +56,8 @@ const Hero = () => {
               Comprehensive healthcare solutions powered by AI and medical
               expertise
             </p>
-            <button className="cta-button" onClick={() => setShowPopup(true)}>
-              <span>Get Started</span>
+            <Button type="primary" onClick={() => setShowPopup(true)}>
+              Get Started
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M5 12H19M19 12L12 5M19 12L12 19"
@@ -62,7 +67,7 @@ const Hero = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -271,11 +276,425 @@ const Hero = () => {
             </div>
 
             <div className="modal-footer">
-              <Button text="I Agree" />
+              <Button type="primary" onClick={handleAgree}>
+                I Agree
+              </Button>
             </div>
           </div>
         </div>
       )}
+
+      <style jsx="true">
+        {`
+          /* Base Styles */
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+
+          body {
+            color: #1e293b;
+            line-height: 1.5;
+          }
+
+          /* Hero Container */
+          .hero-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8fafc;
+          }
+
+          .hero-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+          }
+
+          .gradient-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+          }
+
+          .gradient-circle.pink {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #ec4899, transparent 70%);
+            top: -100px;
+            right: -100px;
+          }
+
+          .gradient-circle.blue {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #6d28d9, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+          }
+
+          .gradient-circle.yellow {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #f59e0b, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 3rem;
+          }
+
+          .hero-illustration {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+            animation: float 6s ease-in-out infinite;
+          }
+
+          .hero-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+          }
+
+          .logo-container {
+            margin-bottom: 1.5rem;
+          }
+
+          .hero-logo {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(109, 40, 217, 0.2));
+          }
+
+          .hero-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            line-height: 1.2;
+          }
+
+          .gradient-text {
+            background: linear-gradient(90deg, #6d28d9, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+          }
+
+          .hero-subtitle {
+            font-size: 1.25rem;
+            color: #8b5cf6;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+          }
+
+          .hero-description {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+
+          .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+            position: relative;
+            overflow: hidden;
+          }
+
+          .cta-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(255, 255, 255, 0.2),
+              transparent
+            );
+            transition: all 0.5s ease;
+          }
+
+          .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
+          }
+
+          .cta-button:hover::before {
+            left: 100%;
+          }
+
+          .cta-button svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
+          }
+
+          .cta-button:hover svg {
+            transform: translateX(4px);
+          }
+
+          /* Modal Styles */
+          .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+
+          .modal-container {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.4s ease-out;
+          }
+
+          .modal-header {
+            padding: 2rem 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
+          .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+          }
+
+          .modal-subtitle {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 500;
+          }
+
+          .modal-body {
+            padding: 1.5rem 2rem;
+          }
+
+          .privacy-card {
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+          }
+
+          .privacy-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .privacy-icon svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          .privacy-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #6d28d9;
+          }
+
+          .privacy-content p {
+            font-size: 0.95rem;
+            color: #1e293b;
+            opacity: 0.8;
+          }
+
+          .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .permission-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+          }
+
+          .permission-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: rgba(236, 72, 153, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ec4899;
+          }
+
+          .permission-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #1e293b;
+          }
+
+          .permission-details p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.5;
+          }
+
+          .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: center;
+          }
+
+          /* Animations */
+          @keyframes float {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-15px);
+            }
+          }
+
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          /* Responsive Design */
+          @media (max-width: 768px) {
+            .hero-content {
+              flex-direction: column;
+              gap: 0rem;
+              padding: 1.5rem;
+            }
+
+            .hero-card {
+              padding: 1rem 1.5rem;
+            }
+
+            .hero-title {
+              font-size: 1.75rem;
+            }
+
+            .hero-subtitle {
+              font-size: 1.1rem;
+            }
+
+            .modal-container {
+              max-width: 95%;
+            }
+
+            .permissions-grid {
+              grid-template-columns: 1fr;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .hero-title {
+              font-size: 1.5rem;
+            }
+
+            .hero-description {
+              font-size: 0.9rem;
+            }
+
+            .cta-button {
+              padding: 0.875rem 1.5rem;
+              font-size: 0.9rem;
+            }
+
+            .modal-header {
+              padding: 1.5rem 1rem 1rem;
+            }
+
+            .modal-body {
+              padding: 1rem;
+            }
+
+            .modal-footer {
+              padding: 1rem;
+            }
+          }
+        `}
+      </style>
     </>
   );
 };

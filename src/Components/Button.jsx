@@ -1,18 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Button = ({ text = "I Understand & Agree", onClick, className = "" }) => {
+const Button = ({
+  type = "primary",
+  children,
+  onClick,
+  className = "",
+  icon,
+  disabled = false,
+  ...props
+}) => {
   return (
-    <button className="primary-button" onClick={onClick}>
-      {text}
+    <button
+      className={`button ${type}-button ${className} ${
+        disabled ? "disabled" : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+    >
+      {icon && <span className="button-icon">{icon}</span>}
+      {children}
     </button>
   );
 };
 
 Button.propTypes = {
-  text: PropTypes.string,
+  type: PropTypes.oneOf(["primary", "secondary"]),
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   className: PropTypes.string,
+  icon: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 
 export default Button;
