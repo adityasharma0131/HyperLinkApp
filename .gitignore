@@ -1,0 +1,48 @@
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+dist-ssr/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime files
+*.cache/
+.cache/
+vite.svg
+.vite/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Env files
+.env
+.env.*.local
+
+# Optional: lockfiles (if using only one package manager)
+# Uncomment one if using only a specific package manager
+# yarn.lock
+# package-lock.json
+# pnpm-lock.yaml
