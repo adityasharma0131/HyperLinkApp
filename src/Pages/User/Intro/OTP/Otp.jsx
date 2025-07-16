@@ -1,22 +1,78 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import "./style.css";
+import Button from "../../../../Components/Button";
 
 const Otp = () => {
   const { type, credentials } = useParams();
+  const navigate = useNavigate();
   const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [generatedOtp, setGeneratedOtp] = useState("");
   const [timer, setTimer] = useState(30);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const inputsRef = useRef([]);
+  const otpGeneratedRef = useRef(false);
+
+  // Generate unique user ID
+  const generateUserId = () => {
+    return "user_" + Math.random().toString(36).substr(2, 9);
+  };
+
+  const generateOTP = () => {
+    const digits = "0123456789";
+    let otp = "";
+    for (let i = 0; i < 4; i++) {
+      otp += digits[Math.floor(Math.random() * 10)];
+    }
+    return otp;
+  };
+
+  // Create user object in localStorage
+  const createUser = () => {
+    const userId = generateUserId();
+    const userData = {
+      userId,
+      phoneNo: type === "phone" ? credentials : null,
+      email: type === "email" ? decodeURIComponent(credentials) : null,
+      name: null,
+      gender: null,
+      dob: null,
+      locationCoordinates: null,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Get existing users or initialize empty array
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Add new user
+    existingUsers.push(userData);
+
+    // Save back to localStorage
+    // localStorage.setItem("users", JSON.stringify(existingUsers));
+
+    // Also set current user in localStorage for easy access
+    localStorage.setItem("currentUser", JSON.stringify(userData));
+
+    return userData;
+  };
 
   useEffect(() => {
-    // Show initial toast when component mounts
-    toast.success(`OTP sent to ${credentials}`, {
-      icon: "🔐",
-      duration: 4000,
-    });
+    if (!otpGeneratedRef.current) {
+      const newOtp = generateOTP();
+      setGeneratedOtp(newOtp);
+
+      setTimeout(() => {
+        alert(`Generated OTP: ${newOtp}`);
+      }, 100);
+
+      toast.success(`OTP sent to ${credentials}`, {
+        icon: "🔐",
+        duration: 4000,
+      });
+
+      otpGeneratedRef.current = true;
+    }
 
     const interval = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
@@ -24,7 +80,7 @@ const Otp = () => {
 
     return () => {
       clearInterval(interval);
-      toast.dismiss(); // Clean up any toasts when component unmounts
+      toast.dismiss();
     };
   }, [credentials]);
 
@@ -38,16 +94,14 @@ const Otp = () => {
       if (value !== "" && index < 3) {
         inputsRef.current[index + 1]?.focus();
       }
-
-      if (index === 3 && value !== "") {
-        handleSubmit();
-      }
     }
   };
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && otp[index] === "" && index > 0) {
       inputsRef.current[index - 1]?.focus();
+    } else if (e.key === "Enter" && index === 3 && otp[index] !== "") {
+      handleSubmit();
     }
   };
 
@@ -59,6 +113,10 @@ const Otp = () => {
       return;
     }
 
+    const newOtp = generateOTP();
+    setGeneratedOtp(newOtp);
+    console.log("New OTP generated:", newOtp);
+
     const methodName =
       method === "sms" ? "SMS" : method === "call" ? "phone call" : "email";
     toast.success(`New OTP sent via ${methodName}`, {
@@ -69,10 +127,10 @@ const Otp = () => {
     setOtp(new Array(4).fill(""));
     inputsRef.current[0]?.focus();
   };
-
   const handleSubmit = () => {
     const enteredOtp = otp.join("");
-    if (enteredOtp.length !== 3) {
+
+    if (enteredOtp.length !== 4) {
       setError("Please enter a 4-digit code");
       toast.error("Please enter a complete 4-digit code", {
         icon: "❌",
@@ -85,18 +143,22 @@ const Otp = () => {
       id: "otp-verification",
     });
 
-    // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
       toast.dismiss("otp-verification");
 
-      // Mock verification - replace with actual API call
-      if (enteredOtp === "1234") {
-        // Example correct OTP
-        toast.success("Verification successful!", {
+      if (enteredOtp === generatedOtp) {
+        const newUser = createUser(); // Generates and stores user
+        const userId = newUser.userId;
+
+        toast.success("Verification successful! Redirecting...", {
           icon: "✅",
-          duration: 4000,
+          duration: 2000,
         });
+
+        setTimeout(() => {
+          navigate(`/signin/${userId}`); // ✅ Redirects to dynamic route
+        }, 2000);
       } else {
         toast.error("Invalid OTP. Please try again", {
           icon: "❌",
@@ -108,29 +170,12 @@ const Otp = () => {
   };
 
   const handleInputFocus = (index) => {
-    const input = inputsRef.current[index];
-    if (input) {
-      input.select();
-    }
+    inputsRef.current[index]?.select();
   };
 
   return (
     <>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: "#fff",
-            color: "#1e293b",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            borderRadius: "12px",
-            padding: "16px 20px",
-            fontSize: "14px",
-            fontWeight: "500",
-          },
-        }}
-      />
-
+      <Toaster position="top-center" />
       <div className="otp-verification-container">
         <div className="otp-background">
           <div className="gradient-circle purple"></div>
@@ -226,18 +271,9 @@ const Otp = () => {
               </div>
             )}
           </div>
-
-          <button
-            className={`otp-submit-btn ${isLoading ? "loading" : ""}`}
-            onClick={handleSubmit}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div className="otp-spinner"></div>
-            ) : (
-              "Verify and Continue"
-            )}
-          </button>
+          <Button type="primary" onClick={handleSubmit}>
+            Verify and Continue
+          </Button>
 
           <button className="otp-change-method">
             Not {credentials}?{" "}
@@ -245,6 +281,262 @@ const Otp = () => {
           </button>
         </div>
       </div>
+      <style jsx="true">
+        {`
+          /* OTP Verification Styles */
+          .otp-verification-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            background-color: #f8fafc;
+            overflow: hidden;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+          }
+
+          .otp-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+          }
+
+          .gradient-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+          }
+
+          .gradient-circle.purple {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #6d28d9, transparent 70%);
+            top: -100px;
+            right: -100px;
+          }
+
+          .gradient-circle.orange {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #f59e0b, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+          }
+
+          .otp-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            animation: fadeInUp 0.5s ease-out;
+          }
+
+          .otp-header {
+            text-align: center;
+            margin-bottom: 2rem;
+          }
+
+          .otp-icon {
+            margin-bottom: 1rem;
+          }
+
+          .otp-icon svg {
+            width: 48px;
+            height: 48px;
+          }
+
+          .otp-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+          }
+
+          .otp-subtitle {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 0;
+          }
+
+          .otp-subtitle strong {
+            color: #1e293b;
+            font-weight: 600;
+          }
+
+          .otp-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+          }
+
+          .otp-input-container input {
+            width: 56px;
+            height: 64px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.2s ease;
+            color: #1e293b;
+            background: #ffffff;
+          }
+
+          .otp-input-container input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+          }
+
+          .otp-input-container input.error {
+            border-color: #ef4444;
+            animation: shake 0.5s ease-in-out;
+          }
+
+          .otp-error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            text-align: center;
+            margin-top: -1.5rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .otp-timer {
+            text-align: center;
+            margin-bottom: 1.5rem;
+          }
+
+          .otp-timer-text {
+            color: #64748b;
+            font-size: 0.875rem;
+          }
+
+          .otp-timer-text span {
+            color: #6d28d9;
+            font-weight: 600;
+          }
+
+          .otp-resend-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+          }
+
+          .otp-resend-btn {
+            background: none;
+            border: none;
+            color: #6d28d9;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+          }
+
+          .otp-resend-btn:hover {
+            background-color: rgba(109, 40, 217, 0.05);
+          }
+
+          .otp-submit-btn {
+            width: 100%;
+            border: none;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 52px;
+          }
+
+          .otp-submit-btn:disabled {
+            background-color: #c7d2fe;
+            cursor: not-allowed;
+          }
+
+          .otp-submit-btn.loading {
+            background-color: #6d28d9;
+          }
+
+          .otp-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+          }
+
+          .otp-change-method {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: block;
+            margin: 15px auto;
+            text-align: center;
+          }
+
+          .otp-change-method span {
+            color: #6d28d9;
+            font-weight: 600;
+            text-decoration: underline;
+          }
+
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes spin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+
+          @keyframes shake {
+            0%,
+            100% {
+              transform: translateX(0);
+            }
+            20%,
+            60% {
+              transform: translateX(-5px);
+            }
+            40%,
+            80% {
+              transform: translateX(5px);
+            }
+          }
+
+          /* Responsive Design */
+          @media (max-width: 480px) {
+            .otp-verification-container {
+              padding: 1.5rem;
+              align-items: flex-start;
+            }
+
+            .otp-input-container input {
+              width: 48px;
+              height: 56px;
+              font-size: 1.25rem;
+            }
+          }
+        `}
+      </style>
     </>
   );
 };
