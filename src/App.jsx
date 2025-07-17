@@ -6,6 +6,7 @@ import Phone from "./Pages/User/Intro/Signin/Phoneno";
 import Email from "./Pages/User/Intro/Signin/Email";
 import Otp from "./Pages/User/Intro/OTP/Otp";
 import UserInfo from "./Pages/User/Intro/UserInfo/UserInfo";
+import UserLocation from "./Pages/User/Intro/UserInfo/UserLocation";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signin/email" element={<Email />} />
           <Route path="/signin/:type/:credentials" element={<Otp />} />
           <Route path="/signin/:userid" element={<UserInfo />} />
+          <Route path="/signin/location/:userid" element={<UserLocation />} />
         </Routes>
       </main>
     </Router>

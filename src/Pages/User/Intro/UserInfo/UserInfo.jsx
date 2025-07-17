@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../../Components/Button";
 import "./style.css";
 
@@ -13,6 +14,7 @@ const UserInfo = () => {
   });
 
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   // Load current user from localStorage on mount
   useEffect(() => {
@@ -79,17 +81,11 @@ const UserInfo = () => {
       email: formData.email,
     };
 
-    // Save to localStorage
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = existingUsers.map((user) =>
-      user.userId === currentUser?.userId ? updatedUser : user
-    );
-
+    // Save to localStorage temporarily
     localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-
-    console.log("User Info saved:", updatedUser);
-
-    // You can redirect or show a toast here
+    
+    // Navigate to location page with user ID
+    navigate(`/signin/location/${updatedUser.userId}`);
   };
 
   return (
