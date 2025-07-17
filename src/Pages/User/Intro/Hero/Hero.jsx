@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../../Components/Loading";
-import HeroTop from "../../../../assets/herotop.png";
+import HeroVideo from "../../../../assets/hero.mp4";
 import HalfLogo from "../../../../assets/halflogo.png";
 
 import Button from "../../../../Components/Button";
@@ -34,10 +34,13 @@ const Hero = () => {
         </div>
 
         <div className="hero-content">
-          <img
-            src={HeroTop}
-            alt="Healthcare Illustration"
+          <video
+            src={HeroVideo}
             className="hero-illustration"
+            autoPlay
+            loop
+            muted
+            playsInline
           />
 
           <div className="hero-card">
@@ -360,19 +363,22 @@ const Hero = () => {
             flex-direction: row;
             align-items: center;
             gap: 3rem;
+            justify-content: center;
           }
 
           .hero-illustration {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-            animation: float 6s ease-in-out infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1; /* Optional: push it behind other content */
+            filter: brightness(0.9) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
           }
 
           .hero-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: #f8fafc;
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 2.5rem;

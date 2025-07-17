@@ -214,25 +214,27 @@
   color: #94a3b8;
   margin-top: 4px;
   margin-bottom: 1rem;
-} /* Base Styles */
-:root {
-  --primary-color: #4361ee;
-  --primary-hover: #3a56d4;
-  --secondary-color: #f8f9fa;
-  --secondary-hover: #e9ecef;
-  --text-color: #2b2d42;
-  --text-light: #6c757d;
-  --error-color: #ef233c;
-  --success-color: #2ec4b6;
-  --warning-color: #ff9f1c;
-  --border-radius: 12px;
-  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --transition: all 0.3s ease;
+}
+/* Base Styles */
+.location-page {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+  justify-content: center;
 }
 
 .location-container {
   max-width: 900px;
   padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .location-header {
@@ -243,13 +245,13 @@
 .location-title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-color);
+  color: #2b2d42;
   margin-bottom: 0.5rem;
 }
 
 .location-subtitle {
   font-size: 1rem;
-  color: var(--text-light);
+  color: #6c757d;
   margin-bottom: 0;
 }
 
@@ -270,15 +272,15 @@
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid #e0e0e0;
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   font-size: 1rem;
-  transition: var(--transition);
+  transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .location-search-input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: #4361ee;
   box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
 }
 
@@ -292,7 +294,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--text-light);
+  color: #6c757d;
   font-size: 0.875rem;
 }
 
@@ -312,30 +314,30 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   padding: 0.75rem;
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   line-height: 1.4;
 }
 
 .location-message.success {
   background: rgba(46, 196, 182, 0.1);
-  color: var(--success-color);
+  color: #2ec4b6;
 }
 
 .location-message.error {
   background: rgba(239, 35, 60, 0.1);
-  color: var(--error-color);
+  color: #ef233c;
 }
 
 .location-message.warning {
   background: rgba(255, 159, 28, 0.1);
-  color: var(--warning-color);
+  color: #ff9f1c;
 }
 
 /* Map Wrapper */
 .map-wrapper {
   position: relative;
   margin: 1.5rem 0;
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -345,11 +347,11 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: var(--warning-color);
+  color: #ff9f1c;
   margin: 1rem 0;
   padding: 0.5rem;
   background: rgba(255, 159, 28, 0.05);
-  border-radius: var(--border-radius);
+  border-radius: 12px;
 }
 
 .warning-icon {
@@ -363,15 +365,15 @@
   gap: 0.75rem;
   background: rgba(67, 97, 238, 0.05);
   padding: 1rem;
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   margin: 1.5rem 0;
   font-size: 0.9375rem;
-  color: var(--text-color);
+  color: #2b2d42;
   line-height: 1.4;
 }
 
 .address-icon {
-  color: var(--primary-color);
+  color: #4361ee;
   flex-shrink: 0;
 }
 

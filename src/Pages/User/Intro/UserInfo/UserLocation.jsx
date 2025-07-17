@@ -249,110 +249,113 @@ const UserLocation = () => {
 
     localStorage.setItem("currentUser", JSON.stringify(updatedUser));
 
-    navigate("/dashboard");
+    // ✅ Navigate to /app/:userid
+    navigate("/app");
   };
 
   return (
-    <LoadScript
-      googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-      libraries={GOOGLE_LIBRARIES}
-    >
-      <div className="location-container">
-        <div className="location-header">
-          <h1 className="location-title">Set Your Location</h1>
-          <p className="location-subtitle">
-            {useCustomLocation
-              ? "Search for an address or click on the map"
-              : "We'll use your location to provide personalized services"}
-          </p>
-        </div>
-
-        <div className="location-mode-toggle">
-          <Button
-            type={useCustomLocation ? "secondary" : "primary"}
-            onClick={() => setUseCustomLocation(false)}
-            icon={<FaMapMarkerAlt />}
-          >
-            Current Location
-          </Button>
-          <Button
-            type={useCustomLocation ? "primary" : "secondary"}
-            onClick={() => setUseCustomLocation(true)}
-            icon={<FaMapMarkerAlt />}
-          >
-            Custom Location
-          </Button>
-        </div>
-
-        {mapAccuracy && mapAccuracy > 1000 && (
-          <div className="accuracy-warning">
-            <FaExclamationTriangle className="warning-icon" />
-            <span>
-              Warning: Location accuracy is low (~{Math.round(mapAccuracy)}m
-              radius)
-            </span>
+    <div className="location-page">
+      <LoadScript
+        googleMapsApiKey={GOOGLE_MAPS_API_KEY}
+        libraries={GOOGLE_LIBRARIES}
+      >
+        <div className="location-container">
+          <div className="location-header">
+            <h1 className="location-title">Set Your Location</h1>
+            <p className="location-subtitle">
+              {useCustomLocation
+                ? "Search for an address or click on the map"
+                : "We'll use your location to provide personalized services"}
+            </p>
           </div>
-        )}
 
-        <div className="map-wrapper">
-          <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            center={mapCenter}
-            zoom={15}
-            onClick={handleMapClick}
-            onLoad={handleMapLoad}
-            options={{
-              streetViewControl: false,
-              mapTypeControl: false,
-              fullscreenControl: false,
-              zoomControl: true,
-              clickableIcons: false,
-              styles: [
-                {
-                  featureType: "poi",
-                  elementType: "labels",
-                  stylers: [{ visibility: "off" }],
-                },
-              ],
-            }}
-          >
-            {markerPosition && (
-              <Marker
-                position={markerPosition}
-                draggable={useCustomLocation}
-                onDragEnd={handleMarkerDragEnd}
-                icon={{
-                  url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
-                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${
-                      useCustomLocation ? "#712fdd" : "#ee4368ff"
-                    }"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`
-                  )}`,
-                  scaledSize: new window.google.maps.Size(40, 40),
-                  anchor: new window.google.maps.Point(20, 40),
-                }}
-              />
-            )}
-          </GoogleMap>
-        </div>
-
-        {address && (
-          <div className="selected-address">
-            <FaMapMarkerAlt className="address-icon" />
-            <span>{address}</span>
+          <div className="location-mode-toggle">
+            <Button
+              type={useCustomLocation ? "secondary" : "primary"}
+              onClick={() => setUseCustomLocation(false)}
+              icon={<FaMapMarkerAlt />}
+            >
+              Current Location
+            </Button>
+            <Button
+              type={useCustomLocation ? "primary" : "secondary"}
+              onClick={() => setUseCustomLocation(true)}
+              icon={<FaMapMarkerAlt />}
+            >
+              Custom Location
+            </Button>
           </div>
-        )}
 
-        <div className="location-actions">
-          <Button
-            type="primary"
-            onClick={saveLocationAndContinue}
-            disabled={!coordinates}
-          >
-            Confirm Location
-          </Button>
+          {mapAccuracy && mapAccuracy > 1000 && (
+            <div className="accuracy-warning">
+              <FaExclamationTriangle className="warning-icon" />
+              <span>
+                Warning: Location accuracy is low (~{Math.round(mapAccuracy)}m
+                radius)
+              </span>
+            </div>
+          )}
+
+          <div className="map-wrapper">
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              center={mapCenter}
+              zoom={15}
+              onClick={handleMapClick}
+              onLoad={handleMapLoad}
+              options={{
+                streetViewControl: false,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                zoomControl: true,
+                clickableIcons: false,
+                styles: [
+                  {
+                    featureType: "poi",
+                    elementType: "labels",
+                    stylers: [{ visibility: "off" }],
+                  },
+                ],
+              }}
+            >
+              {markerPosition && (
+                <Marker
+                  position={markerPosition}
+                  draggable={useCustomLocation}
+                  onDragEnd={handleMarkerDragEnd}
+                  icon={{
+                    url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+                      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${
+                        useCustomLocation ? "#712fdd" : "#ee4368ff"
+                      }"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`
+                    )}`,
+                    scaledSize: new window.google.maps.Size(40, 40),
+                    anchor: new window.google.maps.Point(20, 40),
+                  }}
+                />
+              )}
+            </GoogleMap>
+          </div>
+
+          {address && (
+            <div className="selected-address">
+              <FaMapMarkerAlt className="address-icon" />
+              <span>{address}</span>
+            </div>
+          )}
+
+          <div className="location-actions">
+            <Button
+              type="primary"
+              onClick={saveLocationAndContinue}
+              disabled={!coordinates}
+            >
+              Confirm Location
+            </Button>
+          </div>
         </div>
-      </div>
-    </LoadScript>
+      </LoadScript>
+    </div>
   );
 };
 

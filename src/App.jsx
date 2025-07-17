@@ -8,6 +8,12 @@ import Otp from "./Pages/User/Intro/OTP/Otp";
 import UserInfo from "./Pages/User/Intro/UserInfo/UserInfo";
 import UserLocation from "./Pages/User/Intro/UserInfo/UserLocation";
 
+import UserHome from "./Pages/User/Application/Home/Home";
+import UserServices from "./Pages/User/Application/Services/Services";
+import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
+import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
+import UserProfile from "./Pages/User/Application/Profile/Profile";
+
 function App() {
   return (
     <Router>
@@ -19,6 +25,12 @@ function App() {
           <Route path="/signin/:type/:credentials" element={<Otp />} />
           <Route path="/signin/:userid" element={<UserInfo />} />
           <Route path="/signin/location/:userid" element={<UserLocation />} />
+
+          <Route path="/app" element={<UserHome />} />
+          <Route path="/app/services" element={<UserServices />} />
+          <Route path="/app/hyperlink360" element={<UserHyperLink />} />
+          <Route path="/app/healthfeeds" element={<UserHealthFeeds />} />
+          <Route path="/app/profile" element={<UserProfile />} />
         </Routes>
       </main>
     </Router>
