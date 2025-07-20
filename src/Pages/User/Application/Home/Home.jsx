@@ -15,6 +15,7 @@ import ModelHome from "../../../../assets/modelhome.png";
 import SubscribBanner from "../../../../assets/subscribebanner.png";
 import HealthFeed1 from "../../../../assets/healthfeed1.png";
 import HealthFeed2 from "../../../../assets/healthfeed2.png";
+import HealthRecord from "../../../../assets/healthrecord.png";
 
 import "./style.css";
 
@@ -277,6 +278,23 @@ const Home = () => {
               </h3>
               <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
             </div>
+          </div>
+        </div>
+
+        <div className="report-banner">
+          <div className="report-text">
+            <h2>
+              <span className="highlight">YOUR REPORT</span> <br />
+              <span className="highlight">IS SECURE</span>
+            </h2>
+            <p>
+              Your results and insights have been saved in your Locker. Access
+              anytime from your Profile tab.
+            </p>
+            <button className="user-button">View Records</button>
+          </div>
+          <div className="report-image">
+            <img src={HealthRecord} alt="Health Record Secure" />
           </div>
         </div>
       </div>

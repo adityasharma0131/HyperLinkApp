@@ -494,7 +494,6 @@
 }
 .health-feeds-wrapper {
   padding: 1.25rem 1rem;
-  margin: 0rem 0rem 6rem 0rem;
 }
 
 .health-feeds-header {
@@ -587,4 +586,59 @@
   font-size: 10px;
   color: #6b7280;
   margin: 0 1rem;
+}
+
+.report-banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: linear-gradient(180deg, #f0f4ff 0%, #e9dfff 100%);
+  border-radius: 20px;
+  padding: 1.2rem 1rem;
+  margin: 1rem 1rem 7rem 1rem;
+}
+
+.report-text {
+  flex: 1;
+}
+
+.report-text h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+.highlight {
+  color: #e11d48; /* Pink-red */
+}
+
+.report-text p {
+  font-size: 10px;
+  color: #374151;
+  margin-bottom: 0.8rem;
+}
+
+.report-image {
+  flex-shrink: 0;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.report-image img {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .report-text h2 {
+    font-size: 1.3rem;
+  }
+
+  .user-button {
+    width: 100%;
+  }
 }
