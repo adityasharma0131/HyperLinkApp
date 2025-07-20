@@ -13,6 +13,8 @@ import { GiFruitBowl } from "react-icons/gi";
 import DnaHome from "../../../../assets/dnahome.png";
 import ModelHome from "../../../../assets/modelhome.png";
 import SubscribBanner from "../../../../assets/subscribebanner.png";
+import HealthFeed1 from "../../../../assets/healthfeed1.png";
+import HealthFeed2 from "../../../../assets/healthfeed2.png";
 
 import "./style.css";
 
@@ -213,6 +215,68 @@ const Home = () => {
           </div>
           <div className="subscribe-image">
             <img src={SubscribBanner} alt="Doctor holding apple" />
+          </div>
+        </div>
+
+        <div className="health-feeds-wrapper">
+          <div className="health-feeds-header">
+            <h2>Recent Health Feeds</h2>
+            <a href="#" className="see-all-link">
+              See All
+            </a>
+          </div>
+
+          <div className="health-feeds-scroll">
+            <div className="health-card">
+              <img
+                src={HealthFeed1}
+                alt="Diabetes Check"
+                className="feed-image"
+              />
+              <span className="tag blue">#GeneticInsights</span>
+              <h3 className="feed-title">
+                Understanding Your Genetic Predisposition to Diabetes
+              </h3>
+              <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
+            </div>
+
+            <div className="health-card">
+              <img
+                src={HealthFeed2}
+                alt="Heart Health"
+                className="feed-image"
+              />
+              <span className="tag green">#HeartHealth</span>
+              <h3 className="feed-title">
+                Understanding Your Genetic Predisposition to Diabetes
+              </h3>
+              <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
+            </div>
+            <div className="health-card">
+              <img
+                src={HealthFeed1}
+                alt="Diabetes Check"
+                className="feed-image"
+              />
+              <span className="tag blue">#GeneticInsights</span>
+              <h3 className="feed-title">
+                Understanding Your Genetic Predisposition to Diabetes
+              </h3>
+              <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
+            </div>
+
+            <div className="health-card">
+              <img
+                src={HealthFeed2}
+                alt="Heart Health"
+                className="feed-image"
+              />
+              <span className="tag green">#HeartHealth</span>
+              <h3 className="feed-title">
+                Understanding Your Genetic Predisposition to Diabetes
+              </h3>
+              <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
+            </div>
           </div>
         </div>
       </div>
