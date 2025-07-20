@@ -1,16 +1,18 @@
 import React from "react";
 import UserNavigation from "../../../../Components/UserNavigation";
+
 import { FaArrowRight } from "react-icons/fa";
 import { FaWalking, FaBed, FaFireAlt, FaTint } from "react-icons/fa";
-
-import DnaHome from "../../../../assets/dnahome.png";
-import ModelHome from "../../../../assets/modelhome.png";
 import { FaPlus, FaBell, FaMicrophone } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { MdOutlineDateRange } from "react-icons/md";
 import { FaRobot } from "react-icons/fa";
 import { TbVaccine } from "react-icons/tb";
 import { GiFruitBowl } from "react-icons/gi";
+
+import DnaHome from "../../../../assets/dnahome.png";
+import ModelHome from "../../../../assets/modelhome.png";
+import SubscribBanner from "../../../../assets/subscribebanner.png";
 
 import "./style.css";
 
@@ -195,6 +197,22 @@ const Home = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="subscribe-banner">
+          <div className="subscribe-text">
+            <h1>
+              A DIET <br />
+              AS UNIQUE AS <br />
+              <span className="gradient-text">YOUR DNA</span>
+            </h1>
+            <button className="user-button">
+              SUBSCRIBE NOW! <FaArrowRight />
+            </button>
+          </div>
+          <div className="subscribe-image">
+            <img src={SubscribBanner} alt="Doctor holding apple" />
           </div>
         </div>
       </div>
