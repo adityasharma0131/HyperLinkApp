@@ -266,3 +266,27 @@ body {
     height: 50px;
   }
 }
+
+.app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+  color: white;
+  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.2);
+}
+
+@media (min-width: 480px) {
+  .app-button {
+    font-size: 1rem;
+  }
+}

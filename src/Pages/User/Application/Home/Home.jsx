@@ -1,5 +1,6 @@
 import React from "react";
 import UserNavigation from "../../../../Components/UserNavigation";
+import AppButton from "../../../../Components/AppButton";
 
 import { FaArrowRight } from "react-icons/fa";
 import { FaWalking, FaBed, FaFireAlt, FaTint } from "react-icons/fa";
@@ -94,9 +95,7 @@ const Home = () => {
               </h2>
               <p>One App. Infinite Health Possibilities.</p>
 
-              <div className="user-button">
-                Chat with HELIX <FaArrowRight />
-              </div>
+              <AppButton text="Chat with HELIX" icon={FaArrowRight} />
             </div>
             <div className="hero-image">
               <img className="dna" src={DnaHome} alt="DNA Strand" />
@@ -210,9 +209,8 @@ const Home = () => {
               AS UNIQUE AS <br />
               <span className="gradient-text">YOUR DNA</span>
             </h1>
-            <button className="user-button">
-              SUBSCRIBE NOW! <FaArrowRight />
-            </button>
+
+            <AppButton text="SUBSCRIBE NOW!" icon={FaArrowRight} />
           </div>
           <div className="subscribe-image">
             <img src={SubscribBanner} alt="Doctor holding apple" />
@@ -291,7 +289,7 @@ const Home = () => {
               Your results and insights have been saved in your Locker. Access
               anytime from your Profile tab.
             </p>
-            <button className="user-button">View Records</button>
+            <AppButton text="View Records" />
           </div>
           <div className="report-image">
             <img src={HealthRecord} alt="Health Record Secure" />
