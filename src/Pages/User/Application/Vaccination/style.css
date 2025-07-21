@@ -1,0 +1,137 @@
+/* Search Bar
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  margin: 16px -10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.search-icon,
+.mic-icon {
+  color: #6b7280;
+  font-size: 16px;
+} */
+
+.vaccination-page {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.vaccination-hero {
+  background: linear-gradient(to bottom, #058ebf, #abf1ff);
+  padding: 20px;
+  border-radius: 0 0 30px 30px;
+  position: relative;
+}
+
+.vaccination-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: white;
+  flex: 1;
+}
+
+.back-icon {
+  font-size: 18px;
+  color: white;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.text-block h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.text-block p {
+  font-size: 12px;
+
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.header-right {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.image-wrapper {
+  position: relative;
+  /* width: 200px;
+  height: 200px; */
+}
+
+.image-wrapper img {
+  width: 110%;
+  height: auto;
+  object-fit: cover;
+  animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.search-icon,
+.mic-icon {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.hero-search {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: calc(100% - 40px);
+  max-width: 500px;
+}

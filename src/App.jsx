@@ -13,6 +13,7 @@ import UserServices from "./Pages/User/Application/Services/Services";
 import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
+import Vaccination from "./Pages/User/Application/Vaccination/Vaccination";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
           <Route path="/app/hyperlink360" element={<UserHyperLink />} />
           <Route path="/app/healthfeeds" element={<UserHealthFeeds />} />
           <Route path="/app/profile" element={<UserProfile />} />
+
+          <Route path="/app/vaccination" element={<Vaccination />} />
         </Routes>
       </main>
     </Router>
