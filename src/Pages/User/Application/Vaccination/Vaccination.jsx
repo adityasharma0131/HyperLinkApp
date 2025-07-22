@@ -6,6 +6,10 @@ import { IoIosSearch } from "react-icons/io";
 import Vaccinationbg from "../../../../assets/vaccinationhero.png";
 import AppButton from "../../../../Components/AppButton";
 
+import ChildVacc from "../../../../assets/catchildhoodvaccines.png";
+import AdultVacc from "../../../../assets/catadultvaccines.png";
+import TravelVacc from "../../../../assets/cattravelvaccines.png";
+
 const Vaccination = () => {
   return (
     <div className="vaccination-page">
@@ -31,6 +35,33 @@ const Vaccination = () => {
           <IoIosSearch className="search-icon" />
           <input type="text" placeholder="Search" />
           <FaMicrophone className="mic-icon" />
+        </div>
+      </div>
+
+      <div className="categories-section">
+        <h2 className="categories-title">Categories</h2>
+        <div className="categories-cards">
+          <div className="category-card pink">
+            <h3>
+              Childhood <br /> Vaccines
+            </h3>
+            <img src={ChildVacc} alt="Childhood Vaccines" />
+            <span className="ripple" />
+          </div>
+          <div className="category-card orange">
+            <h3>
+              Adult <br /> Vaccines
+            </h3>
+            <img src={AdultVacc} alt="Adult Vaccines" />
+            <span className="ripple" />
+          </div>
+          <div className="category-card blue">
+            <h3>
+              Travel <br /> Vaccines
+            </h3>
+            <img src={TravelVacc} alt="Travel Vaccines" />
+            <span className="ripple" />
+          </div>
         </div>
       </div>
     </div>
