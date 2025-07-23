@@ -9,6 +9,7 @@ import AppButton from "../../../../Components/AppButton";
 import ChildVacc from "../../../../assets/catchildhoodvaccines.png";
 import AdultVacc from "../../../../assets/catadultvaccines.png";
 import TravelVacc from "../../../../assets/cattravelvaccines.png";
+import PrescriptionBG from "../../../../assets/4957412_Mobile-login (1) 2.svg";
 
 const Vaccination = () => {
   return (
@@ -61,6 +62,23 @@ const Vaccination = () => {
             </h3>
             <img src={TravelVacc} alt="Travel Vaccines" />
             <span className="ripple" />
+          </div>
+        </div>
+      </div>
+      <div className="prescription-container">
+        <h2 className="section-title">Upload Your Prescription</h2>
+
+        <div className="prescription-card">
+          <div className="prescription-content">
+            <p className="prescription-subtext">
+              Let us handle the rest. Upload your prescription and we’ll check
+              for vaccines.
+            </p>
+            <AppButton text="Click to Upload" />
+          </div>
+
+          <div className="prescription-image">
+            <img src={PrescriptionBG} alt="Upload Illustration" />
           </div>
         </div>
       </div>
