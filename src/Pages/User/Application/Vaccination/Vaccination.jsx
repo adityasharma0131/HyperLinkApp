@@ -6,10 +6,10 @@ import { IoIosSearch } from "react-icons/io";
 import Vaccinationbg from "../../../../assets/vaccinationhero.png";
 import AppButton from "../../../../Components/AppButton";
 
-import ChildVacc from "../../../../assets/catchildhoodvaccines.png";
-import AdultVacc from "../../../../assets/catadultvaccines.png";
-import TravelVacc from "../../../../assets/cattravelvaccines.png";
-import PrescriptionBG from "../../../../assets/4957412_Mobile-login (1) 2.svg";
+import ChildVacc from "../../../../assets/catchildhoodvaccines.svg";
+import AdultVacc from "../../../../assets/catadultvaccines.svg";
+import TravelVacc from "../../../../assets/cattravelvaccines.svg";
+import PrescriptionBG from "../../../../assets/PrescriptionBG.svg";
 
 const Vaccination = () => {
   return (

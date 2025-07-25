@@ -82,24 +82,14 @@
 
 .image-wrapper {
   position: relative;
-  /* width: 200px;
-  height: 200px; */
+  width: 150px;
+  height: 150px;
 }
 
 .image-wrapper img {
-  width: 110%;
+  width: 100%;
   height: auto;
   object-fit: cover;
-  animation: bounce 2s ease-in-out infinite;
-}
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
 }
 
 /* Search Bar */
@@ -255,7 +245,7 @@
 }
 
 .prescription-card {
-  background: linear-gradient(to right, #08297d, #0fa7e3);
+  background-color: #5a0b83;
   border-radius: 18px;
   display: flex;
   padding: 10px;
