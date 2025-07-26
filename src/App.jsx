@@ -14,6 +14,9 @@ import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
 import Vaccination from "./Pages/User/Application/Vaccination/Vaccination";
+import ChildVaccination from "./Pages/User/Application/Vaccination/ChildVaccination";
+import AdultVaccination from "./Pages/User/Application/Vaccination/AdultVaccination";
+import TravelVaccination from "./Pages/User/Application/Vaccination/TravelVaccination";
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
           <Route path="/app/profile" element={<UserProfile />} />
 
           <Route path="/app/vaccination" element={<Vaccination />} />
+          <Route path="/app/vaccination/child" element={<ChildVaccination />} />
+          <Route path="/app/vaccination/adult" element={<AdultVaccination />} />
+          <Route path="/app/vaccination/travel" element={<TravelVaccination/>} />
         </Routes>
       </main>
     </Router>
