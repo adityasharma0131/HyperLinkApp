@@ -304,3 +304,91 @@
   object-fit: cover;
   border-radius: 12px;
 }
+
+.vaccine-benefits {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 10px;
+}
+
+.benefit-card {
+  flex: 1 1 30%;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.benefit-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.benefit-icon {
+  font-size: 28px;
+  color: #8b5cf6;
+  margin-bottom: 12px;
+}
+
+.benefit-card p {
+  font-size: 10px;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.report-banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: linear-gradient(180deg, #f0f4ff 0%, #e9dfff 100%);
+  border-radius: 20px;
+  padding: 1.2rem 1rem;
+  margin: 1rem 1rem 7rem 1rem;
+}
+
+.report-text {
+  flex: 1;
+}
+
+.report-text h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+.highlight {
+  color: #e11d48; /* Pink-red */
+}
+
+.report-text p {
+  font-size: 10px;
+  color: #374151;
+  margin-bottom: 0.8rem;
+}
+
+.report-image {
+  flex-shrink: 0;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.report-image img {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .report-text h2 {
+    font-size: 1.3rem;
+  }
+}
