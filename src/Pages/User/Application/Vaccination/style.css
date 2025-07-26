@@ -215,3 +215,391 @@
   width: calc(100% - 40px);
   max-width: 500px;
 }
+/* Modern CSS for the filter component */
+.vaccine-filter-container {
+  margin: 32px 0;
+}
+
+.vacc-filter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 16px;
+  padding: 8px;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  cursor: default;
+}
+
+.filter-icon {
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.filter-dropdown {
+  position: relative;
+  flex-grow: 1;
+}
+
+.selected-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selected-option:hover {
+  border-color: #ced4da;
+  background: #f8f9fa;
+}
+
+.option-icon {
+  font-size: 16px;
+  color: #6d28d9;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #868e96;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-icon.open {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  z-index: 10;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-item:hover {
+  background: #f1f3f5;
+  color: #6d28d9;
+}
+
+.dropdown-item::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #dee2e6;
+  margin-right: 8px;
+}
+
+.dropdown-item:hover::before {
+  background: #6d28d9;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .vacc-filter {
+    gap: 8px;
+  }
+
+  .filter-label {
+    justify-content: center;
+  }
+}
+/* Modern CSS for Vaccine Cards */
+.vaccine-list-container {
+  padding: 0 24px;
+  margin: 32px 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.view-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #6d28d9;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.view-all-btn:hover {
+  background: #f8f9fa;
+}
+
+.vaccine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vaccine-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vaccine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.vaccine-card.recommended {
+  border-left: 4px solid #6d28d9;
+}
+
+.recommended-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #6d28d9;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-icon {
+  font-size: 14px;
+}
+
+.card-content {
+  display: flex;
+  gap: 16px;
+}
+
+.vaccine-icon-container {
+  flex-shrink: 0;
+}
+
+.vaccine-icon-bg {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #f3f4ff, #e0e7ff);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vaccine-icon {
+  color: #6d28d9;
+}
+
+.vaccine-info {
+  flex: 1;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.vaccine-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.vaccine-tag {
+  background: #e9f7ef;
+  color: #2e7d32;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.vaccine-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.vaccine-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.vaccine-price-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-info {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.vaccine-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.price-unit {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.vaccine-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #6d28d9;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #3b5bdb;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: white;
+  color: #6d28d9;
+  border: 1px solid #e2e8f0;
+  padding: 8px;
+}
+
+.btn-secondary:hover {
+  background: #f8f9fa;
+  border-color: #cbd5e1;
+}
+
+.btn-icon {
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .vaccine-list-container {
+    padding: 0 16px;
+  }
+
+  .card-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .vaccine-price-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .vaccine-buttons {
+    width: 100%;
+  }
+
+  .btn-primary {
+    flex: 1;
+  }
+}

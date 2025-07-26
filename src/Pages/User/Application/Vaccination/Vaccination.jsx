@@ -164,6 +164,7 @@ const Vaccination = () => {
   padding: 20px;
   border-radius: 0 0 30px 30px;
   position: relative;
+  box-shadow: 0 10px 30px rgba(103, 108, 255, 0.2);
 }
 
 .vaccination-header {
