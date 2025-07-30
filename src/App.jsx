@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import AutoScroll from "./Components/AutoScroll";
+
 import Hero from "./Pages/User/Intro/Hero/Hero";
 import Phone from "./Pages/User/Intro/Signin/Phoneno";
 import Email from "./Pages/User/Intro/Signin/Email";
@@ -22,6 +24,8 @@ function App() {
   return (
     <Router>
       <main>
+        <AutoScroll />
+
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/signin/phone" element={<Phone />} />
@@ -39,7 +43,10 @@ function App() {
           <Route path="/app/vaccination" element={<Vaccination />} />
           <Route path="/app/vaccination/child" element={<ChildVaccination />} />
           <Route path="/app/vaccination/adult" element={<AdultVaccination />} />
-          <Route path="/app/vaccination/travel" element={<TravelVaccination/>} />
+          <Route
+            path="/app/vaccination/travel"
+            element={<TravelVaccination />}
+          />
         </Routes>
       </main>
     </Router>

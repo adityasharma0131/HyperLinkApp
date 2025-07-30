@@ -1,8 +1,7 @@
 import React from "react";
 import UserNavigation from "../../../../Components/UserNavigation";
 import AppButton from "../../../../Components/AppButton";
-
-import { FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { FaWalking, FaBed, FaFireAlt, FaTint } from "react-icons/fa";
 import { FaPlus, FaBell, FaMicrophone } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
@@ -58,6 +57,12 @@ const Home = () => {
     },
   ];
 
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate("/app/vaccination");
+  };
+
   return (
     <>
       <div className="home-page">
@@ -92,8 +97,7 @@ const Home = () => {
                 <span className="gradient-text">HYPERLINK 360</span>
               </h2>
               <p>One App. Infinite Health Possibilities.</p>
-
-              <AppButton text="Chat with HELIX" icon={FaArrowRight} />
+              <AppButton text="Chat with HELIX" />
             </div>
             <div className="hero-image">
               <img className="dna" src={DnaHome} alt="DNA Strand" />
@@ -141,7 +145,11 @@ const Home = () => {
             </div>
 
             {/* Vaccines Card */}
-            <div className="action-card green">
+            <div
+              className="action-card green"
+              onClick={handleCardClick}
+              style={{ cursor: "pointer" }}
+            >
               <div className="card-content">
                 <div className="icon-wrapper">
                   <TbVaccine className="action-icon" />
@@ -208,7 +216,7 @@ const Home = () => {
               <span className="gradient-text">YOUR DNA</span>
             </h1>
 
-            <AppButton text="SUBSCRIBE NOW!" icon={FaArrowRight} />
+            <AppButton text="SUBSCRIBE NOW!" />
           </div>
           <div className="subscribe-image">
             <img src={SubscribBanner} alt="Doctor holding apple" />
@@ -479,6 +487,7 @@ const Home = () => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+
 }
 
 /* Action Cards */
@@ -489,6 +498,7 @@ const Home = () => {
   min-height: 10rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
 }
 
 .action-card:hover {
@@ -503,7 +513,9 @@ const Home = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between
+  
+
 }
 
 .icon-wrapper {
@@ -521,6 +533,7 @@ const Home = () => {
   font-size: 1.25rem;
   color: white;
 }
+
 
 .text-content h3 {
   font-size: 1rem;
@@ -872,6 +885,7 @@ const Home = () => {
   border-radius: 20px;
   padding: 1.2rem 1rem;
   margin: 1rem 1rem 7rem 1rem;
+      gap: 1rem;
 }
 
 .report-text {

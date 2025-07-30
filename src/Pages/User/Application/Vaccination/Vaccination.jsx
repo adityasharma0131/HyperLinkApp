@@ -25,7 +25,10 @@ const Vaccination = () => {
         <div className="vaccination-header">
           <div className="header-left">
             <button className="icon-button">
-              <FiArrowLeft className="hero-icon" />
+              <FiArrowLeft
+                className="hero-icon"
+                onClick={() => window.history.back()}
+              />
             </button>
             <div className="text-block">
               <h1>VACCINATION</h1>
@@ -529,6 +532,8 @@ const Vaccination = () => {
   border-radius: 20px;
   padding: 1.2rem 1rem;
   margin: 1rem 1rem 7rem 1rem;
+        gap: 1rem;
+
 }
 
 .report-text {

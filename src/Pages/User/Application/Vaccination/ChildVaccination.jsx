@@ -13,6 +13,7 @@ import { IoChevronDownSharp } from "react-icons/io5";
 import { GiLoveInjection } from "react-icons/gi";
 
 import ChildVaccineHero from "../../../../assets/ChildVaccineHero.svg";
+import AppButton from "../../../../Components/AppButton";
 import "./style.css";
 
 const ChildVaccination = () => {
@@ -23,55 +24,85 @@ const ChildVaccination = () => {
     setSelectedAge(age);
     setIsAgeDropdownOpen(false);
   };
-  const VaccineCard = ({ name, description, doses, price, isRecommended }) => {
+  const formatINR = (amount) =>
+    new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount);
+
+  const VaccineCard = ({
+    name,
+    description,
+    doses,
+    price,
+    isRecommended,
+    tag = "Essential",
+    scheduleAt = "At birth",
+    size = "compact", // "compact" | "regular"
+    onSchedule,
+    onInfo,
+  }) => {
     return (
-      <div className={`vaccine-card ${isRecommended ? "recommended" : ""}`}>
+      <div
+        className={`vaccine-card ${size === "compact" ? "is-compact" : ""} ${
+          isRecommended ? "recommended" : ""
+        }`}
+      >
         {isRecommended && (
-          <div className="recommended-badge">
+          <div className="recommended-badge" aria-label="Recommended badge">
             <FiAward className="badge-icon" />
             <span>Recommended</span>
           </div>
         )}
 
         <div className="card-content">
-          <div className="vaccine-icon-container">
+          <div className="vaccine-icon-container" aria-hidden="true">
             <div className="vaccine-icon-bg">
-              <GiLoveInjection size={24} className="vaccine-icon" />
+              <GiLoveInjection size={22} className="vaccine-icon" />
             </div>
           </div>
 
           <div className="vaccine-info">
             <div className="info-header">
               <h2 className="vaccine-name">{name}</h2>
-              <div className="vaccine-tag">Essential</div>
+              {tag && <div className="vaccine-tag">{tag}</div>}
             </div>
 
-            <p className="vaccine-desc">{description}</p>
+            {/* Clamp description to 2 lines, with title for full text on hover */}
+            <p className="vaccine-desc" title={description}>
+              {description}
+            </p>
 
             <div className="vaccine-meta">
-              <div className="meta-item">
-                <FiPackage size={16} />
+              <div className="meta-item" aria-label={`${doses} doses`}>
+                <FiPackage size={14} />
                 <span>{doses} doses</span>
               </div>
-              <div className="meta-item">
-                <FiClock size={16} />
-                <span>At birth</span>
+              <div className="meta-item" aria-label={scheduleAt}>
+                <FiClock size={14} />
+                <span>{scheduleAt}</span>
               </div>
             </div>
 
             <div className="vaccine-price-container">
               <div className="price-info">
-                <h3 className="vaccine-price">₹{price}</h3>
+                <h3 className="vaccine-price">{formatINR(price)}</h3>
                 <span className="price-unit">per dose</span>
               </div>
+
               <div className="vaccine-buttons">
-                <button className="btn-primary">
-                  <FiCalendar className="btn-icon" />
-                  <span>Schedule</span>
-                </button>
-                <button className="btn-secondary">
-                  <FiInfo className="btn-icon" />
-                </button>
+                <AppButton
+                  text="Schedule"
+                  icon={FiCalendar}
+                  onClick={onSchedule}
+                />
+                <AppButton
+                  variant="secondary"
+                  text="Info"
+                  icon={FiInfo}
+                  onClick={onInfo}
+                />
               </div>
             </div>
           </div>
@@ -79,6 +110,7 @@ const ChildVaccination = () => {
       </div>
     );
   };
+
   return (
     <div className="child-vaccine-page">
       <div className="child-vaccine-hero">
@@ -170,25 +202,31 @@ const ChildVaccination = () => {
         <div className="vaccine-list">
           <VaccineCard
             name="BCG Vaccine"
-            description="Protects against tuberculosis, recommended for all newborns"
+            description="Protects against tuberculosis, recommended for all newborns. This vaccine helps prevent severe TB in children."
             doses={1}
             price={479}
-            isRecommended={true}
+            isRecommended
+            size="compact"
+            scheduleAt="At birth"
           />
 
           <VaccineCard
             name="Hepatitis B"
-            description="Prevents hepatitis B infection, given at birth"
+            description="Prevents hepatitis B infection given at birth; reduces risk of chronic liver disease."
             doses={3}
             price={650}
-            isRecommended={true}
+            isRecommended
+            size="compact"
+            scheduleAt="At birth"
           />
 
           <VaccineCard
             name="OPV (Polio)"
-            description="Oral polio vaccine given at birth and infancy"
+            description="Oral polio vaccine for birth and infancy; critical for preventing paralysis."
             doses={4}
             price={320}
+            size="compact"
+            scheduleAt="At birth & infancy"
           />
         </div>
       </div>

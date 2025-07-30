@@ -353,93 +353,106 @@
   .filter-label {
     justify-content: center;
   }
-}
-/* Modern CSS for Vaccine Cards */
+} /* Container + Section */
 .vaccine-list-container {
-  padding: 0 24px;
-  margin: 32px 0;
+  padding: 0 20px;
+  margin: 28px 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .section-title {
   font-size: 20px;
   font-weight: 700;
-  color: #2d3748;
+  color: #1e293b;
   margin: 0;
 }
 
 .view-all-btn {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   background: none;
   border: none;
-  color: #6d28d9;
+  color: #7c3aed;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
   transition: all 0.2s ease;
 }
 
-.view-all-btn:hover {
-  background: #f8f9fa;
+.view-all-btn .btn-icon {
+  font-size: 16px;
 }
 
+.view-all-btn:hover {
+  background: #f5f3ff;
+}
+
+/* Grid: smaller cards */
 .vaccine-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 16px;
 }
 
+/* Card base */
 .vaccine-card {
-  background: white;
+  background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 20px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  padding: 18px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #eef2f7;
 }
 
 .vaccine-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.vaccine-card.recommended {
-  border-left: 4px solid #6d28d9;
+/* Compact modifier (default) further tightens spacing */
+.vaccine-card.is-compact {
+  padding: 16px;
+  border-radius: 14px;
 }
 
+/* Badge smaller */
 .recommended-badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: #6d28d9;
+  top: 12px;
+  right: 12px;
+  background: #7c3aed;
   color: white;
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .badge-icon {
   font-size: 14px;
 }
 
+/* Layout inside card */
 .card-content {
   display: flex;
-  gap: 16px;
+  gap: 14px;
 }
 
 .vaccine-icon-container {
@@ -457,13 +470,15 @@
 }
 
 .vaccine-icon {
-  color: #6d28d9;
+  color: #7c3aed;
+  font-size: 22px;
 }
 
 .vaccine-info {
   flex: 1;
 }
 
+/* Header smaller */
 .info-header {
   display: flex;
   align-items: center;
@@ -472,33 +487,40 @@
 }
 
 .vaccine-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #2d3748;
+  font-size: 17px;
+  font-weight: 800;
+  color: #1e293b;
   margin: 0;
 }
 
 .vaccine-tag {
   background: #e9f7ef;
   color: #2e7d32;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
+/* Description: shorter (2-line clamp) */
 .vaccine-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: #64748b;
   line-height: 1.5;
   margin: 0 0 12px 0;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* show only 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
+/* Meta smaller */
 .vaccine-meta {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .meta-item {
@@ -509,22 +531,24 @@
   color: #475569;
 }
 
+/* Price + Buttons */
 .vaccine-price-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 .price-info {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 6px;
 }
 
 .vaccine-price {
   font-size: 18px;
-  font-weight: 700;
-  color: #2d3748;
+  font-weight: 900;
+  color: #1e293b;
   margin: 0;
 }
 
@@ -533,55 +557,35 @@
   color: #64748b;
 }
 
+/* Make AppButton smaller inside card without changing global button */
 .vaccine-buttons {
   display: flex;
   gap: 8px;
 }
 
-.btn-primary,
-.btn-secondary {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
 
-.btn-primary {
-  background: #6d28d9;
-  color: white;
-  border: none;
-}
-
-.btn-primary:hover {
-  background: #3b5bdb;
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background: white;
-  color: #6d28d9;
-  border: 1px solid #e2e8f0;
-  padding: 8px;
-}
-
-.btn-secondary:hover {
-  background: #f8f9fa;
-  border-color: #cbd5e1;
-}
-
-.btn-icon {
-  font-size: 14px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
+/* Responsive */
+@media (max-width: 768px) {
+  .vaccine-list {
+    grid-template-columns: 1fr;
+  }
   .vaccine-list-container {
     padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 16px;
+  }
+
+  .view-all-btn {
+    font-size: 14px;
+  }
+
+  .vaccine-card,
+  .vaccine-card.is-compact {
+    padding: 14px;
   }
 
   .card-content {
@@ -597,9 +601,5 @@
 
   .vaccine-buttons {
     width: 100%;
-  }
-
-  .btn-primary {
-    flex: 1;
   }
 }
