@@ -398,11 +398,11 @@ const Vaccination = () => {
 
 /* Gradient background classes */
 .pink {
-  background: linear-gradient(135deg, #ff4eb5, #ff87c4);
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
 }
 
 .orange {
-  background: linear-gradient(135deg, #ffa200, #ffc264);
+  background: linear-gradient(135deg, #ffcc3d, #ff8a00);
 }
 
 .blue {
