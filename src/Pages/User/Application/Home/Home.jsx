@@ -97,7 +97,10 @@ const Home = () => {
                 <span className="gradient-text">HYPERLINK 360</span>
               </h2>
               <p>One App. Infinite Health Possibilities.</p>
-              <AppButton text="Chat with HELIX" />
+              <AppButton
+                text="Chat with HELIX"
+                onClick={() => navigate("/app/counselling/home")}
+              />
             </div>
             <div className="hero-image">
               <img className="dna" src={DnaHome} alt="DNA Strand" />
