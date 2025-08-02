@@ -15,10 +15,16 @@ import UserServices from "./Pages/User/Application/Services/Services";
 import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
+
 import Vaccination from "./Pages/User/Application/Vaccination/Vaccination";
 import ChildVaccination from "./Pages/User/Application/Vaccination/ChildVaccination";
 import AdultVaccination from "./Pages/User/Application/Vaccination/AdultVaccination";
 import TravelVaccination from "./Pages/User/Application/Vaccination/TravelVaccination";
+
+import HomeCounselling from "./Pages/User/Application/Counselling/Home";
+import DetailsCounselling from "./Pages/User/Application/Counselling/PersonalDetails";
+import QuestionariesCounselling from "./Pages/User/Application/Counselling/Questionaries";
+import ResultCounselling from "./Pages/User/Application/Counselling/Result";
 function App() {
   return (
     <Router>
@@ -45,6 +51,20 @@ function App() {
           <Route
             path="/app/vaccination/travel"
             element={<TravelVaccination />}
+          />
+
+          <Route path="/app/counselling/home" element={<HomeCounselling />} />
+          <Route
+            path="/app/counselling/details"
+            element={<DetailsCounselling />}
+          />
+          <Route
+            path="/app/counselling/questionaries"
+            element={<QuestionariesCounselling />}
+          />
+          <Route
+            path="/app/counselling/result"
+            element={<ResultCounselling />}
           />
         </Routes>
       </main>

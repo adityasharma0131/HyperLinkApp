@@ -15,7 +15,6 @@ import { GiLoveInjection } from "react-icons/gi";
 
 import TravelVaccineHero from "../../../../assets/TravelVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 
 const TravelVaccination = () => {
   const [searchQuery, setSearchQuery] = useState("");

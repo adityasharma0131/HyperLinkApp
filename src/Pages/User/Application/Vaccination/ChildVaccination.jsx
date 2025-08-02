@@ -15,7 +15,6 @@ import { IoChevronDownSharp } from "react-icons/io5";
 import { GiLoveInjection } from "react-icons/gi";
 import ChildVaccineHero from "../../../../assets/ChildVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 import BottomTray from "./BottomTray";
 
 const ChildVaccination = () => {
@@ -416,23 +415,6 @@ const ChildVaccination = () => {
   line-height: 1.5;
 }
 
-.cta-button {
-  background: white;
-  color: #6e8efb;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 14px;
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
 
 .hero-image {
   position: relative;
