@@ -302,9 +302,6 @@ const AdultVaccination = () => {
               ? "All Vaccines"
               : `Vaccines for ${selectedAge}`}
           </h3>
-          <span className="result-count">
-            {filteredVaccines.length} vaccines found
-          </span>
         </div>
 
         {filteredVaccines.length > 0 ? (

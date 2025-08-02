@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   FiArrowLeft,
   FiFilter,
@@ -7,20 +7,24 @@ import {
   FiPackage,
   FiClock,
   FiInfo,
+  FiX,
 } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { GiLoveInjection } from "react-icons/gi";
-
 import ChildVaccineHero from "../../../../assets/ChildVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
+import "./style.css";
+import BottomTray from "./BottomTray";
 
 const ChildVaccination = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
   const [selectedAge, setSelectedAge] = useState("all");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [selectedVaccine, setSelectedVaccine] = useState(null);
+  const [isTrayOpen, setIsTrayOpen] = useState(false);
 
   const ageGroups = [
     "all",
@@ -109,16 +113,13 @@ const ChildVaccination = () => {
 
   const filteredVaccines = useMemo(() => {
     return vaccineData.filter((vaccine) => {
-      // Filter by search query
       const matchesSearch =
         vaccine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         vaccine.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-      // Filter by age group
       const matchesAge =
         selectedAge === "all" || vaccine.ageGroups.includes(selectedAge);
 
-      // Filter by active filter
       let matchesFilter = true;
       if (activeFilter === "recommended") {
         matchesFilter = vaccine.isRecommended;
@@ -142,79 +143,68 @@ const ChildVaccination = () => {
       maximumFractionDigits: 0,
     }).format(amount);
 
-  const VaccineCard = ({
-    name,
-    description,
-    doses,
-    price,
-    isRecommended = false,
-    tag = "Essential",
-    scheduleAt = "At birth",
-    size = "compact",
-    onSchedule,
-    onInfo,
-  }) => (
+  const handleInfoClick = (vaccine) => {
+    setSelectedVaccine(vaccine);
+    setIsTrayOpen(true);
+  };
+
+  const handleScheduleClick = (vaccineName) => {
+    console.log(`Scheduling ${vaccineName}`);
+    // Add your scheduling logic here
+  };
+
+  const VaccineCard = ({ vaccine }) => (
     <div
-      className={`vaccine-card ${size === "compact" ? "is-compact" : ""} ${
-        isRecommended ? "recommended" : ""
-      }`}
+      className={`vaccine-card ${vaccine.isRecommended ? "recommended" : ""}`}
     >
-      {isRecommended && (
-        <div className="recommended-badge" aria-label="Recommended badge">
+      {vaccine.isRecommended && (
+        <div className="recommended-badge">
           <FiAward className="badge-icon" />
           <span>Recommended</span>
         </div>
       )}
-
       <div className="card-content">
-        <div className="vaccine-icon-container" aria-hidden="true">
+        <div className="vaccine-icon-container">
           <div className="vaccine-icon-bg">
             <GiLoveInjection size={22} className="vaccine-icon" />
           </div>
         </div>
-
         <div className="vaccine-info">
           <div className="info-header">
-            <h2 className="vaccine-name">{name}</h2>
-            {tag && (
-              <div className={`vaccine-tag ${tag.toLowerCase()}`}>{tag}</div>
-            )}
+            <h2 className="vaccine-name">{vaccine.name}</h2>
+            <div className={`vaccine-tag ${vaccine.tag.toLowerCase()}`}>
+              {vaccine.tag}
+            </div>
           </div>
-
-          <p className="vaccine-desc" title={description}>
-            {description}
-          </p>
-
+          <p className="vaccine-desc">{vaccine.description}</p>
           <div className="vaccine-meta">
-            <div className="meta-item" aria-label={`${doses} doses`}>
+            <div className="meta-item">
               <FiPackage size={14} />
               <span>
-                {doses} {doses > 1 ? "doses" : "dose"}
+                {vaccine.doses} {vaccine.doses > 1 ? "doses" : "dose"}
               </span>
             </div>
-            <div className="meta-item" aria-label={scheduleAt}>
+            <div className="meta-item">
               <FiClock size={14} />
-              <span>{scheduleAt}</span>
+              <span>{vaccine.scheduleAt}</span>
             </div>
           </div>
-
           <div className="vaccine-price-container">
             <div className="price-info">
-              <h3 className="vaccine-price">{formatINR(price)}</h3>
+              <h3 className="vaccine-price">{formatINR(vaccine.price)}</h3>
               <span className="price-unit">per dose</span>
             </div>
-
             <div className="vaccine-buttons">
               <AppButton
                 text="Schedule"
                 icon={FiCalendar}
-                onClick={onSchedule}
+                onClick={() => handleScheduleClick(vaccine.name)}
               />
               <AppButton
                 variant="secondary"
                 text="Info"
                 icon={FiInfo}
-                onClick={onInfo}
+                onClick={() => handleInfoClick(vaccine)}
               />
             </div>
           </div>
@@ -232,7 +222,6 @@ const ChildVaccination = () => {
             <FiArrowLeft className="hero-icon" />
           </button>
         </div>
-
         <div className="hero-content">
           <div className="hero-text">
             <h1>
@@ -244,13 +233,11 @@ const ChildVaccination = () => {
               Protect your child with the right vaccines at the right time.
             </p>
           </div>
-
           <div className="hero-image">
             <span className="image-decoration" />
             <img src={ChildVaccineHero} alt="Child receiving vaccine" />
           </div>
         </div>
-
         <div className="search-bar hero-search">
           <IoIosSearch className="search-icon" />
           <input
@@ -270,7 +257,6 @@ const ChildVaccination = () => {
             <FiFilter className="filter-icon" />
             <span>Filter By</span>
           </div>
-
           <div
             className="filter-dropdown"
             onClick={() => setIsAgeDropdownOpen(!isAgeDropdownOpen)}
@@ -282,7 +268,6 @@ const ChildVaccination = () => {
             <IoChevronDownSharp
               className={`dropdown-icon ${isAgeDropdownOpen ? "open" : ""}`}
             />
-
             {isAgeDropdownOpen && (
               <div className="dropdown-menu">
                 {ageGroups.map((age) => (
@@ -309,25 +294,15 @@ const ChildVaccination = () => {
       <div className="vaccine-list-container">
         <div className="section-header">
           <h3 className="section-title">
-            {selectedAge === "all" ? "Vaccines" : `Vaccines `}
+            {selectedAge === "all"
+              ? "All Vaccines"
+              : `Vaccines for ${selectedAge}`}
           </h3>
         </div>
-
         {filteredVaccines.length > 0 ? (
           <div className="vaccine-list">
             {filteredVaccines.map((vaccine) => (
-              <VaccineCard
-                key={vaccine.id}
-                name={vaccine.name}
-                description={vaccine.description}
-                doses={vaccine.doses}
-                price={vaccine.price}
-                isRecommended={vaccine.isRecommended}
-                tag={vaccine.tag}
-                scheduleAt={vaccine.scheduleAt}
-                onSchedule={() => console.log(`Schedule ${vaccine.name}`)}
-                onInfo={() => console.log(`Info ${vaccine.name}`)}
-              />
+              <VaccineCard key={vaccine.id} vaccine={vaccine} />
             ))}
           </div>
         ) : (
@@ -346,6 +321,14 @@ const ChildVaccination = () => {
           </div>
         )}
       </div>
+
+      {/* Bottom Tray */}
+      <BottomTray
+        isOpen={isTrayOpen}
+        onClose={() => setIsTrayOpen(false)}
+        vaccineData={selectedVaccine}
+        handleScheduleClick={handleScheduleClick}
+      />
       <style>
         {`
         
@@ -923,6 +906,50 @@ const ChildVaccination = () => {
 
   .vaccine-buttons {
     width: 100%;
+  }
+}
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  color: #334155;
+  margin-top: 2rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.no-results p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.reset-filters {
+  padding: 10px 20px;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.reset-filters:hover {
+  background-color: #6d28d9;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -19,7 +19,6 @@ import Vaccination from "./Pages/User/Application/Vaccination/Vaccination";
 import ChildVaccination from "./Pages/User/Application/Vaccination/ChildVaccination";
 import AdultVaccination from "./Pages/User/Application/Vaccination/AdultVaccination";
 import TravelVaccination from "./Pages/User/Application/Vaccination/TravelVaccination";
-
 function App() {
   return (
     <Router>

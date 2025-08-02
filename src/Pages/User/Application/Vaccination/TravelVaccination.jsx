@@ -35,15 +35,6 @@ const TravelVaccination = () => {
     []
   );
 
-  const filterOptions = useMemo(
-    () => [
-      { value: "all", label: "All Vaccines" },
-      { value: "recommended", label: "Recommended" },
-      { value: "essential", label: "Essential" },
-    ],
-    []
-  );
-
   const vaccineData = useMemo(
     () => [
       {
@@ -264,17 +255,6 @@ const TravelVaccination = () => {
             </div>
 
             <p className="vaccine-desc">{description}</p>
-
-            {expanded && benefits.length > 0 && (
-              <div className="vaccine-benefits">
-                <h4>Key Benefits:</h4>
-                <ul>
-                  {benefits.map((benefit, index) => (
-                    <li key={index}>{benefit}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             <div className="vaccine-meta">
               <div className="meta-item">
