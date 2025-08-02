@@ -4,7 +4,7 @@ import CounsellingBg from "../../../../assets/counsellingherobg.png";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoIosSearch } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 import HealthFeed1 from "../../../../assets/healthfeed1.png";
 import HealthFeed2 from "../../../../assets/healthfeed2.png";
 import { MdBloodtype } from "react-icons/md";
@@ -15,10 +15,28 @@ import {
   FaLungs,
 } from "react-icons/fa";
 import { GiBrain, GiKidneys, GiStomach, GiMuscleUp } from "react-icons/gi";
-
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
+  const navigate = useNavigate();
+
+  const checks = [
+    { icon: <MdBloodtype />, label: "Diabetes" },
+    { icon: <FaHandHoldingHeart />, label: "Heart Health" },
+    { icon: <FaRibbon />, label: "Cancer Care" },
+    { icon: <GiBrain />, label: "Mental Health" },
+    { icon: <FaLungs />, label: "Lung Function" },
+    { icon: <GiKidneys />, label: "Kidney Health" },
+    { icon: <GiStomach />, label: "Gut Health" },
+    { icon: <FaHeartbeat />, label: "BP Check" },
+    { icon: <GiMuscleUp />, label: "Muscle Mass" },
+  ];
+  const handleCardClick = (label) => {
+    navigate("/app/counselling/details", {
+      state: { topic: label }, // optional: pass label as state
+    });
+  };
   return (
     <div className="counselling-page">
       {/* Hero Section */}
@@ -60,18 +78,17 @@ const Home = () => {
         </p>
 
         <div className="checks-grid">
-          {[
-            { icon: <MdBloodtype />, label: "Diabetes" },
-            { icon: <FaHandHoldingHeart />, label: "Heart Health" },
-            { icon: <FaRibbon />, label: "Cancer Care" },
-            { icon: <GiBrain />, label: "Mental Health" },
-            { icon: <FaLungs />, label: "Lung Function" },
-            { icon: <GiKidneys />, label: "Kidney Health" },
-            { icon: <GiStomach />, label: "Gut Health" },
-            { icon: <FaHeartbeat />, label: "BP Check" },
-            { icon: <GiMuscleUp />, label: "Muscle Mass" },
-          ].map(({ icon, label }, idx) => (
-            <div key={idx} className="check-card" role="button" tabIndex={0}>
+          {checks.map(({ icon, label }, idx) => (
+            <div
+              key={idx}
+              className="check-card"
+              role="button"
+              tabIndex={0}
+              onClick={() => handleCardClick(label)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleCardClick(label);
+              }}
+            >
               <div className="icon-wrapper">{icon}</div>
               <p className="check-label">{label}</p>
             </div>

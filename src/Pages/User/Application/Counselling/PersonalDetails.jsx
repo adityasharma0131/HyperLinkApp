@@ -340,7 +340,7 @@ const PersonalDetails = () => {
           <div className="button-wrapper">
             <AppButton
               text="Start Assessment"
-              onClick={() => navigate("/app/counselling/questionaries")}
+              onClick={() => navigate("/app/counselling/questionnaires")}
             />
           </div>
         </form>

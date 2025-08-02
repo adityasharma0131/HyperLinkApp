@@ -23,7 +23,7 @@ import TravelVaccination from "./Pages/User/Application/Vaccination/TravelVaccin
 
 import HomeCounselling from "./Pages/User/Application/Counselling/Home";
 import DetailsCounselling from "./Pages/User/Application/Counselling/PersonalDetails";
-import QuestionariesCounselling from "./Pages/User/Application/Counselling/Questionaries";
+import QuestionnairesCounselling from "./Pages/User/Application/Counselling/Questionnaires";
 import ResultCounselling from "./Pages/User/Application/Counselling/Result";
 function App() {
   return (
@@ -59,8 +59,8 @@ function App() {
             element={<DetailsCounselling />}
           />
           <Route
-            path="/app/counselling/questionaries"
-            element={<QuestionariesCounselling />}
+            path="/app/counselling/questionnaires"
+            element={<QuestionnairesCounselling />}
           />
           <Route
             path="/app/counselling/result"
