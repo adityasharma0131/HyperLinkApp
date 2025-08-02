@@ -274,7 +274,6 @@ const Result = () => {
         {`
         /* Modern Style.css */
 :root {
-  --font-primary: "Inter", "Segoe UI", Roboto, sans-serif;
   --color-primary: #2563eb;
   --color-danger: #ff4757;
   --color-warning: #ffa502;
@@ -299,7 +298,6 @@ const Result = () => {
 
 body {
   background-color: #f1f5f9;
-  font-family: var(--font-primary);
   line-height: 1.6;
   color: var(--color-dark);
 }
