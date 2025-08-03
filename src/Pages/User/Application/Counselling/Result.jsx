@@ -296,7 +296,10 @@ const Result = () => {
             to ask questions, share past reports, or get further advice.
           </p>
 
-          <AppButton text={"Book a Consultation"} />
+          <AppButton
+            text={"Book a Consultation"}
+            onClick={() => navigate("/app/consultation")}
+          />
         </div>
 
         <div className="consult-options">
@@ -325,10 +328,7 @@ const Result = () => {
             Your results and insights have been saved in your Locker. Access
             anytime from your Profile tab.
           </p>
-          <AppButton
-            text="View Records"
-            onClick={() => navigate("/app/counselling/questionnaires")}
-          />
+          <AppButton text="View Records" />
         </div>
         <div className="report-image">
           <img src={HealthRecord} alt="Health Record Secure" />

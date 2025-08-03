@@ -211,12 +211,13 @@ const Home = () => {
 }
 
 .hero-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end; /* Changed from center to flex-end */
-  position: relative;
-  z-index: 2;
-  height: 100%; /* Added to take full height */
+display: flex
+;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    height: 100%;
 }
 
 .hero-text h1 {
