@@ -7,7 +7,6 @@ import { FiArrowLeft } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import CounsellingDetailsBG from "../../../../assets/counsellingdetailsbg.svg";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 
 const PersonalDetails = () => {
   const navigate = useNavigate();

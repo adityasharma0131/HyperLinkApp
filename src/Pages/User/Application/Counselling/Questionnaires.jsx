@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import QuestionnairesHero from "../../../../assets/QuestionnairesHero.svg";
-import "./style.css";
 import AppButton from "../../../../Components/AppButton";
 
 const Questionnaires = () => {

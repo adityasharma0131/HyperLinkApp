@@ -25,6 +25,13 @@ import HomeCounselling from "./Pages/User/Application/Counselling/Home";
 import DetailsCounselling from "./Pages/User/Application/Counselling/PersonalDetails";
 import QuestionnairesCounselling from "./Pages/User/Application/Counselling/Questionnaires";
 import ResultCounselling from "./Pages/User/Application/Counselling/Result";
+
+import ConsultationHome from "./Pages/User/Application/Consultation/Home";
+import ConsultationDoctorList from "./Pages/User/Application/Consultation/DoctorList";
+import ConsultationDoctorProfiile from "./Pages/User/Application/Consultation/DoctorProfile";
+import ConsultationScheduling from "./Pages/User/Application/Consultation/Scheduling";
+import ConsultationOrderSummary from "./Pages/User/Application/Consultation/OrderSummary";
+
 function App() {
   return (
     <Router>
@@ -65,6 +72,23 @@ function App() {
           <Route
             path="/app/counselling/result"
             element={<ResultCounselling />}
+          />
+          <Route path="/app/consultation" element={<ConsultationHome />} />
+          <Route
+            path="/app/consultation/doctors-list"
+            element={<ConsultationDoctorList />}
+          />
+          <Route
+            path="/app/consultation/doctor-profile"
+            element={<ConsultationDoctorProfiile />}
+          />
+          <Route
+            path="/app/consultation/scheduling"
+            element={<ConsultationScheduling />}
+          />
+          <Route
+            path="/app/consultation/order-summary"
+            element={<ConsultationOrderSummary />}
           />
         </Routes>
       </main>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 import CounsellingBg from "../../../../assets/counsellingherobg.png";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoIosSearch } from "react-icons/io";
@@ -324,7 +323,7 @@ const Home = () => {
 .checks-grid {
   display: grid;
   grid-template-columns: repeat(
-    2,
+    3,
     1fr
   ); /* 2 columns for better mobile layout */
   gap: 1rem; /* Reduced gap for mobile */
@@ -334,17 +333,22 @@ const Home = () => {
 }
 
 .check-card {
-  background: linear-gradient(145deg, #f1f3fc, #ffffff);
-  border-radius: 1rem; /* Slightly smaller radius for mobile */
-  padding: 1.2rem 0.8rem; /* Adjusted padding */
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
-  user-select: none; /* Prevent text selection */
-  touch-action: manipulation; /* Improve touch responsiveness */
+ background: linear-gradient(145deg, #f1f3fc, #ffffff);
+    border-radius: 1rem;
+    padding: 1.2rem 0.8rem;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    display: flex
+;
+    touch-action: manipulation;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .check-card:active {
@@ -378,21 +382,22 @@ const Home = () => {
 }
 
 .icon-wrapper {
-  font-size: 2.2rem; /* Slightly smaller icons */
+  font-size: 2.2rem;
   color: #6c63ff;
-  margin-bottom: 0.6rem; /* Reduced margin */
+  margin-bottom: 0.6rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .check-label {
-  font-size: 0.95rem; /* Slightly smaller font */
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 500;
   color: #1f1f1f;
-  margin: 0; /* Remove default margins */
-  line-height: 1.3; /* Better line height for mobile */
+  margin: 0;
+  line-height: 1.3;
 }
+
 
 /* Responsive adjustments for very small screens */
 @media (max-width: 360px) {
