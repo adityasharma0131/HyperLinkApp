@@ -1,10 +1,10 @@
 import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
 import AppButton from "../../../../Components/AppButton";
 
 const Scheduling = () => {
+  const navigate = useNavigate();
   const days = [
     { name: "Today", date: "Jun 12", slots: 6 },
     { name: "Tomorrow", date: "Jun 13", slots: 4 },
@@ -121,7 +121,7 @@ const Scheduling = () => {
           <AppButton
             text={"Confirm Booking"}
             disabled={!selectedTime}
-            onClick={() => console.log("Booking confirmed!")}
+            onClick={() => navigate("/app/consultation/order-summary")}
           />
         </div>
       </div>
