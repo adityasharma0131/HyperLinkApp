@@ -180,7 +180,11 @@ const DoctorList = () => {
                   </div>
 
                   <div className="action-buttons">
-                    <AppButton text={"Book"} icon={CiBookmark} />
+                    <AppButton
+                      text={"Book"}
+                      onClick={() => navigate("/app/consultation/scheduling")}
+                      icon={CiBookmark}
+                    />
                     <AppButton
                       onClick={() =>
                         navigate("/app/consultation/doctor-profile")
