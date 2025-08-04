@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoIosSearch } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import { MdBloodtype } from "react-icons/md";
 import {
@@ -15,6 +16,12 @@ import { GiBrain, GiKidneys, GiStomach, GiMuscleUp } from "react-icons/gi";
 import ConsultationBg from "../../../../assets/consultationherobg.png";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate("/app/consultation/doctors-list");
+  };
   const doctorSpecialities = [
     { icon: <MdBloodtype />, label: "Diabetologist" },
     { icon: <FaHandHoldingHeart />, label: "Cardiologist" },
@@ -55,9 +62,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="counselling-page">
+      <div className="consultation-page">
         {/* Hero Section */}
-        <div className="counselling-hero">
+        <div className="consultation-hero">
           <div className="hero-top-bar">
             <button
               className="icon-button"
@@ -102,8 +109,9 @@ const Home = () => {
                 className="consultation-category-card"
                 role="button"
                 tabIndex={0}
+                onClick={handleCardClick}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") handleCardClick(label);
+                  if (e.key === "Enter") handleCardClick();
                 }}
               >
                 <div className="icon-wrapper">{icon}</div>
@@ -150,13 +158,13 @@ const Home = () => {
       </div>
 
       <style>
-        {` .counselling-page {
+        {` .consultation-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-.counselling-hero {
+.consultation-hero {
   background: linear-gradient(to bottom, #4a90e2, #8c60e2);
   padding: 20px;
   border-radius: 0 0 32px 32px;

@@ -4,12 +4,14 @@ import { IoIosSearch } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import { CiCircleInfo } from "react-icons/ci";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import DoctorList1 from "../../../../assets/doctorlist1.png";
 import AppButton from "../../../../Components/AppButton";
 import "./style.css";
 
 const DoctorList = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const doctors = [
     {
@@ -180,6 +182,9 @@ const DoctorList = () => {
                   <div className="action-buttons">
                     <AppButton text={"Book"} icon={CiBookmark} />
                     <AppButton
+                      onClick={() =>
+                        navigate("/app/consultation/doctor-profile")
+                      }
                       variant={"secondary"}
                       text={"Info"}
                       icon={CiCircleInfo}
