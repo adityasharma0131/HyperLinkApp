@@ -1,9 +1,6 @@
 import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
-
-{
-  /* Profile Content */
-}
+import { useNavigate } from "react-router-dom";
 import {
   FaBookMedical,
   FaBriefcaseMedical,
@@ -24,6 +21,7 @@ import AppButton from "../../../../Components/AppButton";
 import DoctorProf from "../../../../assets/doctorlist1.png";
 
 const DoctorProfile = () => {
+  const navigate = useNavigate();
   return (
     <div className="consultation-doctor-page">
       {/* Hero Section */}
