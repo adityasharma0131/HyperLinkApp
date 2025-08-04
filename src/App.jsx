@@ -31,6 +31,8 @@ import ConsultationDoctorList from "./Pages/User/Application/Consultation/Doctor
 import ConsultationDoctorProfiile from "./Pages/User/Application/Consultation/DoctorProfile";
 import ConsultationScheduling from "./Pages/User/Application/Consultation/Scheduling";
 import ConsultationOrderSummary from "./Pages/User/Application/Consultation/OrderSummary";
+import SubscriptionHome from "./Pages/User/Application/Subscription/Home";
+import SubscriptionSummary from "./Pages/User/Application/Subscription/Summary";
 
 function App() {
   return (
@@ -89,6 +91,11 @@ function App() {
           <Route
             path="/app/consultation/order-summary"
             element={<ConsultationOrderSummary />}
+          />
+          <Route path="/app/subscription/" element={<SubscriptionHome />} />
+          <Route
+            path="/app/subscription/summary"
+            element={<SubscriptionSummary />}
           />
         </Routes>
       </main>

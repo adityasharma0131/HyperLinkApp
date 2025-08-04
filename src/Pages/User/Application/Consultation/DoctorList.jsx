@@ -8,7 +8,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 import DoctorList1 from "../../../../assets/doctorlist1.png";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 
 const DoctorList = () => {
   const navigate = useNavigate();
