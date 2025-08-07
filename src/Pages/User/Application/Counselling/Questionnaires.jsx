@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiArrowLeft } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiChevronRight,
+  FiChevronDown,
+  FiLock,
+  FiCheck,
+} from "react-icons/fi";
 import QuestionnairesHero from "../../../../assets/QuestionnairesHero.svg";
 import AppButton from "../../../../Components/AppButton";
 
@@ -16,7 +22,7 @@ const Questionnaires = () => {
         "No known history",
         "Not sure",
       ],
-      weights: [3, 2, 0, 1], // Higher weight for more significant risk factors
+      weights: [3, 2, 0, 1],
     },
     {
       id: 2,
@@ -57,6 +63,7 @@ const Questionnaires = () => {
   const [activeQuestion, setActiveQuestion] = useState(1);
   const [completedQuestions, setCompletedQuestions] = useState([]);
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState("right");
 
   useEffect(() => {
     const completed = Object.keys(answers).map(Number);
@@ -67,13 +74,33 @@ const Questionnaires = () => {
   const handleSelect = (questionId, option) => {
     setAnswers((prev) => ({ ...prev, [questionId]: option }));
     if (questionId < questions.length) {
+      setAnimationDirection("right");
       setActiveQuestion(questionId + 1);
     }
   };
 
   const handleQuestionClick = (questionId) => {
-    if (questionId === 1 || answers[questionId - 1]) {
+    if (
+      questionId === 1 ||
+      answers[questionId - 1] ||
+      completedQuestions.includes(questionId)
+    ) {
+      setAnimationDirection(questionId > activeQuestion ? "right" : "left");
       setActiveQuestion(questionId);
+    }
+  };
+
+  const goToNextQuestion = () => {
+    if (activeQuestion < questions.length) {
+      setAnimationDirection("right");
+      setActiveQuestion(activeQuestion + 1);
+    }
+  };
+
+  const goToPrevQuestion = () => {
+    if (activeQuestion > 1) {
+      setAnimationDirection("left");
+      setActiveQuestion(activeQuestion - 1);
     }
   };
 
@@ -89,7 +116,6 @@ const Questionnaires = () => {
         totalScore += weight;
 
         if (weight >= 2) {
-          // Only include significant risk factors
           riskFactors.push({
             question: question.text,
             answer: answer,
@@ -99,7 +125,6 @@ const Questionnaires = () => {
       }
     });
 
-    // Determine risk level based on total score
     let riskLevel;
     if (totalScore >= 10) riskLevel = "high";
     else if (totalScore >= 6) riskLevel = "moderate";
@@ -109,7 +134,7 @@ const Questionnaires = () => {
       riskLevel,
       totalScore,
       riskFactors,
-      maxPossibleScore: questions.length * 3, // 3 being the highest weight
+      maxPossibleScore: questions.length * 3,
     };
   };
 
@@ -137,37 +162,80 @@ const Questionnaires = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-              Hello! <br /> This is HELIX
+              Health Risk <br /> Assessment
             </h1>
-            <p className="hero-subtitle">Your AI Genetic Guide </p>
+            <p className="hero-subtitle">
+              Answer a few questions to evaluate your genetic risk factors
+            </p>
           </div>
           <div className="hero-image">
-            <img src={QuestionnairesHero} alt="Child receiving vaccine" />
+            <img
+              src={QuestionnairesHero}
+              alt="Genetic counseling illustration"
+            />
           </div>
         </div>
       </div>
 
       <div className="health-questionnaire">
-        <div className="questions-container">
-          {questions.map((question) => (
-            <QuestionItem
-              key={question.id}
-              question={question}
-              activeQuestion={activeQuestion}
-              completedQuestions={completedQuestions}
-              answers={answers}
-              handleQuestionClick={handleQuestionClick}
-              handleSelect={handleSelect}
+        <div className="progress-container">
+          <div className="progress-indicator">
+            <div
+              className="progress-bar"
+              style={{
+                width: `${
+                  (completedQuestions.length / questions.length) * 100
+                }%`,
+              }}
+            ></div>
+          </div>
+          <span className="progress-text">
+            {completedQuestions.length} of {questions.length} completed
+          </span>
+
+          <div className="question-navigation">
+            <AppButton
+              text={"Previous"}
+              onClick={goToPrevQuestion}
+              variant="secondary"
             />
-          ))}
+            <AppButton text={"Next"} onClick={goToNextQuestion} />
+          </div>
+        </div>
+
+        <div className="questions-stack-container">
+          {questions.map((question, index) => {
+            const isAnswered = answers[question.id];
+            const isActive = activeQuestion === question.id;
+            const stackPosition = completedQuestions.indexOf(question.id);
+            const isBehind = isAnswered && !isActive && stackPosition >= 0;
+
+            return (
+              <QuestionItem
+                key={question.id}
+                question={question}
+                activeQuestion={activeQuestion}
+                completedQuestions={completedQuestions}
+                answers={answers}
+                handleQuestionClick={handleQuestionClick}
+                handleSelect={handleSelect}
+                stackPosition={stackPosition}
+                isBehind={isBehind}
+                isFirst={index === 0}
+                animationDirection={isActive ? animationDirection : null}
+              />
+            );
+          })}
         </div>
 
         <div className="questionnaire-actions">
           <AppButton
-            className={`${!allQuestionsAnswered ? "disabled" : ""}`}
+            className={`submit-button ${
+              !allQuestionsAnswered ? "disabled" : ""
+            }`}
             onClick={handleSubmit}
             disabled={!allQuestionsAnswered}
-            text={"Submit Questionnaire"}
+            text={"Submit Assessment"}
           />
           <AppButton
             variant={"secondary"}
@@ -187,78 +255,201 @@ const QuestionItem = ({
   answers,
   handleQuestionClick,
   handleSelect,
+  stackPosition,
+  isBehind,
+  isFirst,
+  animationDirection,
 }) => {
   const isActive = activeQuestion === question.id;
   const isCompleted = completedQuestions.includes(question.id);
-  const isLocked = question.id > 1 && !answers[question.id - 1];
+  const isLocked = question.id > 1 && !answers[question.id - 1] && !isCompleted;
+  const hasAnswer = answers[question.id];
 
   return (
     <div
       className={`accordion-item ${isActive ? "active" : ""} ${
         isCompleted ? "completed" : ""
-      } ${isLocked ? "locked" : ""}`}
+      } ${isLocked ? "locked" : ""} ${isBehind ? "stacked" : ""} ${
+        isActive && animationDirection ? `slide-${animationDirection}` : ""
+      }`}
+      style={{
+        transform: isBehind
+          ? `translateY(${stackPosition * -12}px) scale(${
+              1 - stackPosition * 0.03
+            })`
+          : "none",
+        zIndex: isActive ? 100 : isBehind ? 10 - stackPosition : 50,
+        opacity: isBehind ? 0.9 - stackPosition * 0.1 : 1,
+        position: isBehind ? "absolute" : "relative",
+        width: isBehind ? `calc(100% - ${stackPosition * 12}px)` : "100%",
+        marginLeft: isBehind ? `${stackPosition * 6}px` : "0",
+      }}
     >
       <div
         className="accordion-header"
         onClick={() => !isLocked && handleQuestionClick(question.id)}
       >
-        <div className="question-number">Q{question.id}</div>
+        <div className="question-number-container">
+          <div className="question-number">Q{question.id}</div>
+          {hasAnswer && (
+            <div className="answer-indicator">
+              <FiCheck />
+            </div>
+          )}
+        </div>
         <div className="question-content">
           <h2 className="question-text">{question.text}</h2>
           {answers[question.id] && (
             <p className="answer-preview">
-              <span className="selected-label">Selected:</span>{" "}
+              <span className="selected-label">Your answer:</span>{" "}
               {answers[question.id]}
             </p>
           )}
         </div>
         <div className="accordion-icon">
-          {isActive ? <ChevronDownIcon /> : <ChevronRightIcon />}
-          {isLocked && <LockIcon />}
+          {isActive ? <FiChevronDown /> : <FiChevronRight />}
+          {isLocked && <FiLock />}
         </div>
       </div>
 
       {isActive && (
         <div className="options-group">
           {question.options.map((option, index) => (
-            <OptionBox
+            <OptionCard
               key={index}
               option={option}
               isSelected={answers[question.id] === option}
               onSelect={() => handleSelect(question.id, option)}
+              icon={getOptionIcon(index)}
             />
           ))}
         </div>
       )}
-      <style>
-        {`
-        .counselling-questionnaires-page {
+    </div>
+  );
+};
+
+const OptionCard = ({ option, isSelected, onSelect, icon }) => (
+  <div
+    className={`option-card ${isSelected ? "selected" : ""}`}
+    onClick={onSelect}
+  >
+    <div className="option-icon">{icon}</div>
+    <div className="option-content">
+      <span className="option-text">{option}</span>
+      {isSelected && (
+        <div className="selected-badge">
+          <FiCheck />
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const getOptionIcon = (index) => {
+  const icons = [
+    <svg
+      key="1"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+    </svg>,
+    <svg
+      key="2"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 12H18L15 21L9 3L6 12H2" />
+    </svg>,
+    <svg
+      key="3"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="16" />
+      <line x1="8" y1="12" x2="16" y2="12" />
+    </svg>,
+    <svg
+      key="4"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+    </svg>,
+  ];
+  return icons[index % icons.length];
+};
+
+const styles = `
+.counselling-questionnaires-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  background-color: #f9fafc;
+  min-height: 100vh;
 }
 
 .counselling-questionnaires-hero {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  padding: 20px;
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  padding: 24px;
   border-radius: 0 0 32px 32px;
   color: white;
   position: relative;
-  box-shadow: 0 10px 30px rgba(103, 108, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+  overflow: hidden;
+}
+
+.counselling-questionnaires-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  z-index: 1;
 }
 
 .hero-top-bar {
   display: flex;
   align-items: flex-start;
-  gap: 0.8rem;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .icon-button {
   background: rgba(255, 255, 255, 0.2);
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -266,6 +457,7 @@ const QuestionItem = ({
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
   cursor: pointer;
+  z-index: 2;
 }
 
 .icon-button:hover {
@@ -274,21 +466,21 @@ const QuestionItem = ({
 }
 
 .hero-icon {
-  font-size: 18px;
+  font-size: 20px;
   color: white;
 }
 
 .hero-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* Changed from center to flex-end */
+  align-items: flex-end;
   position: relative;
   z-index: 2;
-  height: 100%; /* Added to take full height */
+  height: 100%;
 }
 
 .hero-text h1 {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 12px 0;
@@ -296,59 +488,103 @@ const QuestionItem = ({
 }
 
 .hero-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   opacity: 0.9;
   margin-bottom: 24px;
-  max-width: 200px;
+  max-width: 280px;
   line-height: 1.5;
+  font-weight: 500;
 }
 
 .hero-image {
   position: relative;
-  height: 100%; /* Added to take full height */
+  height: 100%;
   display: flex;
-  align-items: flex-end; /* Align image to bottom */
+  align-items: flex-end;
 }
 
 .hero-image img {
-  width: 150px;
+  width: 180px;
   height: auto;
   position: relative;
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+  transform: translateY(10px);
 }
 
-/* Modern Health Questionnaire Styles */
 .health-questionnaire {
   max-width: 800px;
   margin: 0 auto;
+  padding: 24px;
 }
 
 .progress-container {
+  margin-bottom: 24px;
   position: relative;
+}
+
+.progress-indicator {
   height: 6px;
-  background: #f0f2f5;
+  background: #EDF2F7;
   border-radius: 3px;
-  margin-bottom: 32px;
+  margin-bottom: 8px;
   overflow: hidden;
 }
-.questions-container {
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6366F1, #8B5CF6);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  display: block;
+  font-size: 14px;
+  color: #64748B;
+  font-weight: 500;
+  text-align: right;
+}
+
+.questions-stack-container {
+  position: relative;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .accordion-item {
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #EDF2F7;
+  transform-origin: top center;
 }
 
 .accordion-item.active {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  border-color: #c7d2fe;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #C7D2FE;
+  transform: translateY(0) scale(1) !important;
+  z-index: 100 !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  position: relative !important;
+}
+
+.accordion-item.slide-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.accordion-item.slide-left {
+  animation: slideInLeft 0.3s ease-out forwards;
+}
+
+.accordion-item.stacked {
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .accordion-item.locked {
@@ -362,22 +598,53 @@ const QuestionItem = ({
 .accordion-header {
   display: flex;
   align-items: center;
-  padding: 18px 20px;
+  padding: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
 }
 
 .accordion-header:hover:not(.locked) {
-  background-color: #f8fafc;
+  background-color: #F8FAFC;
+}
+
+.question-number-container {
+  position: relative;
+  margin-right: 16px;
+  min-width: 24px;
 }
 
 .question-number {
   font-size: 16px;
   font-weight: 700;
-  color: #a777e3;
-  margin-right: 16px;
-  min-width: 24px;
+  color: #6366F1;
+  background: rgba(99, 102, 241, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.answer-indicator {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #10B981;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+.answer-indicator svg {
+  width: 10px;
+  height: 10px;
+  color: white;
 }
 
 .question-content {
@@ -387,85 +654,218 @@ const QuestionItem = ({
 .question-text {
   font-size: 16px;
   font-weight: 600;
-  color: #1e293b;
+  color: #1E293B;
   margin-bottom: 6px;
   line-height: 1.4;
 }
 
 .answer-preview {
   font-size: 14px;
-  color: #64748b;
+  color: #64748B;
   margin: 0;
 }
 
 .selected-label {
   font-weight: 500;
-  color: #4f6af5;
+  color: #6366F1;
 }
 
 .accordion-icon {
-  color: #94a3b8;
+  color: #94A3B8;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.lock-icon {
-  color: #94a3b8;
-}
-
 .accordion-item.active .accordion-icon {
-  color: #4f6af5;
+  color: #6366F1;
 }
 
 .accordion-item.locked .accordion-icon {
-  color: #cbd5e1;
+  color: #CBD5E1;
 }
 
 .options-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
   padding: 0 20px 20px;
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-.option-box {
-  padding: 14px 18px;
-  border-radius: 10px;
+.option-card {
+  padding: 16px;
+  border-radius: 12px;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.option-box:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-  transform: translateY(-1px);
+.option-card:hover {
+  background: #F1F5F9;
+  border-color: #CBD5E1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-.option-box.selected {
-  background: rgba(79, 106, 245, 0.08);
-  border-color: #4f6af5;
-  color: #4f6af5;
+.option-card.selected {
+  background: rgba(99, 102, 241, 0.05);
+  border-color: #6366F1;
+  color: #6366F1;
   font-weight: 600;
 }
 
+.option-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.option-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.option-card.selected .option-icon {
+  background: rgba(99, 102, 241, 0.2);
+}
+
 .option-content {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.check-icon {
-  color: #4f6af5;
+.selected-badge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #6366F1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
 }
 
-/* Animations */
+.selected-badge svg {
+  width: 12px;
+  height: 12px;
+  color: white;
+}
+
+.question-navigation {
+      display: flex
+;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0 3rem;
+    gap: 1rem;
+}
+
+.nav-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-button.prev {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.nav-button.next {
+  background-color: #4a6bff;
+  color: white;
+  border: 1px solid #4a6bff;
+}
+
+.nav-button:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.nav-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Accessibility focus styles */
+.nav-button:focus-visible {
+  outline: 2px solid #4a6bff;
+  outline-offset: 2px;
+}
+.nav-button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F1F5F9;
+  color: #64748B;
+}
+
+.nav-button.next {
+  background: #6366F1;
+  color: white;
+}
+
+.nav-button.prev {
+  background: #F1F5F9;
+  color: #64748B;
+}
+
+.nav-button:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.question-counter {
+  font-size: 14px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.questionnaire-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-direction: column;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -477,10 +877,39 @@ const QuestionItem = ({
   }
 }
 
-/* Responsive Design */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @media (max-width: 768px) {
   .health-questionnaire {
     padding: 16px;
+  }
+
+  .hero-text h1 {
+    font-size: 28px;
+  }
+
+  .hero-image img {
+    width: 140px;
   }
 
   .accordion-header {
@@ -492,115 +921,39 @@ const QuestionItem = ({
   }
 
   .options-group {
+    grid-template-columns: 1fr;
     padding: 0 16px 16px;
   }
 }
 
-/* Replace inside your styles */
-.question-slide {
-  opacity: 0;
-  transform: scale(0.98);
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  position: absolute;
-  width: 100%;
+@media (max-width: 480px) {
+  .counselling-questionnaires-hero {
+    padding: 20px 16px;
+  }
+
+  .hero-text h1 {
+    font-size: 24px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-image img {
+    width: 120px;
+  }
+
+
+  
+  .nav-button {
+    width: 100%;
+  }
 }
+`;
 
-.question-slide.visible {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-  position: relative;
-}
-
-.questions-container {
-  position: relative;
-  min-height: 200px;
-}
-
-.questionnaire-actions {
-  display: flex;
-  gap: 20px;
-  margin-top: 30px;
-  flex-direction: column;
-}
-`}
-      </style>
-    </div>
-  );
-};
-
-const OptionBox = ({ option, isSelected, onSelect }) => (
-  <div
-    className={`option-box ${isSelected ? "selected" : ""}`}
-    onClick={onSelect}
-  >
-    <div className="option-content">
-      <span className="option-text">{option}</span>
-      {isSelected && <CheckIcon />}
-    </div>
-  </div>
-);
-
-const ChevronDownIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M19 9L12 16L5 9"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const ChevronRightIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M9 5L16 12L9 19"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const LockIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path
-      d="M12.6667 7.33333H3.33333C2.59695 7.33333 2 7.93028 2 8.66666V13.3333C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3333V8.66666C14 7.93028 13.403 7.33333 12.6667 7.33333Z"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M4.66663 7.33333V4.66666C4.66663 3.78261 5.01782 2.93476 5.64294 2.30964C6.26806 1.68452 7.11591 1.33333 7.99996 1.33333C8.88401 1.33333 9.73186 1.68452 10.357 2.30964C10.9821 2.93476 11.3333 3.78261 11.3333 4.66666V7.33333"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    className="check-icon"
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-  >
-    <path
-      d="M16.6666 5L7.49992 14.1667L3.33325 10"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
 
 export default Questionnaires;

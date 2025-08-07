@@ -33,6 +33,7 @@ import ConsultationScheduling from "./Pages/User/Application/Consultation/Schedu
 import ConsultationOrderSummary from "./Pages/User/Application/Consultation/OrderSummary";
 import SubscriptionHome from "./Pages/User/Application/Subscription/Home";
 import SubscriptionSummary from "./Pages/User/Application/Subscription/Summary";
+import Testing from "./Pages/User/Application/Vaccination/Testing";
 
 function App() {
   return (
@@ -97,6 +98,7 @@ function App() {
             path="/app/subscription/summary"
             element={<SubscriptionSummary />}
           />
+          <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>
     </Router>

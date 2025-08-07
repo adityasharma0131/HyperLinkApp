@@ -15,7 +15,7 @@ import { IoChevronDownSharp } from "react-icons/io5";
 import { GiLoveInjection } from "react-icons/gi";
 import ChildVaccineHero from "../../../../assets/ChildVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
-import BottomTray from "./BottomTray";
+import VaccInfo from "./VaccInfo";
 
 const ChildVaccination = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -322,7 +322,7 @@ const ChildVaccination = () => {
       </div>
 
       {/* Bottom Tray */}
-      <BottomTray
+      <VaccInfo
         isOpen={isTrayOpen}
         onClose={() => setIsTrayOpen(false)}
         vaccineData={selectedVaccine}

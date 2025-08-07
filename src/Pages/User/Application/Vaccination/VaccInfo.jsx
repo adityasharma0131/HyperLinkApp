@@ -3,7 +3,7 @@ import { FiX, FiCalendar } from "react-icons/fi";
 import { GiLoveInjection } from "react-icons/gi";
 import AppButton from "../../../../Components/AppButton";
 
-const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
+const VaccInfo = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -108,22 +108,6 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
         </div>
 
         <style jsx>{`
-          :root {
-            --primary-color: #4361ee;
-            --primary-hover: #3a56d4;
-            --secondary-color: #f8f9fa;
-            --text-dark: #1e293b;
-            --text-medium: #475569;
-            --text-light: #64748b;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --border-radius: 16px;
-            --border-radius-sm: 12px;
-            --border-radius-lg: 24px;
-          }
-
           .bottom-tray-backdrop {
             position: fixed;
             top: 0;
@@ -148,10 +132,10 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
             right: 0;
             bottom: 0;
             z-index: 1000;
-            background-color: var(--bg-white);
+            background-color: #ffffff;
             box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.12);
-            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 24px 24px 0 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             transform: translateY(100%);
             max-width: 600px;
             margin: 0 auto;
@@ -177,7 +161,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
             height: 4px;
             background-color: rgba(0, 0, 0, 0.08);
             border-radius: 9999px;
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
           }
 
           .bottom-tray-handle:hover .bottom-tray-handle-bar {
@@ -193,7 +177,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             background: rgba(0, 0, 0, 0.03);
             border: none;
             display: flex;
@@ -210,7 +194,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           .bottom-tray-close-icon {
             width: 20px;
             height: 20px;
-            color: var(--text-light);
+            color: #64748b;
           }
 
           /* Content area */
@@ -230,7 +214,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
             width: 56px;
             height: 56px;
             background: linear-gradient(135deg, #f3f4ff, #e0e7ff);
-            border-radius: var(--border-radius-sm);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -250,7 +234,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           .bottom-tray-title {
             font-size: 22px;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #1e293b;
             margin: 0 0 6px 0;
             line-height: 1.3;
             letter-spacing: -0.3px;
@@ -274,7 +258,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           }
 
           .bottom-tray-text {
-            color: var(--text-medium);
+            color: #475569;
             margin: 0;
             line-height: 1.6;
             font-size: 15px;
@@ -294,11 +278,11 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           }
 
           .bottom-tray-detail-item {
-            background-color: var(--bg-light);
+            background-color: #f8fafc;
             padding: 16px 12px;
-            border-radius: var(--border-radius-sm);
+            border-radius: 12px;
             text-align: center;
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: 1px solid rgba(0, 0, 0, 0.03);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
           }
@@ -310,7 +294,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
 
           .bottom-tray-detail-label {
             font-size: 13px;
-            color: var(--text-light);
+            color: #64748b;
             margin: 0;
             font-weight: 500;
             letter-spacing: 0.2px;
@@ -319,7 +303,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           .bottom-tray-detail-value {
             font-weight: 700;
             margin: 8px 0 0 0;
-            color: var(--text-dark);
+            color: #1e293b;
             font-size: 17px;
           }
 
@@ -333,7 +317,7 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           /* Responsive adjustments */
           @media (max-width: 600px) {
             .bottom-tray {
-              border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+              border-radius: 24px 24px 0 0;
               max-width: 100%;
             }
 
@@ -380,11 +364,12 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
               font-size: 16px;
             }
           }
+
           .bottom-tray-loading,
           .bottom-tray-error {
             text-align: center;
             padding: 40px 0;
-            color: var(--text-medium);
+            color: #475569;
           }
 
           .vaccine-tag.essential {
@@ -407,4 +392,4 @@ const BottomTray = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
   );
 };
 
-export default BottomTray;
+export default VaccInfo;
