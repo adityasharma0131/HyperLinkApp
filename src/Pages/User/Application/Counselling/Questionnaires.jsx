@@ -244,171 +244,10 @@ const Questionnaires = () => {
           />
         </div>
       </div>
-    </div>
-  );
-};
 
-const QuestionItem = ({
-  question,
-  activeQuestion,
-  completedQuestions,
-  answers,
-  handleQuestionClick,
-  handleSelect,
-  stackPosition,
-  isBehind,
-  isFirst,
-  animationDirection,
-}) => {
-  const isActive = activeQuestion === question.id;
-  const isCompleted = completedQuestions.includes(question.id);
-  const isLocked = question.id > 1 && !answers[question.id - 1] && !isCompleted;
-  const hasAnswer = answers[question.id];
-
-  return (
-    <div
-      className={`accordion-item ${isActive ? "active" : ""} ${
-        isCompleted ? "completed" : ""
-      } ${isLocked ? "locked" : ""} ${isBehind ? "stacked" : ""} ${
-        isActive && animationDirection ? `slide-${animationDirection}` : ""
-      }`}
-      style={{
-        transform: isBehind
-          ? `translateY(${stackPosition * -12}px) scale(${
-              1 - stackPosition * 0.03
-            })`
-          : "none",
-        zIndex: isActive ? 100 : isBehind ? 10 - stackPosition : 50,
-        opacity: isBehind ? 0.9 - stackPosition * 0.1 : 1,
-        position: isBehind ? "absolute" : "relative",
-        width: isBehind ? `calc(100% - ${stackPosition * 12}px)` : "100%",
-        marginLeft: isBehind ? `${stackPosition * 6}px` : "0",
-      }}
-    >
-      <div
-        className="accordion-header"
-        onClick={() => !isLocked && handleQuestionClick(question.id)}
-      >
-        <div className="question-number-container">
-          <div className="question-number">Q{question.id}</div>
-          {hasAnswer && (
-            <div className="answer-indicator">
-              <FiCheck />
-            </div>
-          )}
-        </div>
-        <div className="question-content">
-          <h2 className="question-text">{question.text}</h2>
-          {answers[question.id] && (
-            <p className="answer-preview">
-              <span className="selected-label">Your answer:</span>{" "}
-              {answers[question.id]}
-            </p>
-          )}
-        </div>
-        <div className="accordion-icon">
-          {isActive ? <FiChevronDown /> : <FiChevronRight />}
-          {isLocked && <FiLock />}
-        </div>
-      </div>
-
-      {isActive && (
-        <div className="options-group">
-          {question.options.map((option, index) => (
-            <OptionCard
-              key={index}
-              option={option}
-              isSelected={answers[question.id] === option}
-              onSelect={() => handleSelect(question.id, option)}
-              icon={getOptionIcon(index)}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const OptionCard = ({ option, isSelected, onSelect, icon }) => (
-  <div
-    className={`option-card ${isSelected ? "selected" : ""}`}
-    onClick={onSelect}
-  >
-    <div className="option-icon">{icon}</div>
-    <div className="option-content">
-      <span className="option-text">{option}</span>
-      {isSelected && (
-        <div className="selected-badge">
-          <FiCheck />
-        </div>
-      )}
-    </div>
-  </div>
-);
-
-const getOptionIcon = (index) => {
-  const icons = [
-    <svg
-      key="1"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-    </svg>,
-    <svg
-      key="2"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 12H18L15 21L9 3L6 12H2" />
-    </svg>,
-    <svg
-      key="3"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <line x1="12" y1="8" x2="12" y2="16" />
-      <line x1="8" y1="12" x2="16" y2="12" />
-    </svg>,
-    <svg
-      key="4"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="4" />
-    </svg>,
-  ];
-  return icons[index % icons.length];
-};
-
-const styles = `
-.counselling-questionnaires-page {
+      <style>
+        {`
+          .counselling-questionnaires-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -949,11 +788,169 @@ const styles = `
     width: 100%;
   }
 }
-`;
+`}
+      </style>
+    </div>
+  );
+};
 
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);
+const QuestionItem = ({
+  question,
+  activeQuestion,
+  completedQuestions,
+  answers,
+  handleQuestionClick,
+  handleSelect,
+  stackPosition,
+  isBehind,
+  isFirst,
+  animationDirection,
+}) => {
+  const isActive = activeQuestion === question.id;
+  const isCompleted = completedQuestions.includes(question.id);
+  const isLocked = question.id > 1 && !answers[question.id - 1] && !isCompleted;
+  const hasAnswer = answers[question.id];
+
+  return (
+    <div
+      className={`accordion-item ${isActive ? "active" : ""} ${
+        isCompleted ? "completed" : ""
+      } ${isLocked ? "locked" : ""} ${isBehind ? "stacked" : ""} ${
+        isActive && animationDirection ? `slide-${animationDirection}` : ""
+      }`}
+      style={{
+        transform: isBehind
+          ? `translateY(${stackPosition * -12}px) scale(${
+              1 - stackPosition * 0.03
+            })`
+          : "none",
+        zIndex: isActive ? 100 : isBehind ? 10 - stackPosition : 50,
+        opacity: isBehind ? 0.9 - stackPosition * 0.1 : 1,
+        position: isBehind ? "absolute" : "relative",
+        width: isBehind ? `calc(100% - ${stackPosition * 12}px)` : "100%",
+        marginLeft: isBehind ? `${stackPosition * 6}px` : "0",
+      }}
+    >
+      <div
+        className="accordion-header"
+        onClick={() => !isLocked && handleQuestionClick(question.id)}
+      >
+        <div className="question-number-container">
+          <div className="question-number">Q{question.id}</div>
+          {hasAnswer && (
+            <div className="answer-indicator">
+              <FiCheck />
+            </div>
+          )}
+        </div>
+        <div className="question-content">
+          <h2 className="question-text">{question.text}</h2>
+          {answers[question.id] && (
+            <p className="answer-preview">
+              <span className="selected-label">Your answer:</span>{" "}
+              {answers[question.id]}
+            </p>
+          )}
+        </div>
+        <div className="accordion-icon">
+          {isActive ? <FiChevronDown /> : <FiChevronRight />}
+          {isLocked && <FiLock />}
+        </div>
+      </div>
+
+      {isActive && (
+        <div className="options-group">
+          {question.options.map((option, index) => (
+            <OptionCard
+              key={index}
+              option={option}
+              isSelected={answers[question.id] === option}
+              onSelect={() => handleSelect(question.id, option)}
+              icon={getOptionIcon(index)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const OptionCard = ({ option, isSelected, onSelect, icon }) => (
+  <div
+    className={`option-card ${isSelected ? "selected" : ""}`}
+    onClick={onSelect}
+  >
+    <div className="option-icon">{icon}</div>
+    <div className="option-content">
+      <span className="option-text">{option}</span>
+      {isSelected && (
+        <div className="selected-badge">
+          <FiCheck />
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const getOptionIcon = (index) => {
+  const icons = [
+    <svg
+      key="1"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+    </svg>,
+    <svg
+      key="2"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 12H18L15 21L9 3L6 12H2" />
+    </svg>,
+    <svg
+      key="3"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="16" />
+      <line x1="8" y1="12" x2="16" y2="12" />
+    </svg>,
+    <svg
+      key="4"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+    </svg>,
+  ];
+  return icons[index % icons.length];
+};
 
 export default Questionnaires;
