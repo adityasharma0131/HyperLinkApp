@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   FiX,
@@ -10,6 +10,28 @@ import {
 } from "react-icons/fi";
 import { GiLoveInjection } from "react-icons/gi";
 import AppButton from "../../../../Components/AppButton";
+
+const statusConfig = {
+  completed: {
+    icon: <FiCheck className="badge-icon" />,
+    text: "Completed",
+    className: "completed",
+  },
+  pending: {
+    icon: <FiCalendar className="badge-icon" />,
+    text: "Pending",
+    className: "pending",
+  },
+  locked: {
+    icon: <FiLock className="badge-icon" />,
+    text: "Locked",
+    className: "blocked",
+  },
+  default: {
+    text: "Upcoming",
+    className: "upcoming",
+  },
+};
 
 const DoseTray = ({
   isOpen,
@@ -36,41 +58,33 @@ const DoseTray = ({
   const trayRef = useRef(null);
   const backdropRef = useRef(null);
 
-  // Process doses to determine their current status
-  const processedDoses = vaccine.doses.map((dose) => {
-    const userDoseData = userDoses.find((d) => d.number === dose.number);
+  /** Process doses once */
+  const processedDoses = useMemo(() => {
+    return vaccine.doses.map((dose) => {
+      const userDoseData = userDoses.find((d) => d.number === dose.number);
 
-    if (userDoseData?.status === "completed") {
-      return {
-        ...dose,
-        status: "completed",
-        completionDate: userDoseData.completionDate,
-        certificateUrl: userDoseData.certificateUrl,
-      };
-    }
+      if (userDoseData?.status === "completed") {
+        return { ...dose, status: "completed", ...userDoseData };
+      }
 
-    if (
-      dose.number > 1 &&
-      !userDoses.some(
-        (d) => d.number === dose.number - 1 && d.status === "completed"
-      )
-    ) {
-      return { ...dose, status: "locked" };
-    }
+      if (
+        dose.number > 1 &&
+        !userDoses.some(
+          (d) => d.number === dose.number - 1 && d.status === "completed"
+        )
+      ) {
+        return { ...dose, status: "locked" };
+      }
 
-    return { ...dose, status: dose.status || "pending" };
-  });
+      return { ...dose, status: dose.status || "pending" };
+    });
+  }, [vaccine.doses, userDoses]);
 
+  /** Lock body scroll and animate tray */
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      trayRef.current.classList.add("tray-open");
-      backdropRef.current.classList.add("backdrop-open");
-    } else {
-      document.body.style.overflow = "";
-      trayRef.current.classList.remove("tray-open");
-      backdropRef.current.classList.remove("backdrop-open");
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    trayRef.current?.classList.toggle("tray-open", isOpen);
+    backdropRef.current?.classList.toggle("backdrop-open", isOpen);
 
     return () => {
       document.body.style.overflow = "";
@@ -86,30 +100,7 @@ const DoseTray = ({
   };
 
   const getStatusBadge = (status) => {
-    const statusConfig = {
-      completed: {
-        icon: <FiCheck className="badge-icon" />,
-        text: "Completed",
-        className: "completed",
-      },
-      pending: {
-        icon: <FiCalendar className="badge-icon" />,
-        text: "Pending",
-        className: "pending",
-      },
-      locked: {
-        icon: <FiLock className="badge-icon" />,
-        text: "Locked",
-        className: "blocked",
-      },
-      default: {
-        text: "Upcoming",
-        className: "upcoming",
-      },
-    };
-
     const config = statusConfig[status] || statusConfig.default;
-
     return (
       <div className={`dose-status-badge ${config.className}`}>
         {config.icon}
@@ -118,70 +109,75 @@ const DoseTray = ({
     );
   };
 
-  const getDoseActions = (dose) => {
-    if (dose.status === "completed") {
-      return (
-        <div className="dose-actions dual-buttons">
-          {dose.certificateUrl && (
-            <AppButton
-              text="View Certificate"
-              icon={FiEye}
-              variant="secondary"
-              onClick={() => onViewCertificate?.(dose.certificateUrl)}
-              fullWidth
-            />
-          )}
-        </div>
-      );
-    }
+  const getDoseActions = useCallback(
+    (dose) => {
+      switch (dose.status) {
+        case "completed":
+          return (
+            dose.certificateUrl && (
+              <div className="dose-actions dual-buttons">
+                <AppButton
+                  text="View Certificate"
+                  icon={FiEye}
+                  variant="secondary"
+                  onClick={() => onViewCertificate(dose.certificateUrl)}
+                  fullWidth
+                />
+              </div>
+            )
+          );
+        case "pending":
+          return (
+            <div className="dose-actions dual-buttons">
+              <AppButton
+                text="Schedule Now"
+                icon={FiCalendar}
+                onClick={() => onScheduleDose(dose.number)}
+              />
+              <AppButton
+                text="Upload Certificate"
+                icon={FiUpload}
+                variant="secondary"
+                onClick={() => onUploadCertificate(dose.number)}
+              />
+            </div>
+          );
+        case "locked":
+          return (
+            <div className="dose-actions">
+              <div className="locked-message">
+                <FiLock className="meta-icon" />
+                Complete previous dose to unlock
+              </div>
+            </div>
+          );
+        default:
+          return null;
+      }
+    },
+    [onScheduleDose, onUploadCertificate, onViewCertificate]
+  );
 
-    if (dose.status === "pending") {
-      return (
-        <div className="dose-actions dual-buttons">
-          <AppButton
-            text="Schedule Now"
-            icon={FiCalendar}
-            onClick={() => onScheduleDose?.(dose.number)}
-          />
-          <AppButton
-            text="Upload Certificate"
-            icon={FiUpload}
-            variant="secondary"
-            onClick={() => onUploadCertificate?.(dose.number)}
-          />
-        </div>
-      );
-    }
-
-    if (dose.status === "locked") {
-      return (
-        <div className="dose-actions">
-          <div className="locked-message">
-            <FiLock className="meta-icon" />
-            Complete previous dose to unlock
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
-  const getSubtitle = () => {
+  /** Subtitle computed once */
+  const subtitle = useMemo(() => {
     const completedDoses = processedDoses.filter(
       (d) => d.status === "completed"
     ).length;
     const totalDoses = processedDoses.length;
 
-    if (completedDoses === 0) {
+    if (completedDoses === 0)
       return "Start your vaccination schedule by completing the first dose";
-    }
-    if (completedDoses === totalDoses) {
+    if (completedDoses === totalDoses)
       return "Congratulations! You've completed all doses";
-    }
+
     return `Continue your vaccination schedule by completing ${getOrdinalLabel(
       completedDoses + 1
     )} dose`;
+  }, [processedDoses]);
+
+  const getDoseTitle = (number) => {
+    const titles = { 1: "First Dose", 2: "Second Dose", 3: "Third Dose" };
+    return titles[number] || `${getOrdinalLabel(number)} Dose`;
   };
 
   return (
@@ -218,7 +214,7 @@ const DoseTray = ({
         </div>
 
         <div className="dose-tray-content">
-          <p className="dose-tray-subtitle">{getSubtitle()}</p>
+          <p className="dose-tray-subtitle">{subtitle}</p>
 
           <div className="dose-steps">
             {processedDoses.map((dose, index) => (
@@ -235,19 +231,13 @@ const DoseTray = ({
                     <div className="dose-connector" />
                   )}
                 </div>
+
                 <div className="dose-content">
                   <div className="dose-header">
-                    <h3>
-                      {dose.number === 1
-                        ? "First Dose"
-                        : dose.number === 2
-                        ? "Second Dose"
-                        : dose.number === 3
-                        ? "Third Dose"
-                        : `${getOrdinalLabel(dose.number)} Dose`}
-                    </h3>
+                    <h3>{getDoseTitle(dose.number)}</h3>
                     {getStatusBadge(dose.status)}
                   </div>
+
                   <div className="dose-meta">
                     {dose.date && (
                       <div className="dose-estimate">
@@ -275,6 +265,7 @@ const DoseTray = ({
             ))}
           </div>
         </div>
+
         <style jsx>{`
           /* Backdrop */
           .dose-tray-backdrop {
