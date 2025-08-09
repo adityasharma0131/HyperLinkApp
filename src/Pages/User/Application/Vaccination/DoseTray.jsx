@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 import { GiLoveInjection } from "react-icons/gi";
 import AppButton from "../../../../Components/AppButton";
+import NewUserTray from "./NewUserTray";
 
 const statusConfig = {
   completed: {

@@ -1,35 +1,15 @@
 import React, { useState } from "react";
 import DoseTray from "./DoseTray";
 
-const VaccineDemo = () => {
+const Testing = () => {
   const [isTrayOpen, setIsTrayOpen] = useState(false);
 
   // Example user vaccination progress
   const userDoses = [
     {
       number: 1,
-      status: "completed",
-      date: "2023-01-15",
-      note: "Initial priming dose",
-      certificateUrl: "https://example.com/certificates/1",
-    },
-    {
-      number: 2,
-      status: "completed",
-      date: "2023-02-12",
-      note: "Secondary priming dose (4 weeks after first)",
-      certificateUrl: "https://example.com/certificates/2",
-    },
-    {
-      number: 3,
-      status: "completed",
-      note: "First booster dose (3 months after second)",
-      certificateUrl: "https://example.com/certificates/3",
-    },
-    {
-      number: 4,
       status: "pending",
-      note: "First booster dose (3 months after second)",
+      note: "Initial priming dose",
     },
   ];
 
@@ -87,7 +67,7 @@ const VaccineDemo = () => {
   );
 };
 
-export default VaccineDemo;
+export default Testing;
 
 // import React, { useState } from "react";
 // import NewUserTray from "./NewUserTray";
