@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FiX } from "react-icons/fi";
 import "./style.css";
 import AppButton from "../../../../Components/AppButton";
 
 const NewUserTray = ({ onClose }) => {
   const [closing, setClosing] = useState(false);
-
+  const navigate = useNavigate();
   const handleClose = () => {
     setClosing(true);
     setTimeout(onClose, 300); // Matches animation duration
@@ -55,7 +56,10 @@ const NewUserTray = ({ onClose }) => {
             a minute.
           </p>
 
-          <AppButton text="Continue" />
+          <AppButton
+            text="Continue"
+            onClick={() => navigate("/app/vaccination/details")}
+          />
         </div>
       </div>
       <style>

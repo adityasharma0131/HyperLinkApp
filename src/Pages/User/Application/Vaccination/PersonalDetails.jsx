@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
-import { IoIosClose } from "react-icons/io";
 import { FiArrowLeft } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
-import CounsellingDetailsBG from "../../../../assets/counsellingdetailsbg.svg";
+import { FaUser, FaPlus } from "react-icons/fa";
+import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import AppButton from "../../../../Components/AppButton";
+import { useNavigate } from "react-router-dom";
 
 const PersonalDetails = () => {
   const navigate = useNavigate();
@@ -39,8 +36,8 @@ const PersonalDetails = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setUsers(
-      users.map((user) =>
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
         user.id === activeUserId ? { ...user, [id]: value } : user
       )
     );
@@ -51,25 +48,16 @@ const PersonalDetails = () => {
     setNewUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", activeUser);
-  };
-
   const addNewUser = () => {
     if (newUser.name && newUser.age) {
       const newId = Math.max(...users.map((u) => u.id), 0) + 1;
       const userToAdd = {
         id: newId,
-        name: newUser.name,
-        age: newUser.age,
-        gender: newUser.gender,
-        email: newUser.email,
-        phone: newUser.phone,
+        ...newUser,
         weight: "",
         height: "",
       };
-      setUsers([...users, userToAdd]);
+      setUsers((prev) => [...prev, userToAdd]);
       setActiveUserId(newId);
       setIsAddingUser(false);
       setNewUser({
@@ -91,53 +79,32 @@ const PersonalDetails = () => {
       }
     }
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/app/counselling/questionnaires");
+  };
   return (
-    <div className="counselling-details-page">
-      <div className="counselling-details-hero">
-        {/* Top Navigation */}
+    <div className="consultation-scheduling-page">
+      {/* Hero Section */}
+      <div className="consultation-scheduling-hero">
         <div className="hero-top-bar">
-          <button className="icon-button" onClick={() => window.history.back()}>
+          <button
+            className="icon-button"
+            onClick={() => window.history.back()}
+            aria-label="Go back"
+          >
             <FiArrowLeft className="hero-icon" />
           </button>
-        </div>
-
-        {/* Image Section */}
-        <div className="hero-content">
           <div className="hero-text">
-            <h1>DIABETES</h1>
+            <h1 className="hero-title">HPV ASSESSMENT</h1>
             <p className="hero-subtitle">
-              Understand Your Genetic Risk for Diabetes
+              Answer a few health questions to check your eligibility
             </p>
-          </div>
-          <div className="hero-image">
-            <span className="image-decoration" />
-            <img src={CounsellingDetailsBG} alt="Child receiving vaccine" />
-          </div>
-        </div>
-        {/* Modern Info Section */}
-        <div className="risk-assessment-card">
-          <h2 className="card-title">Discover Your Genetic Risk Factors</h2>
-          <div className="feature-list">
-            <div className="feature-item">
-              <div className="feature-icon">⏱️</div>
-              <p>3–5 minute assessment with 5–7 simple questions</p>
-            </div>
-            <div className="feature-item">
-              <div className="feature-icon">🔍</div>
-              <p>Personalized Diabetes Risk Score analysis</p>
-            </div>
-            <div className="feature-item">
-              <div className="feature-icon">📋</div>
-              <p>
-                Potential recommendations:
-                <span className="tag">Diagnostic Tests</span>
-                <span className="tag">Specialist Consult</span>
-                <span className="tag">DNA-Based Plans</span>
-              </p>
-            </div>
           </div>
         </div>
       </div>
+
       <div className="personal-details-container">
         <h2 className="personal-details-heading">
           Let's Start with Your Personal Details
@@ -293,77 +260,34 @@ const PersonalDetails = () => {
           )}
         </div>
 
-        {/* Input Fields */}
-        <form onSubmit={handleSubmit} className="personal-details-form">
-          <div className="input-section">
-            <div className="input-box">
-              <label htmlFor="weight" className="input-label">
-                Weight
-              </label>
-              <input
-                type="number"
-                id="weight"
-                placeholder="Kg"
-                value={activeUser.weight}
-                onChange={handleInputChange}
-                className="detail-input"
-                min="30"
-                max="200"
-                required
-              />
-            </div>
-            <div className="input-box">
-              <label htmlFor="height" className="input-label">
-                Height
-              </label>
-              <input
-                type="number"
-                id="height"
-                placeholder="cm"
-                value={activeUser.height}
-                onChange={handleInputChange}
-                className="detail-input"
-                min="100"
-                max="250"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Action Button */}
-          <div className="button-wrapper">
-            <AppButton
-              text="Start Assessment"
-              onClick={() => navigate("/app/counselling/questionnaires")}
-            />
-          </div>
-        </form>
+        <AppButton
+          text="Start Assessment"
+          onClick={() => navigate("/app/vaccination/questionnaires")}
+        />
       </div>
 
       <style>
         {`
-        
-        .counselling-details-page {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  background-color:#f7fafc;
+        .consultation-scheduling-page {
+  background-color: #f7fafc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.counselling-details-hero {
+/* Hero Section */
+.consultation-scheduling-hero {
   background: linear-gradient(135deg, #6e8efb, #a777e3);
   padding: 20px;
   border-radius: 0 0 32px 32px;
   color: white;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(103, 108, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2);
 }
 
 .hero-top-bar {
   display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-  margin-bottom: 1rem;
+  align-items: center;
+  gap: 1rem;
 }
 
 .icon-button {
@@ -390,118 +314,43 @@ const PersonalDetails = () => {
   color: white;
 }
 
-.hero-content {
+.hero-text {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end; /* Changed from center to flex-end */
-  position: relative;
-  z-index: 2;
-  height: 100%; /* Added to take full height */
+  flex-direction: column;
 }
 
-.hero-text h1 {
-  font-size: 26px;
-  font-weight: 800;
+.hero-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
   line-height: 1.2;
-  margin: 0 0 12px 0;
-  letter-spacing: -0.5px;
 }
 
 .hero-subtitle {
-  font-size: 14px;
+  margin: 2px 0 0;
+  font-size: 10px;
+  font-weight: 400;
   opacity: 0.9;
-  margin-bottom: 24px;
-  max-width: 200px;
-  line-height: 1.5;
 }
 
-.hero-image {
-  position: relative;
-  height: 100%; /* Added to take full height */
-  display: flex;
-  align-items: flex-end; /* Align image to bottom */
+/* Page Content */
+.page-content {
+  flex: 1;
+  padding: 20px;
 }
 
-.hero-image img {
-  width: 200px;
-  height: auto;
-  position: relative;
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
-} /* Modern Styling */
-
-.risk-assessment-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
-  color: #2d3748;
-  margin: 1rem 0;
-  transition: transform 0.3s ease;
+.placeholder-text {
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 0.95rem;
 }
 
-.risk-assessment-card:hover {
-  transform: translateY(-2px);
-}
-
-.card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  color: #1a365d;
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
-.card-title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  border-radius: 3px;
-}
-
-.feature-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-}
-
-.feature-icon {
-  font-size: 1.1rem;
-  margin-top: 0.1rem;
-  flex-shrink: 0;
-}
-
-.feature-item p {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #4a5568;
-}
-
-.tag {
-  display: inline-block;
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  margin: 0.3rem 0.3rem 0.3rem 0;
-  font-weight: 500;
-}
 .personal-details-container {
   max-width: 480px;
   margin: 0 auto;
   padding: 24px;
+  border-radius: 20px;
 }
 
 .personal-details-heading {
