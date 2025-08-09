@@ -34,15 +34,6 @@ const PersonalDetails = () => {
 
   const activeUser = users.find((user) => user.id === activeUserId) || users[0];
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === activeUserId ? { ...user, [id]: value } : user
-      )
-    );
-  };
-
   const handleNewUserChange = (e) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({ ...prev, [name]: value }));
@@ -80,14 +71,10 @@ const PersonalDetails = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate("/app/counselling/questionnaires");
-  };
   return (
-    <div className="consultation-scheduling-page">
+    <div className="vaccination-details-page">
       {/* Hero Section */}
-      <div className="consultation-scheduling-hero">
+      <div className="vaccination-details-hero">
         <div className="hero-top-bar">
           <button
             className="icon-button"
@@ -268,7 +255,7 @@ const PersonalDetails = () => {
 
       <style>
         {`
-        .consultation-scheduling-page {
+        .vaccination-details-page {
   background-color: #f7fafc;
   min-height: 100vh;
   display: flex;
@@ -276,7 +263,7 @@ const PersonalDetails = () => {
 }
 
 /* Hero Section */
-.consultation-scheduling-hero {
+.vaccination-details-hero {
   background: linear-gradient(135deg, #6e8efb, #a777e3);
   padding: 20px;
   border-radius: 0 0 32px 32px;
