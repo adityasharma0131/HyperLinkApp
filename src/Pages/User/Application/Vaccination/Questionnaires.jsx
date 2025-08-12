@@ -118,10 +118,10 @@ const Questionnaires = () => {
   };
 
   const handleSubmit = () => {
-    // if (allQuestionsAnswered) {
-    //   const assessment = calculateRiskAssessment();
-    //   navigate("/app/counselling/result", { state: { assessment } });
-    // }
+    if (allQuestionsAnswered) {
+      const assessment = calculateRiskAssessment();
+      navigate("/app/vaccination/order-summary", { state: { assessment } });
+    }
   };
 
   const resetQuestionnaire = () => {

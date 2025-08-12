@@ -287,9 +287,11 @@ const ChildVaccination = () => {
         </div>
 
         {filteredVaccines.length > 0 ? (
-          filteredVaccines.map((vaccine) => (
-            <VaccineCard key={vaccine.id} vaccine={vaccine} />
-          ))
+          <div className="vaccine-list">
+            {filteredVaccines.map((vaccine) => (
+              <VaccineCard key={vaccine.id} vaccine={vaccine} />
+            ))}
+          </div>
         ) : (
           <div className="no-results">
             <p>No vaccines found matching your criteria.</p>
