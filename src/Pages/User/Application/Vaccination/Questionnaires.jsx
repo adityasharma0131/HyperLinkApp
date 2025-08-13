@@ -83,44 +83,9 @@ const Questionnaires = () => {
     }
   };
 
-  const calculateRiskAssessment = () => {
-    let totalScore = 0;
-    let riskFactors = [];
-
-    questions.forEach((question) => {
-      const answer = answers[question.id];
-      if (answer) {
-        const optionIndex = question.options.indexOf(answer);
-        const weight = question.weights[optionIndex];
-        totalScore += weight;
-
-        if (weight >= 2) {
-          riskFactors.push({
-            question: question.text,
-            answer: answer,
-            severity: weight >= 3 ? "high" : "moderate",
-          });
-        }
-      }
-    });
-
-    let riskLevel;
-    if (totalScore >= 10) riskLevel = "high";
-    else if (totalScore >= 6) riskLevel = "moderate";
-    else riskLevel = "low";
-
-    return {
-      riskLevel,
-      totalScore,
-      riskFactors,
-      maxPossibleScore: questions.length * 3,
-    };
-  };
-
   const handleSubmit = () => {
     if (allQuestionsAnswered) {
-      const assessment = calculateRiskAssessment();
-      navigate("/app/vaccination/order-summary", { state: { assessment } });
+      navigate("/app/vaccination/order-summary");
     }
   };
 
