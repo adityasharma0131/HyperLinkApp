@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { FiArrowLeft, FiEdit2 } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiEdit2,
+  FiMapPin,
+  FiPhone,
+  FiUser,
+} from "react-icons/fi";
 import AppButton from "../../../../Components/AppButton";
+import SchedulingTray from "./SchedulingTray"; // adjust path as needed
 
 const OrderSummary = () => {
   const [dose] = useState("1st Dose"); // fixed dose
@@ -11,14 +17,48 @@ const OrderSummary = () => {
 
   // Location states
   const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [address, setAddress] = useState(""); // empty by default
+  const [userAddresses, setUserAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   // Schedule states
-  const [isEditingSchedule, setIsEditingSchedule] = useState(false);
+  const [showSchedulingTray, setShowSchedulingTray] = useState(false);
   const [schedule, setSchedule] = useState(""); // empty by default
 
+  useEffect(() => {
+    // Load addresses from localStorage
+    const storedAddresses = localStorage.getItem("userAddresses");
+    if (storedAddresses) {
+      try {
+        const parsedAddresses = JSON.parse(storedAddresses);
+        setUserAddresses(parsedAddresses);
+        if (parsedAddresses.length > 0) {
+          setSelectedAddress(parsedAddresses[0]);
+        }
+      } catch (e) {
+        console.error("Error parsing addresses", e);
+      }
+    }
+  }, []);
+
   const handleAddressSave = () => setIsEditingAddress(false);
-  const handleScheduleSave = () => setIsEditingSchedule(false);
+
+  const formatAddress = (address) => {
+    if (!address) return "";
+    const { details, address: mainAddress } = address;
+    return [
+      details.houseBlockName,
+      details.houseNoFloor,
+      mainAddress,
+      details.landmark && `Near ${details.landmark}`,
+    ]
+      .filter(Boolean)
+      .join(", ");
+  };
+
+  const handleTimeSelected = (selectedTime) => {
+    setSchedule(selectedTime);
+    setShowSchedulingTray(false);
+  };
 
   return (
     <div className="vaccination-summary-page">
@@ -169,25 +209,43 @@ const OrderSummary = () => {
               </div>
             </div>
 
-            {isEditingAddress ? (
-              <input
-                type="text"
-                placeholder="Enter your address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                onBlur={handleAddressSave}
-                className="edit-input"
-                autoFocus
-              />
+            {selectedAddress ? (
+              <div className="address-card selected">
+                <div className="address-icon">
+                  <FiMapPin />
+                </div>
+                <div className="address-details">
+                  <div className="address-label">
+                    {selectedAddress.details.addressLabel}
+                  </div>
+                  <div className="address-text">
+                    {formatAddress(selectedAddress)}
+                  </div>
+
+                  <div className="address-contact">
+                    <div className="contact-item">
+                      <FiUser className="contact-icon" />
+                      <span>{selectedAddress.details.receiverName}</span>
+                    </div>
+                    <div className="contact-item">
+                      <FiPhone className="contact-icon" />
+                      <span>{selectedAddress.details.phoneNumber}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ) : (
               <div
-                className={`address-card ${!address ? "empty-address" : ""}`}
-                onClick={() =>
-                  !address ? navigate("/app/user/add-location") : null
-                }
+                className="address-card empty"
+                onClick={() => navigate("/app/user/add-location")}
               >
-                <div className="address-icon">🏠</div>
-                <AppButton text={"Add Address"} />
+                <div className="address-icon empty-icon">🏠</div>
+                <div className="add-address-content">
+                  <div className="add-address-text">Add Delivery Address</div>
+                  <div className="add-address-subtext">
+                    Select where you want to receive the service
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -200,35 +258,22 @@ const OrderSummary = () => {
                 <h3 className="section-title">Schedule</h3>
                 <button
                   className="edit-btn"
-                  onClick={() => setIsEditingSchedule(!isEditingSchedule)}
+                  onClick={() => setShowSchedulingTray(true)}
                 >
                   <FiEdit2 />
                   <span>{schedule ? "Edit" : "Add"}</span>
                 </button>
               </div>
             </div>
-            {isEditingSchedule ? (
-              <input
-                type="datetime-local"
-                value={schedule}
-                onChange={(e) => setSchedule(e.target.value)}
-                onBlur={handleScheduleSave}
-                className="edit-input"
-                autoFocus
-              />
-            ) : (
-              <div
-                className={`address-card ${!schedule ? "empty-address" : ""}`}
-                onClick={() => !schedule && setIsEditingSchedule(true)}
-              >
-                <div className="address-icon">⏰</div>
-                <div className="address-text">
-                  {schedule
-                    ? new Date(schedule).toLocaleString()
-                    : "Click to Add Schedule"}
-                </div>
+            <div
+              className={`address-card ${!schedule ? "empty" : ""}`}
+              onClick={() => setShowSchedulingTray(true)}
+            >
+              <div className="address-icon">⏰</div>
+              <div className="address-text">
+                {schedule || "Click to Add Schedule"}
               </div>
-            )}
+            </div>
           </div>
         </div>
 
@@ -262,9 +307,30 @@ const OrderSummary = () => {
           <span>Total Payable</span>
           <span className="amount">₹{qty * 449}</span>
         </div>
-        <AppButton text={"Proceed to Payment"} />
+        <AppButton
+          text={"Proceed to Payment"}
+          disabled={!selectedAddress || !schedule}
+          onClick={() => {
+            if (!selectedAddress) {
+              alert("Please add a delivery address");
+              return;
+            }
+            if (!schedule) {
+              alert("Please select a schedule");
+              return;
+            }
+            // Proceed to payment
+          }}
+        />
       </div>
 
+      {/* Scheduling Tray */}
+      {showSchedulingTray && (
+        <SchedulingTray
+          onClose={() => setShowSchedulingTray(false)}
+          onTimeSelected={handleTimeSelected}
+        />
+      )}
       <style>
         {`
         /* Modern CSS Styles */
@@ -659,25 +725,96 @@ const OrderSummary = () => {
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
   outline: none;
 }
-
 .address-card {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px;
+  padding: 14px;
   background: #f8fafc;
   border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.2s ease;
+}
+.address-card.selected:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
 .address-icon {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #64748b;
 }
 
-.address-text {
+.address-details {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.address-text {
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.4;
+  color: #334155;
+}
+
+.address-contact {    display: flex
+;
+    gap: .5rem;
+    margin-top: 6px;
+    flex-direction: column;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.contact-icon {
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.delivery-instructions {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.address-card.empty {
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px dashed #cbd5e1;
+  background: #f1f5f9;
+  transition: background 0.2s ease;
+}
+.address-card.empty:hover {
+  background: #e2e8f0;
+}
+
+.empty-icon {
+  font-size: 1.8rem;
+}
+
+.add-address-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.add-address-subtext {
+  font-size: 0.85rem;
+  color: #64748b;
 }
 
 /* Billing Summary */
