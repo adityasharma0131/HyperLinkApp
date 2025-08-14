@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { FiArrowLeft, FiEdit2 } from "react-icons/fi";
 import AppButton from "../../../../Components/AppButton";
 
 const OrderSummary = () => {
   const [dose] = useState("1st Dose"); // fixed dose
   const [qty, setQty] = useState(1);
+  const navigate = useNavigate();
 
   // Location states
   const [isEditingAddress, setIsEditingAddress] = useState(false);
@@ -158,13 +161,14 @@ const OrderSummary = () => {
                 <h3 className="section-title">Location</h3>
                 <button
                   className="edit-btn"
-                  onClick={() => setIsEditingAddress(!isEditingAddress)}
+                  onClick={() => navigate("/app/user/add-location")}
                 >
                   <FiEdit2 />
                   <span>Change</span>
                 </button>
               </div>
             </div>
+
             {isEditingAddress ? (
               <input
                 type="text"
@@ -178,12 +182,12 @@ const OrderSummary = () => {
             ) : (
               <div
                 className={`address-card ${!address ? "empty-address" : ""}`}
-                onClick={() => !address && setIsEditingAddress(true)}
+                onClick={() =>
+                  !address ? navigate("/app/user/add-location") : null
+                }
               >
                 <div className="address-icon">🏠</div>
-                <div className="address-text">
-                  {address || "Click to Add Address"}
-                </div>
+                <AppButton text={"Add Address"} />
               </div>
             )}
           </div>
@@ -260,6 +264,566 @@ const OrderSummary = () => {
         </div>
         <AppButton text={"Proceed to Payment"} />
       </div>
+
+      <style>
+        {`
+        /* Modern CSS Styles */
+.vaccination-summary-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  color: #1e293b;
+  padding-bottom: 120px;
+}
+
+/* Hero section (unchanged) */
+.vaccination-summary-hero {
+  background: linear-gradient(to bottom, #4a90e2, #8c60e2);
+  padding: 20px;
+  border-radius: 0 0 32px 32px;
+  color: white;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2);
+}
+
+.hero-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 1rem;
+}
+
+.icon-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.hero-icon {
+  font-size: 18px;
+  color: white;
+}
+
+.hero-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  flex: 1;
+  line-height: 1.2;
+}
+
+/* Main container */
+.vaccination-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 1rem 0 2rem;
+}
+
+/* Vaccine Card */
+.vaccine-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  border: 1px solid #f1f5f9;
+}
+
+.vaccine-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+.vaccine-badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: #10b981;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
+}
+
+.vaccine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.vaccine-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.price-tag {
+  background: #f0f9ff;
+  color: #0ea5e9;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.vaccine-description {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* Vaccine Options */
+.vaccine-options {
+  display: flex;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.detail-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 500;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.styled-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-color: white;
+  color: #1e293b;
+}
+
+.styled-select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.styled-select-disabled {
+  background-color: #f1f5f9; /* light grey background */
+  color: #475569; /* slightly muted text */
+  cursor: not-allowed;
+  border-color: #cbd5e1;
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 44px;
+}
+
+.qty-btn {
+  width: 40px;
+  height: 100%;
+  background: #f8fafc;
+  border: none;
+  font-size: 1.2rem;
+  color: #475569;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-btn:hover {
+  background: #f1f5f9;
+}
+
+.qty-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qty-value {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Info Sections Container */
+.info-sections-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Details Sections */
+.details-section {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-icon {
+  font-size: 1.2rem;
+  background: #f0f9ff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0ea5e9;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1e293b;
+}
+
+/* Custom List */
+.custom-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.custom-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.list-icon {
+  flex-shrink: 0;
+}
+
+/* Specifications Grid */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.spec-item {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.spec-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.spec-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Collector Card */
+.collector-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.collector-icon {
+  font-size: 1.5rem;
+  background: #e0f2fe;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0ea5e9;
+}
+
+.collector-details {
+  flex: 1;
+}
+
+.collector-name {
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.collector-description {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Location Section */
+.location-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+/* Location Section */
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #3b82f6;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #eff6ff;
+}
+
+.edit-btn span {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.edit-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+  outline: none;
+}
+
+.address-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.address-icon {
+  font-size: 1.2rem;
+  color: #64748b;
+}
+
+.address-text {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Billing Summary */
+.billing-summary {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  margin: 24px 0;
+  border: 1px solid #f1f5f9;
+}
+
+.billing-title {
+  font-weight: 600;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.bill-items {
+  margin-bottom: 12px;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.bill-row.discount {
+  color: #10b981;
+}
+
+.bill-row.total {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1e293b;
+  padding: 12px 0;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 8px;
+}
+
+/* FAQ Section */
+.faq-section {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+}
+
+.faq-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.faq-answer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.faq-q,
+.faq-a {
+  font-weight: 600;
+}
+
+.faq-q {
+  color: #3b82f6;
+}
+
+.faq-a {
+  color: #10b981;
+}
+
+/* Payment section (unchanged) */
+.vaccination-payment-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 16px 16px 0 0;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  text-align: center;
+}
+
+.vaccination-payment-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.amount {
+  font-size: 1.4rem;
+  background: linear-gradient(to right, #4a90e2, #8c60e2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.secure-payment {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #718096;
+  margin-top: 1rem;
+}
+
+.empty-address {
+  background-color: #f8fafc;
+  border: 1px dashed #94a3b8;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+.empty-address:hover {
+  background-color: #f1f5f9;
+}
+`}
+      </style>
     </div>
   );
 };

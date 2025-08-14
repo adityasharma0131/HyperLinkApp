@@ -16,6 +16,8 @@ import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
 
+import AddLocation from "./Pages/User/Application/Vaccination/AddLocation";
+
 import Vaccination from "./Pages/User/Application/Vaccination/Vaccination";
 import ChildVaccination from "./Pages/User/Application/Vaccination/ChildVaccination";
 import AdultVaccination from "./Pages/User/Application/Vaccination/AdultVaccination";
@@ -77,6 +79,7 @@ function App() {
             path="/app/vaccination/order-summary"
             element={<QuestionnairesOrderSummary />}
           />
+          <Route path="/app/user/add-location" element={<AddLocation />} />
 
           <Route path="/app/counselling/home" element={<HomeCounselling />} />
           <Route
