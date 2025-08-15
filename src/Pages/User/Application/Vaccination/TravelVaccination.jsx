@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   FiArrowLeft,
   FiFilter,
@@ -12,15 +12,24 @@ import { FaMicrophone } from "react-icons/fa";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { GiLoveInjection } from "react-icons/gi";
-
 import TravelVaccineHero from "../../../../assets/TravelVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
+import VaccInfo from "./VaccInfo";
+import DoseTray from "./DoseTray";
+import NewUserTray from "./NewUserTray";
 
 const TravelVaccination = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
   const [selectedAge, setSelectedAge] = useState("all");
   const [activeFilter, setActiveFilter] = useState("all");
+
+  // State for vaccine trays
+  const [selectedVaccine, setSelectedVaccine] = useState(null);
+  const [isInfoTrayOpen, setIsInfoTrayOpen] = useState(false);
+  const [isDoseTrayOpen, setIsDoseTrayOpen] = useState(false);
+  const [doseTrayVaccine, setDoseTrayVaccine] = useState(null);
+  const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
 
   const ageGroups = useMemo(
     () => [
@@ -38,139 +47,125 @@ const TravelVaccination = () => {
     () => [
       {
         id: 1,
-        name: "Influenza (Flu) Vaccine",
+        name: "Yellow Fever Vaccine",
         description:
-          "Annual vaccine to protect against seasonal influenza viruses. Recommended for all adults, especially those with chronic conditions.",
+          "Required for travel to certain countries in Africa and South America.",
         doses: 1,
-        price: 1200,
+        price: 2500,
         isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years", "65+ years"],
-        tag: "Seasonal",
-        scheduleAt: "Annually",
+        ageGroups: ["18-49 years", "50-64 years"],
+        tag: "Travel",
+        scheduleAt: "10 days before travel",
         benefits: [
-          "Prevents seasonal flu",
-          "Reduces severity if infected",
-          "Protects vulnerable populations",
+          "Required for entry in some countries",
+          "Provides lifetime immunity",
+          "Prevents yellow fever infection",
         ],
+        countries: ["Brazil", "Ghana", "Kenya", "Peru"],
+        certificateRequired: true,
       },
       {
         id: 2,
-        name: "Tdap (Tetanus, Diphtheria, Pertussis)",
-        description:
-          "Protects against tetanus, diphtheria, and whooping cough. Booster recommended every 10 years.",
+        name: "Typhoid Vaccine",
+        description: "Recommended for travelers to areas with poor sanitation.",
         doses: 1,
-        price: 850,
+        price: 1200,
         isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years", "65+ years"],
-        tag: "Essential",
-        scheduleAt: "Every 10 years",
+        ageGroups: ["all"],
+        tag: "Travel",
+        scheduleAt: "2 weeks before travel",
         benefits: [
-          "Prevents lockjaw",
-          "Protects against whooping cough",
-          "Essential for wound care",
+          "Protects against typhoid fever",
+          "Oral and injectable options available",
+          "Effective for 2-5 years",
         ],
+        countries: ["India", "Pakistan", "Bangladesh", "Mexico"],
       },
       {
         id: 3,
-        name: "Shingles (Herpes Zoster)",
-        description:
-          "Prevents shingles and its complications. Recommended for adults 50 years and older.",
+        name: "Hepatitis A Vaccine",
+        description: "Recommended for most international travelers.",
         doses: 2,
-        price: 4500,
+        price: 1800,
         isRecommended: true,
-        ageGroups: ["50-64 years", "65+ years"],
-        tag: "Recommended",
-        scheduleAt: "Once (2 doses)",
+        ageGroups: ["all"],
+        tag: "Travel",
+        scheduleAt: "6 months apart",
         benefits: [
-          "Reduces risk of shingles by 90%",
-          "Prevents postherpetic neuralgia",
-          "Lessens severity if outbreak occurs",
+          "Protects against food/water-borne illness",
+          "Provides long-term protection",
+          "Often combined with Hepatitis B vaccine",
         ],
+        countries: ["All developing countries"],
       },
       {
         id: 4,
-        name: "Pneumococcal Vaccine",
-        description:
-          "Protects against pneumococcal disease. Recommended for adults 65+ and those with certain health conditions.",
-        doses: 1,
-        price: 3200,
-        isRecommended: true,
-        ageGroups: ["65+ years"],
-        tag: "Essential",
-        scheduleAt: "Once or twice",
+        name: "Japanese Encephalitis",
+        description: "Recommended for long-term travelers to rural Asia.",
+        doses: 2,
+        price: 3500,
+        isRecommended: false,
+        ageGroups: ["18-49 years", "50-64 years"],
+        tag: "Travel",
+        scheduleAt: "28 days apart",
         benefits: [
-          "Prevents pneumonia",
-          "Reduces meningitis risk",
-          "Protects against bloodstream infections",
+          "Protects against mosquito-borne disease",
+          "Recommended for rural travel",
+          "Important for long-term stays",
         ],
+        countries: ["China", "India", "Thailand", "Vietnam"],
       },
       {
         id: 5,
-        name: "HPV Vaccine",
-        description:
-          "Prevents HPV-related cancers. Recommended for adults up to age 45 who haven't been vaccinated.",
-        doses: 2,
-        price: 3800,
+        name: "Meningococcal Vaccine",
+        description: "Required for travel to the meningitis belt of Africa.",
+        doses: 1,
+        price: 2800,
         isRecommended: true,
-        ageGroups: ["18-49 years"],
-        tag: "Preventive",
-        scheduleAt: "Series of 2-3 doses",
+        ageGroups: ["all"],
+        tag: "Travel",
+        scheduleAt: "Before travel",
         benefits: [
-          "Prevents cervical cancer",
-          "Reduces genital warts",
-          "Protects against several HPV-related cancers",
+          "Required for Hajj pilgrimage",
+          "Protects against meningitis",
+          "Valid for 3-5 years",
         ],
+        countries: ["Saudi Arabia", "Sudan", "Ethiopia"],
+        certificateRequired: true,
       },
       {
         id: 6,
-        name: "Hepatitis B Vaccine",
-        description:
-          "Protects against hepatitis B virus. Recommended for adults with risk factors or who missed childhood doses.",
+        name: "Rabies Vaccine",
+        description: "Recommended for travelers at risk of animal bites.",
         doses: 3,
-        price: 650,
+        price: 3200,
         isRecommended: false,
-        ageGroups: ["18-49 years", "50-64 years"],
-        tag: "Risk-based",
-        scheduleAt: "3-dose series",
+        ageGroups: ["all"],
+        tag: "Travel",
+        scheduleAt: "28 day series",
         benefits: [
-          "Prevents liver disease",
-          "Reduces cirrhosis risk",
-          "Protects against liver cancer",
+          "Prevents rabies infection",
+          "Reduces need for post-exposure treatment",
+          "Important for adventure travelers",
         ],
+        countries: ["All with animal exposure risk"],
       },
       {
         id: 7,
-        name: "MMR (Measles, Mumps, Rubella)",
-        description:
-          "Protects against three serious diseases. Recommended for adults without evidence of immunity.",
+        name: "Cholera Vaccine",
+        description: "Recommended for travelers to outbreak areas.",
         doses: 2,
-        price: 950,
-        isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years"],
-        tag: "Essential",
-        scheduleAt: "Lifetime (2 doses)",
-        benefits: [
-          "Prevents measles outbreaks",
-          "Protects against mumps",
-          "Prevents congenital rubella syndrome",
-        ],
-      },
-      {
-        id: 8,
-        name: "Meningococcal Vaccine",
-        description:
-          "Protects against meningococcal disease. Recommended for college students, military recruits, and travelers.",
-        doses: 1,
-        price: 2800,
+        price: 1500,
         isRecommended: false,
-        ageGroups: ["18-49 years"],
+        ageGroups: ["all"],
         tag: "Travel",
-        scheduleAt: "Every 5 years for at-risk",
+        scheduleAt: "1-6 weeks apart",
         benefits: [
-          "Prevents meningitis",
-          "Reduces sepsis risk",
-          "Essential for certain travelers",
+          "Protects against cholera",
+          "Oral vaccine available",
+          "Useful for humanitarian workers",
         ],
+        countries: ["Yemen", "Haiti", "Zimbabwe"],
       },
     ],
     []
@@ -189,22 +184,22 @@ const TravelVaccination = () => {
       let matchesFilter = true;
       if (activeFilter === "recommended") {
         matchesFilter = vaccine.isRecommended;
-      } else if (activeFilter === "essential") {
-        matchesFilter = vaccine.tag === "Essential";
+      } else if (activeFilter === "required") {
+        matchesFilter = vaccine.certificateRequired === true;
       }
 
       return matchesSearch && matchesAge && matchesFilter;
     });
   }, [vaccineData, searchQuery, selectedAge, activeFilter]);
 
-  const handleAgeSelect = (age) => {
+  const handleAgeSelect = useCallback((age) => {
     setSelectedAge(age);
     setIsAgeDropdownOpen(false);
-  };
+  }, []);
 
-  const handleFilterSelect = (filter) => {
+  const handleFilterSelect = useCallback((filter) => {
     setActiveFilter(filter);
-  };
+  }, []);
 
   const formatINR = (amount) =>
     new Intl.NumberFormat("en-IN", {
@@ -213,92 +208,105 @@ const TravelVaccination = () => {
       maximumFractionDigits: 0,
     }).format(amount);
 
-  const VaccineCard = ({
-    name,
-    description,
-    doses,
-    price,
-    isRecommended,
-    tag = "Essential",
-    scheduleAt = "Consult doctor",
-    benefits = [],
-    onSchedule,
-    onInfo,
-  }) => {
-    const [expanded, setExpanded] = useState(false);
+  const handleScheduleClick = (vaccine) => {
+    const dosesArray = Array.from({ length: vaccine.doses }, (_, i) => ({
+      number: i + 1,
+      note: `${i + 1}${["st", "nd", "rd"][i] || "th"} dose for ${vaccine.name}`,
+      certificateRequired: vaccine.certificateRequired || false,
+      travelNotice: vaccine.countries
+        ? `Required for: ${vaccine.countries.join(", ")}`
+        : null,
+    }));
 
-    return (
-      <div
-        className={`vaccine-card ${isRecommended ? "recommended" : ""}`}
-        onClick={() => setExpanded(!expanded)}
-      >
-        {isRecommended && (
-          <div className="recommended-badge">
-            <FiAward className="badge-icon" />
-            <span>Recommended</span>
+    setDoseTrayVaccine({
+      name: vaccine.name,
+      type: vaccine.tag.toUpperCase(),
+      doses: dosesArray,
+      countries: vaccine.countries,
+      certificateRequired: vaccine.certificateRequired,
+    });
+    setIsDoseTrayOpen(true);
+  };
+
+  const handleInfoClick = (vaccine) => {
+    setSelectedVaccine(vaccine);
+    setIsInfoTrayOpen(true);
+  };
+
+  const handleDoseScheduleNow = (doseNumber) => {
+    setIsDoseTrayOpen(false);
+    setTimeout(() => {
+      setIsNewUserTrayOpen(true);
+    }, 300);
+  };
+
+  const VaccineCard = ({ vaccine }) => (
+    <div
+      className={`vaccine-card ${vaccine.isRecommended ? "recommended" : ""}`}
+    >
+      {vaccine.isRecommended && (
+        <div className="recommended-badge">
+          <FiAward className="badge-icon" />
+          <span>Recommended</span>
+        </div>
+      )}
+
+      <div className="card-content">
+        <div className="vaccine-icon-container">
+          <div className="vaccine-icon-bg">
+            <GiLoveInjection size={22} className="vaccine-icon" />
           </div>
-        )}
-        <div className="card-content">
-          <div className="vaccine-icon-container">
-            <div className="vaccine-icon-bg">
-              <GiLoveInjection size={22} className="vaccine-icon" />
+        </div>
+        <div className="vaccine-info">
+          <div className="info-header">
+            <h2 className="vaccine-name">{vaccine.name}</h2>
+            <div className={`vaccine-tag ${vaccine.tag.toLowerCase()}`}>
+              {vaccine.tag}
             </div>
           </div>
+          <p className="vaccine-desc">{vaccine.description}</p>
 
-          <div className="vaccine-info">
-            <div className="info-header">
-              <h2 className="vaccine-name">{name}</h2>
-              {tag && (
-                <div className={`vaccine-tag ${tag.toLowerCase()}`}>{tag}</div>
-              )}
+          <div className="vaccine-meta">
+            <div className="meta-item">
+              <FiPackage size={14} />
+              <span>
+                {vaccine.doses} {vaccine.doses > 1 ? "doses" : "dose"}
+              </span>
             </div>
-
-            <p className="vaccine-desc">{description}</p>
-
-            <div className="vaccine-meta">
-              <div className="meta-item">
-                <FiPackage size={14} />
-                <span>
-                  {doses} {doses > 1 ? "doses" : "dose"}
-                </span>
-              </div>
-              <div className="meta-item">
-                <FiClock size={14} />
-                <span>{scheduleAt}</span>
-              </div>
+            <div className="meta-item">
+              <FiClock size={14} />
+              <span>{vaccine.scheduleAt}</span>
             </div>
-
-            <div className="vaccine-price-container">
-              <div className="price-info">
-                <h3 className="vaccine-price">{formatINR(price)}</h3>
-                <span className="price-unit">per dose</span>
-              </div>
-
-              <div className="vaccine-buttons">
-                <AppButton
-                  text="Schedule"
-                  icon={FiCalendar}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSchedule?.();
-                  }}
-                />
-                <AppButton
-                  variant="secondary"
-                  text={expanded ? "Less Info" : "More Info"}
-                  icon={FiInfo}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setExpanded(!expanded);
-                  }}
-                />
-              </div>
+          </div>
+          <div className="vaccine-price-container">
+            <div className="price-info">
+              <h3 className="vaccine-price">{formatINR(vaccine.price)}</h3>
+              <span className="price-unit">per dose</span>
+            </div>
+            <div className="vaccine-buttons">
+              <AppButton
+                text="Schedule"
+                icon={FiCalendar}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleScheduleClick(vaccine);
+                }}
+              />
+              <AppButton
+                variant="secondary"
+                text="Info"
+                icon={FiInfo}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleInfoClick(vaccine);
+                }}
+              />
             </div>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <div className="travel-vaccine-page">
@@ -308,7 +316,6 @@ const TravelVaccination = () => {
             <FiArrowLeft className="hero-icon" />
           </button>
         </div>
-
         <div className="hero-content">
           <div className="hero-text">
             <h1>
@@ -321,22 +328,19 @@ const TravelVaccination = () => {
               travel plans.
             </p>
           </div>
-
           <div className="hero-image">
             <span className="image-decoration" />
-            <img src={TravelVaccineHero} alt="Adult receiving vaccine" />
+            <img src={TravelVaccineHero} alt="Travel vaccination" />
           </div>
         </div>
-
         <div className="search-bar hero-search">
           <IoIosSearch className="search-icon" />
           <input
             type="text"
-            placeholder="Search vaccines..."
+            placeholder="Search vaccines or destinations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-
           <FaMicrophone className="mic-icon" />
         </div>
       </div>
@@ -348,10 +352,9 @@ const TravelVaccination = () => {
             <FiFilter className="filter-icon" />
             <span>Filter By</span>
           </div>
-
           <div
             className="filter-dropdown"
-            onClick={() => setIsAgeDropdownOpen(!isAgeDropdownOpen)}
+            onClick={() => setIsAgeDropdownOpen((prev) => !prev)}
           >
             <div className="selected-option">
               <FiCalendar className="option-icon" />
@@ -363,7 +366,6 @@ const TravelVaccination = () => {
             <IoChevronDownSharp
               className={`dropdown-icon ${isAgeDropdownOpen ? "open" : ""}`}
             />
-
             {isAgeDropdownOpen && (
               <div className="dropdown-menu">
                 {ageGroups.map((age) => (
@@ -386,21 +388,22 @@ const TravelVaccination = () => {
         </div>
       </div>
 
+      {/* Vaccine Cards */}
       <div className="vaccine-list-container">
         <div className="section-header">
           <h3 className="section-title">
-            {selectedAge === "all" ? "Vaccines" : `Vaccines `}
+            {selectedAge === "all"
+              ? "Travel Vaccines"
+              : `Travel Vaccines for ${
+                  ageGroups.find((a) => a.value === selectedAge)?.label
+                }`}
           </h3>
         </div>
 
         {filteredVaccines.length > 0 ? (
           <div className="vaccine-list">
             {filteredVaccines.map((vaccine) => (
-              <VaccineCard
-                key={vaccine.id}
-                {...vaccine}
-                onSchedule={() => console.log(`Scheduling ${vaccine.name}`)}
-              />
+              <VaccineCard key={vaccine.id} vaccine={vaccine} />
             ))}
           </div>
         ) : (
@@ -420,6 +423,38 @@ const TravelVaccination = () => {
         )}
       </div>
 
+      {/* Info Tray */}
+      <VaccInfo
+        isOpen={isInfoTrayOpen}
+        onClose={() => setIsInfoTrayOpen(false)}
+        vaccineData={selectedVaccine}
+        handleScheduleClick={handleScheduleClick}
+        isTravelVaccine={true}
+      />
+
+      {/* Dose Tray */}
+      {doseTrayVaccine && (
+        <DoseTray
+          isOpen={isDoseTrayOpen}
+          handleClose={() => setIsDoseTrayOpen(false)}
+          vaccine={doseTrayVaccine}
+          userDoses={[]}
+          onViewCertificate={(url) => window.open(url, "_blank")}
+          onScheduleDose={handleDoseScheduleNow}
+          onUploadCertificate={(doseNumber) =>
+            alert(`Upload certificate for Dose ${doseNumber}`)
+          }
+          isTravelVaccine={true}
+        />
+      )}
+
+      {/* New User Tray */}
+      {isNewUserTrayOpen && (
+        <NewUserTray
+          onClose={() => setIsNewUserTrayOpen(false)}
+          isTravelVaccine={true}
+        />
+      )}
       <style>
         {`
         .travel-vaccine-page {
