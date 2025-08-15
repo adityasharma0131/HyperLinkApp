@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   FiArrowLeft,
   FiFilter,
@@ -9,18 +9,28 @@ import {
   FiInfo,
 } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
-import { IoChevronDownSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
+import { IoChevronDownSharp } from "react-icons/io5";
 import { GiLoveInjection } from "react-icons/gi";
-
 import AdultVaccineHero from "../../../../assets/AdultVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
+import VaccInfo from "./VaccInfo";
+import DoseTray from "./DoseTray";
+import NewUserTray from "./NewUserTray";
 
 const AdultVaccination = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
   const [selectedAge, setSelectedAge] = useState("all");
   const [activeFilter, setActiveFilter] = useState("all");
+
+  const [selectedVaccine, setSelectedVaccine] = useState(null);
+  const [isInfoTrayOpen, setIsInfoTrayOpen] = useState(false);
+
+  const [isDoseTrayOpen, setIsDoseTrayOpen] = useState(false);
+  const [doseTrayVaccine, setDoseTrayVaccine] = useState(null);
+
+  const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
 
   const ageGroups = [
     "all",
@@ -37,23 +47,23 @@ const AdultVaccination = () => {
         id: 1,
         name: "Influenza (Flu) Vaccine",
         description:
-          "Annual vaccine to protect against seasonal influenza viruses. Recommended for all adults, especially those with chronic conditions.",
+          "Annual vaccine to protect against seasonal influenza viruses.",
         doses: 1,
         price: 1200,
         isRecommended: true,
         ageGroups: ["18-49 years", "50-64 years", "65+ years"],
-        tag: "Seasonal",
-        scheduleAt: "Annually",
+        tag: "Recommended",
+        scheduleAt: "Annual",
       },
       {
         id: 2,
         name: "Tdap (Tetanus, Diphtheria, Pertussis)",
         description:
-          "Protects against tetanus, diphtheria, and whooping cough. Booster recommended every 10 years.",
+          "Protects against tetanus, diphtheria, and whooping cough.",
         doses: 1,
         price: 850,
         isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years", "65+ years"],
+        ageGroups: ["18-49 years", "50-64 years"],
         tag: "Essential",
         scheduleAt: "Every 10 years",
       },
@@ -61,49 +71,36 @@ const AdultVaccination = () => {
         id: 3,
         name: "Shingles (Herpes Zoster)",
         description:
-          "Prevents shingles and its complications. Recommended for adults 50 years and older.",
+          "Prevents shingles in older adults, recommended for adults 50+.",
         doses: 2,
-        price: 4500,
+        price: 3500,
         isRecommended: true,
         ageGroups: ["50-64 years", "65+ years"],
         tag: "Recommended",
-        scheduleAt: "Once (2 doses)",
+        scheduleAt: "2 doses, 2-6 months apart",
       },
       {
         id: 4,
         name: "Pneumococcal Vaccine",
-        description:
-          "Protects against pneumococcal disease. Recommended for adults 65+ and those with certain health conditions.",
+        description: "Protects against pneumococcal diseases like pneumonia.",
         doses: 1,
-        price: 3200,
+        price: 2800,
         isRecommended: true,
         ageGroups: ["65+ years"],
         tag: "Essential",
-        scheduleAt: "Once or twice",
+        scheduleAt: "Once after 65",
       },
       {
         id: 5,
         name: "HPV Vaccine",
         description:
-          "Prevents HPV-related cancers. Recommended for adults up to age 45 who haven't been vaccinated.",
+          "Protects against human papillomavirus and related cancers.",
         doses: 2,
-        price: 3800,
+        price: 3200,
         isRecommended: true,
         ageGroups: ["18-49 years"],
-        tag: "Preventive",
-        scheduleAt: "Series of 2-3 doses",
-      },
-      {
-        id: 6,
-        name: "Hepatitis B Vaccine",
-        description:
-          "Protects against hepatitis B virus. Recommended for adults with risk factors or who missed childhood doses.",
-        doses: 3,
-        price: 650,
-        isRecommended: false,
-        ageGroups: ["18-49 years", "50-64 years"],
-        tag: "Risk-based",
-        scheduleAt: "3-dose series",
+        tag: "Recommended",
+        scheduleAt: "2 doses, 6-12 months apart",
       },
     ],
     []
@@ -129,10 +126,10 @@ const AdultVaccination = () => {
     });
   }, [vaccineData, searchQuery, selectedAge, activeFilter]);
 
-  const handleAgeSelect = (age) => {
+  const handleAgeSelect = useCallback((age) => {
     setSelectedAge(age);
     setIsAgeDropdownOpen(false);
-  };
+  }, []);
 
   const formatINR = (amount) =>
     new Intl.NumberFormat("en-IN", {
@@ -141,76 +138,91 @@ const AdultVaccination = () => {
       maximumFractionDigits: 0,
     }).format(amount);
 
-  const VaccineCard = ({
-    name,
-    description,
-    doses,
-    price,
-    isRecommended,
-    tag = "Essential",
-    scheduleAt = "Consult doctor",
-    size = "compact",
-    onSchedule,
-    onInfo,
-  }) => {
-    return (
-      <div
-        className={`vaccine-card ${size === "compact" ? "is-compact" : ""} ${
-          isRecommended ? "recommended" : ""
-        }`}
-      >
-        {isRecommended && (
-          <div className="recommended-badge">
-            <FiAward className="badge-icon" />
-            <span>Recommended</span>
+  const handleScheduleClick = (vaccine) => {
+    const dosesArray = Array.from({ length: vaccine.doses }, (_, i) => ({
+      number: i + 1,
+      note: `${i + 1}${["st", "nd", "rd"][i] || "th"} dose for ${vaccine.name}`,
+    }));
+
+    setDoseTrayVaccine({
+      name: vaccine.name,
+      type: vaccine.tag.toUpperCase(),
+      doses: dosesArray,
+    });
+    setIsDoseTrayOpen(true);
+  };
+
+  const handleInfoClick = (vaccine) => {
+    setSelectedVaccine(vaccine);
+    setIsInfoTrayOpen(true);
+  };
+
+  const handleDoseScheduleNow = (doseNumber) => {
+    setIsDoseTrayOpen(false);
+    setTimeout(() => {
+      setIsNewUserTrayOpen(true);
+    }, 300);
+  };
+
+  const VaccineCard = ({ vaccine }) => (
+    <div
+      className={`vaccine-card ${vaccine.isRecommended ? "recommended" : ""}`}
+    >
+      {vaccine.isRecommended && (
+        <div className="recommended-badge">
+          <FiAward className="badge-icon" />
+          <span>Recommended</span>
+        </div>
+      )}
+      <div className="card-content">
+        <div className="vaccine-icon-container">
+          <div className="vaccine-icon-bg">
+            <GiLoveInjection size={22} className="vaccine-icon" />
           </div>
-        )}
-        <div className="card-content">
-          <div className="vaccine-icon-container">
-            <div className="vaccine-icon-bg">
-              <GiLoveInjection size={22} className="vaccine-icon" />
+        </div>
+        <div className="vaccine-info">
+          <div className="info-header">
+            <h2 className="vaccine-name">{vaccine.name}</h2>
+            <div className={`vaccine-tag ${vaccine.tag.toLowerCase()}`}>
+              {vaccine.tag}
             </div>
           </div>
-
-          <div className="vaccine-info">
-            <div className="info-header">
-              <h2 className="vaccine-name">{name}</h2>
-              {tag && (
-                <div className={`vaccine-tag ${tag.toLowerCase()}`}>{tag}</div>
-              )}
+          <p className="vaccine-desc">{vaccine.description}</p>
+          <div className="vaccine-meta">
+            <div className="meta-item">
+              <FiPackage size={14} />
+              <span>
+                {vaccine.doses} {vaccine.doses > 1 ? "doses" : "dose"}
+              </span>
             </div>
-
-            <p className="vaccine-desc">{description}</p>
-
-            <div className="vaccine-meta">
-              <div className="meta-item">
-                <FiPackage size={14} />
-                <span>
-                  {doses} {doses > 1 ? "doses" : "dose"}
-                </span>
-              </div>
-              <div className="meta-item">
-                <FiClock size={14} />
-                <span>{scheduleAt}</span>
-              </div>
+            <div className="meta-item">
+              <FiClock size={14} />
+              <span>{vaccine.scheduleAt}</span>
             </div>
-
-            <div className="vaccine-price-container">
-              <div className="price-info">
-                <h3 className="vaccine-price">{formatINR(price)}</h3>
-                <span className="price-unit">per dose</span>
-              </div>
-
-              <div className="vaccine-buttons">
-                <AppButton text="Schedule" icon={FiCalendar} />
-                <AppButton variant="secondary" text="Info" icon={FiInfo} />
-              </div>
+          </div>
+          <div className="vaccine-price-container">
+            <div className="price-info">
+              <h3 className="vaccine-price">{formatINR(vaccine.price)}</h3>
+              <span className="price-unit">per dose</span>
+            </div>
+            <div className="vaccine-buttons">
+              <AppButton
+                text="Schedule"
+                icon={FiCalendar}
+                onClick={() => handleScheduleClick(vaccine)}
+              />
+              <AppButton
+                variant="secondary"
+                text="Info"
+                icon={FiInfo}
+                onClick={() => handleInfoClick(vaccine)}
+              />
             </div>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <div className="adult-vaccine-page">
@@ -220,7 +232,6 @@ const AdultVaccination = () => {
             <FiArrowLeft className="hero-icon" />
           </button>
         </div>
-
         <div className="hero-content">
           <div className="hero-text">
             <h1>
@@ -233,13 +244,11 @@ const AdultVaccination = () => {
               health status.
             </p>
           </div>
-
           <div className="hero-image">
             <span className="image-decoration" />
             <img src={AdultVaccineHero} alt="Adult receiving vaccine" />
           </div>
         </div>
-
         <div className="search-bar hero-search">
           <IoIosSearch className="search-icon" />
           <input
@@ -259,10 +268,9 @@ const AdultVaccination = () => {
             <FiFilter className="filter-icon" />
             <span>Filter By</span>
           </div>
-
           <div
             className="filter-dropdown"
-            onClick={() => setIsAgeDropdownOpen(!isAgeDropdownOpen)}
+            onClick={() => setIsAgeDropdownOpen((prev) => !prev)}
           >
             <div className="selected-option">
               <FiCalendar className="option-icon" />
@@ -271,7 +279,6 @@ const AdultVaccination = () => {
             <IoChevronDownSharp
               className={`dropdown-icon ${isAgeDropdownOpen ? "open" : ""}`}
             />
-
             {isAgeDropdownOpen && (
               <div className="dropdown-menu">
                 {ageGroups.map((age) => (
@@ -294,6 +301,7 @@ const AdultVaccination = () => {
         </div>
       </div>
 
+      {/* Vaccine Cards */}
       <div className="vaccine-list-container">
         <div className="section-header">
           <h3 className="section-title">
@@ -306,7 +314,7 @@ const AdultVaccination = () => {
         {filteredVaccines.length > 0 ? (
           <div className="vaccine-list">
             {filteredVaccines.map((vaccine) => (
-              <VaccineCard key={vaccine.id} {...vaccine} />
+              <VaccineCard key={vaccine.id} vaccine={vaccine} />
             ))}
           </div>
         ) : (
@@ -326,6 +334,33 @@ const AdultVaccination = () => {
         )}
       </div>
 
+      {/* Info Tray */}
+      <VaccInfo
+        isOpen={isInfoTrayOpen}
+        onClose={() => setIsInfoTrayOpen(false)}
+        vaccineData={selectedVaccine}
+        handleScheduleClick={handleScheduleClick}
+      />
+
+      {/* Dose Tray */}
+      {doseTrayVaccine && (
+        <DoseTray
+          isOpen={isDoseTrayOpen}
+          handleClose={() => setIsDoseTrayOpen(false)}
+          vaccine={doseTrayVaccine}
+          userDoses={[]}
+          onViewCertificate={(url) => window.open(url, "_blank")}
+          onScheduleDose={handleDoseScheduleNow}
+          onUploadCertificate={(doseNumber) =>
+            alert(`Upload certificate for Dose ${doseNumber}`)
+          }
+        />
+      )}
+
+      {/* New User Tray */}
+      {isNewUserTrayOpen && (
+        <NewUserTray onClose={() => setIsNewUserTrayOpen(false)} />
+      )}
       <style>
         {`
         .adult-vaccine-page {
