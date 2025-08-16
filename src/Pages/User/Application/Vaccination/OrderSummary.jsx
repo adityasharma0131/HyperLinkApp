@@ -8,7 +8,7 @@ import {
   FiUser,
 } from "react-icons/fi";
 import AppButton from "../../../../Components/AppButton";
-import SchedulingTray from "./SchedulingTray"; // adjust path as needed
+import SchedulingTray from "./SchedulingTray";
 
 const OrderSummary = () => {
   const [dose] = useState("1st Dose"); // fixed dose
