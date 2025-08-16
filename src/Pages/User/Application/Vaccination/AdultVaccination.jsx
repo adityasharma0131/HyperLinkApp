@@ -515,6 +515,24 @@ const AdultVaccination = () => {
   opacity: 0.8;
 }
 
+
+.reset-filters {
+  padding: 10px 20px;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.reset-filters:hover {
+  background-color: #6d28d9;
+  transform: translateY(-2px);
+}
+
 @keyframes float {
   0%,
   100% {
