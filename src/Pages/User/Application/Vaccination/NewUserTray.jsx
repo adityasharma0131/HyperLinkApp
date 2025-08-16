@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiX } from "react-icons/fi";
-import "./style.css";
 import AppButton from "../../../../Components/AppButton";
 
 const NewUserTray = ({ onClose }) => {

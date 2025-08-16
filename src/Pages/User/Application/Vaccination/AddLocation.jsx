@@ -19,7 +19,6 @@ import {
 import { FiArrowLeft, FiX } from "react-icons/fi";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 import Button from "../../../../Components/Button";
-import "./style.css";
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyCpkQgakarwsCcTv9A-Hp_u_8GySYRtinU";
 const GOOGLE_LIBRARIES = ["places"];

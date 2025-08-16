@@ -38,6 +38,11 @@ import ConsultationScheduling from "./Pages/User/Application/Consultation/Schedu
 import ConsultationOrderSummary from "./Pages/User/Application/Consultation/OrderSummary";
 import SubscriptionHome from "./Pages/User/Application/Subscription/Home";
 import SubscriptionSummary from "./Pages/User/Application/Subscription/Summary";
+
+import SleepIntro from "./Pages/User/Application/Sleep/Intro";
+import SleepUserInfo from "./Pages/User/Application/Sleep/UserInfo";
+import SleepGoal from "./Pages/User/Application/Sleep/SleepGoal";
+import SleepRecord from "./Pages/User/Application/Sleep/SleepRecord";
 import Testing from "./Pages/User/Application/Vaccination/Testing";
 
 function App() {
@@ -116,6 +121,10 @@ function App() {
             path="/app/subscription/summary"
             element={<SubscriptionSummary />}
           />
+          <Route path="/app/sleep/intro" element={<SleepIntro />} />
+          <Route path="/app/sleep/user-info" element={<SleepUserInfo />} />
+          <Route path="/app/sleep/goal" element={<SleepGoal />} />
+          <Route path="/app/sleep/record" element={<SleepRecord />} />
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>
