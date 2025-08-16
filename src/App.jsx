@@ -41,6 +41,7 @@ import SubscriptionSummary from "./Pages/User/Application/Subscription/Summary";
 
 import SleepIntro from "./Pages/User/Application/Sleep/Intro";
 import SleepUserInfo from "./Pages/User/Application/Sleep/UserInfo";
+import SleepDashboard from "./Pages/User/Application/Sleep/Dashboard";
 import SleepGoal from "./Pages/User/Application/Sleep/SleepGoal";
 import SleepRecord from "./Pages/User/Application/Sleep/SleepRecord";
 import Testing from "./Pages/User/Application/Vaccination/Testing";
@@ -123,6 +124,7 @@ function App() {
           />
           <Route path="/app/sleep/intro" element={<SleepIntro />} />
           <Route path="/app/sleep/user-info" element={<SleepUserInfo />} />
+          <Route path="/app/sleep/dashboard" element={<SleepDashboard />} />
           <Route path="/app/sleep/goal" element={<SleepGoal />} />
           <Route path="/app/sleep/record" element={<SleepRecord />} />
           <Route path="/app/testing" element={<Testing />} />
