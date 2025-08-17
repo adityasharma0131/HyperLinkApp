@@ -4,7 +4,7 @@ import "./style.css";
 
 const SleepGoal = () => {
   const [sleepTime, setSleepTime] = useState(22); // 10 PM
-  const [wakeTime, setWakeTime] = useState(6); // 6 AM
+  const [wakeTime, setWakeTime] = useState(9); // 6 AM
   const [dragging, setDragging] = useState(null); // "sleep" | "wake" | null
   const svgRef = useRef(null);
 
@@ -52,8 +52,8 @@ const SleepGoal = () => {
       ? setSleepTime((prev) => (prev - 1 + 24) % 24)
       : setWakeTime((prev) => (prev - 1 + 24) % 24);
 
-  // Convert mouse position → hour
-  const getHourFromMousePosition = (clientX, clientY) => {
+  // Convert mouse/touch position → hour
+  const getHourFromPosition = (clientX, clientY) => {
     if (!svgRef.current) return 0;
     const svg = svgRef.current;
     const pt = svg.createSVGPoint();
@@ -71,25 +71,49 @@ const SleepGoal = () => {
     return Math.round((angle / (Math.PI * 2)) * 24) % 24;
   };
 
-  const handleMouseDown = (type) => setDragging(type);
+  const handleStartDrag = (type, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragging(type);
+  };
 
-  const handleMouseMove = (e) => {
+  const handleMove = (e) => {
     if (!dragging) return;
-    const hour = getHourFromMousePosition(e.clientX, e.clientY);
+
+    let clientX, clientY;
+
+    if (e.touches) {
+      // Touch event
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      // Mouse event
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const hour = getHourFromPosition(clientX, clientY);
     if (dragging === "sleep") setSleepTime(hour);
     if (dragging === "wake") setWakeTime(hour);
   };
 
-  const handleMouseUp = () => setDragging(null);
+  const handleEndDrag = () => {
+    setDragging(null);
+  };
 
-  // Global event listeners for smooth dragging
+  // Event listeners for smooth dragging
   useEffect(() => {
     if (dragging) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
+      window.addEventListener("mousemove", handleMove);
+      window.addEventListener("mouseup", handleEndDrag);
+      window.addEventListener("touchmove", handleMove, { passive: false });
+      window.addEventListener("touchend", handleEndDrag);
+
       return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-        window.removeEventListener("mouseup", handleMouseUp);
+        window.removeEventListener("mousemove", handleMove);
+        window.removeEventListener("mouseup", handleEndDrag);
+        window.removeEventListener("touchmove", handleMove);
+        window.removeEventListener("touchend", handleEndDrag);
       };
     }
   }, [dragging]);
@@ -191,8 +215,9 @@ const SleepGoal = () => {
 
               {/* Sleep Handle */}
               <g
-                onMouseDown={() => handleMouseDown("sleep")}
-                style={{ cursor: "grab" }}
+                onMouseDown={(e) => handleStartDrag("sleep", e)}
+                onTouchStart={(e) => handleStartDrag("sleep", e)}
+                style={{ cursor: "grab", touchAction: "none" }}
               >
                 <circle
                   cx={sleepPos.x}
@@ -215,8 +240,9 @@ const SleepGoal = () => {
 
               {/* Wake Handle */}
               <g
-                onMouseDown={() => handleMouseDown("wake")}
-                style={{ cursor: "grab" }}
+                onMouseDown={(e) => handleStartDrag("wake", e)}
+                onTouchStart={(e) => handleStartDrag("wake", e)}
+                style={{ cursor: "grab", touchAction: "none" }}
               >
                 <circle
                   cx={wakePos.x}
