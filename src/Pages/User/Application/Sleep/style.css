@@ -142,7 +142,6 @@
   color: #10b981;
   font-weight: 600;
 }
-
 /* ============================= */
 /* Content Below Hero            */
 /* ============================= */
@@ -150,10 +149,10 @@
   width: 100%;
   max-width: 520px;
   padding: 0 20px;
-  margin: 0 auto;
+  margin: 25px auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 /* ============================= */
@@ -162,133 +161,314 @@
 .days-selector {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
-  gap: 8px;
+  gap: 6px;
 }
 
 .day-pill {
   flex: 1;
   text-align: center;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 14px;
+  background: #fff;
+  border-radius: 18px;
   padding: 10px 0;
   font-weight: 600;
   font-size: 0.9rem;
-  color: #334155;
+  color: #64748b;
+  border: 1.5px solid #e2e8f0;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
 }
 
-.day-pill:hover {
-  background: rgba(74, 144, 226, 0.15);
+.day-pill.active {
+  background: #f0f7ff;
+  border-color: #2563eb;
   color: #2563eb;
-  transform: translateY(-2px);
 }
 
 /* ============================= */
-/* Summary Card                  */
+/* Time Summary (Bed/Wake)       */
 /* ============================= */
-.summary-card {
+.time-summary {
   display: flex;
   justify-content: space-between;
-  background: white;
-  padding: 20px;
-  border-radius: 18px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
-  text-align: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.summary-card h3 {
-  font-size: 14px;
-  font-weight: 600;
+.time-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.time-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-icon {
+  font-size: 1.2rem;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
   color: #64748b;
+}
+
+.time-card-label {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.time-card-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* ============================= */
+/* List-style Cards (Sound/Name) */
+/* ============================= */
+.list-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.list-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.list-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #334155;
+}
+
+.list-icon.text {
+  background: #e2e8f0;
+}
+
+.list-label {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.list-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.list-arrow {
+  font-size: 1.4rem;
+  color: #94a3b8;
+}
+
+.edit-btn.small {
+  font-size: 0.9rem;
+  color: #2563eb;
+}
+/* Modern Time Picker Styles */
+.time-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.time-picker-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.time-picker-container {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  padding-bottom: 32px;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.time-picker-header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.time-picker-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1a1a1a;
   margin: 0;
 }
 
-.summary-card p {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 6px 0 0 0;
-}
-
-.summary-item {
-  flex: 1;
-}
-
-/* ============================= */
-/* Time Edit Controls            */
-/* ============================= */
-.time-edit-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  padding: 18px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
-}
-
-.time-edit-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.time-edit-group label {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #334155;
-  margin-bottom: 6px;
-}
-
-.time-adjust {
+.time-picker-body {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: #f1f5f9;
-  border-radius: 14px;
-  padding: 10px 16px;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0;
+  position: relative;
 }
 
-.time-adjust button {
-  background: linear-gradient(135deg, #4a90e2, #2563eb);
-  border: none;
-  width: 40px;
-  height: 40px;
+.time-wheel-container {
+  position: relative;
+  height: 200px;
+  width: 80px;
+  overflow: hidden;
+}
+
+.time-wheel {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 78px 0;
+}
+
+.time-wheel::-webkit-scrollbar {
+  display: none;
+}
+
+.time-wheel-highlight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+  background: rgba(59, 130, 246, 0.08);
   border-radius: 12px;
-  color: white;
-  font-size: 1.2rem;
+  pointer-events: none;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.time-wheel-item {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #9ca3af;
+  scroll-snap-align: center;
+  transition: all 0.2s ease;
+}
+
+.time-wheel-item.active {
+  color: #1a1a1a;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.25);
+  font-size: 1.6rem;
 }
 
-.time-adjust button:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  transform: scale(1.05);
-}
-
-.time-adjust span {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #1e293b;
-}
-
-.duration-preview {
-  margin-top: 10px;
-  font-weight: 600;
-  color: #334155;
+.time-wheel-label {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
 }
 
-.duration-preview strong {
-  font-size: 1.05rem;
-  color: #2563eb;
+.time-separator {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 60px 0;
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
+
+.time-picker-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.time-picker-button {
+  flex: 1;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.time-picker-button.secondary {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.time-picker-button.secondary:hover {
+  background: #e5e7eb;
+}
+
+.time-picker-button.primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.time-picker-button.primary:hover {
+  background: #2563eb;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
