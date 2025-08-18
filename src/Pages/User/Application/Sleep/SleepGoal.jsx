@@ -144,63 +144,48 @@ const SleepGoal = () => {
     return Math.round((angle / (Math.PI * 2)) * 1440) % 1440;
   };
 
-  // Prevent default touch behavior to stop scrolling
-  const preventDefault = (e) => {
-    e.preventDefault();
-  };
-
   // Drag handlers
   const handleStartDrag = (type, e) => {
     e.stopPropagation();
     setDragging(type);
-
-    // Prevent scrolling and pull-to-refresh
-    document.body.style.overflow = "hidden";
-    document.body.style.touchAction = "none";
-    document.addEventListener("touchmove", preventDefault, { passive: false });
   };
 
   const handleMove = (e) => {
     if (!dragging) return;
+
     let clientX, clientY;
     if (e.touches) {
       clientX = e.touches[0].clientX;
       clientY = e.touches[0].clientY;
-      e.preventDefault(); // Prevent scrolling on touch devices
     } else {
       clientX = e.clientX;
       clientY = e.clientY;
     }
+
     const minutes = getMinutesFromPosition(clientX, clientY);
     if (dragging === "sleep") setSleepTime(minutes);
     if (dragging === "wake") setWakeTime(minutes);
   };
 
   const handleEndDrag = () => {
+    if (!dragging) return;
     setDragging(null);
-    // Restore scrolling and touch behavior
-    document.body.style.overflow = "";
-    document.body.style.touchAction = "";
-    document.removeEventListener("touchmove", preventDefault);
   };
 
   useEffect(() => {
     if (dragging) {
       window.addEventListener("mousemove", handleMove);
       window.addEventListener("mouseup", handleEndDrag);
-      window.addEventListener("touchmove", handleMove, { passive: false });
+      window.addEventListener("touchmove", handleMove);
       window.addEventListener("touchend", handleEndDrag);
-      return () => {
-        window.removeEventListener("mousemove", handleMove);
-        window.removeEventListener("mouseup", handleEndDrag);
-        window.removeEventListener("touchmove", handleMove);
-        window.removeEventListener("touchend", handleEndDrag);
-        // Cleanup in case component unmounts during drag
-        document.body.style.overflow = "";
-        document.body.style.touchAction = "";
-        document.removeEventListener("touchmove", preventDefault);
-      };
     }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseup", handleEndDrag);
+      window.removeEventListener("touchmove", handleMove);
+      window.removeEventListener("touchend", handleEndDrag);
+    };
   }, [dragging]);
 
   // Time picker functions
@@ -259,12 +244,11 @@ const SleepGoal = () => {
     if (pickerType === "sleep") setSleepTime(minutes);
     if (pickerType === "wake") setWakeTime(minutes);
 
-    // instead of setShowPicker(false) instantly, trigger animation
     setIsClosing(true);
     setTimeout(() => {
       setShowPicker(false);
       setIsClosing(false);
-    }, 300); // same timeout as in closePicker
+    }, 300);
   };
 
   const handleScroll = (e, type) => {
@@ -342,8 +326,6 @@ const SleepGoal = () => {
 
   // Handle submit
   const handleSubmit = () => {
-    // Here you can add any submission logic
-    // For now, we'll just log the current settings
     console.log("Sleep Goal Settings:", {
       sleepTime: formatTime(sleepTime),
       wakeTime: formatTime(wakeTime),
@@ -352,8 +334,6 @@ const SleepGoal = () => {
       alarmName,
       alarmVolume,
     });
-
-    // You might want to add navigation or confirmation here
     alert("Sleep goal has been set successfully!");
   };
 
@@ -456,7 +436,7 @@ const SleepGoal = () => {
               <g
                 onMouseDown={(e) => handleStartDrag("sleep", e)}
                 onTouchStart={(e) => handleStartDrag("sleep", e)}
-                style={{ cursor: "grab", touchAction: "none" }}
+                style={{ cursor: "grab" }}
               >
                 <circle
                   cx={sleepPos.x}
@@ -481,7 +461,7 @@ const SleepGoal = () => {
               <g
                 onMouseDown={(e) => handleStartDrag("wake", e)}
                 onTouchStart={(e) => handleStartDrag("wake", e)}
-                style={{ cursor: "grab", touchAction: "none" }}
+                style={{ cursor: "grab" }}
               >
                 <circle
                   cx={wakePos.x}
@@ -830,7 +810,7 @@ const SleepGoal = () => {
 
       <style>
         {`
-        /* ============================= */
+      /* ============================= */
 /* Sleep Goal Page Layout        */
 /* ============================= */
 .sleep-goal-page {
@@ -1578,8 +1558,7 @@ const SleepGoal = () => {
 .sound-picker-container.exit {
   animation: slideDown 0.3s ease forwards;
 }
-
-        `}
+`}
       </style>
     </div>
   );
