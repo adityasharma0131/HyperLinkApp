@@ -41,9 +41,14 @@ import SubscriptionSummary from "./Pages/User/Application/Subscription/Summary";
 
 import SleepIntro from "./Pages/User/Application/Sleep/Intro";
 import SleepUserInfo from "./Pages/User/Application/Sleep/UserInfo";
-import SleepDashboard from "./Pages/User/Application/Sleep/Dashboard";
+import SleepHome from "./Pages/User/Application/Sleep/Home";
 import SleepGoal from "./Pages/User/Application/Sleep/SleepGoal";
 import SleepRecord from "./Pages/User/Application/Sleep/SleepRecord";
+
+import LabTestHome from "./Pages/User/Application/LabTest/Home";
+import LabTestList from "./Pages/User/Application/LabTest/TestList";
+import LabTestTest from "./Pages/User/Application/LabTest/Test";
+
 import Testing from "./Pages/User/Application/Vaccination/Testing";
 
 function App() {
@@ -124,9 +129,13 @@ function App() {
           />
           <Route path="/app/sleep/intro" element={<SleepIntro />} />
           <Route path="/app/sleep/user-info" element={<SleepUserInfo />} />
-          <Route path="/app/sleep/dashboard" element={<SleepDashboard />} />
+          <Route path="/app/sleep" element={<SleepHome />} />
           <Route path="/app/sleep/goal" element={<SleepGoal />} />
           <Route path="/app/sleep/record" element={<SleepRecord />} />
+
+          <Route path="/app/lab-test" element={<LabTestHome />} />
+          <Route path="/app/lab-test/test-list" element={<LabTestList />} />
+          <Route path="/app/lab-test/test" element={<LabTestTest />} />
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>

@@ -10,7 +10,6 @@ import {
 } from "react-icons/fi";
 import { FaEdit } from "react-icons/fa";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 
 const SleepGoal = () => {
   // ---- STATE ----

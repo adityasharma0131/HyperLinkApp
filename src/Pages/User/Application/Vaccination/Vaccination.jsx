@@ -129,31 +129,7 @@ const Vaccination = () => {
       </div>
 
       <style>
-        {`/* Search Bar
-.search-bar {
-  display: flex;
-  align-items: center;
-  background: #ffffff;
-  border-radius: 999px;
-  padding: 10px 16px;
-  margin: 16px -10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-}
-
-.search-bar input {
-  flex: 1;
-  border: none;
-  outline: none;
-  padding: 6px 10px;
-  font-size: 14px;
-  background: transparent;
-}
-
-.search-icon,
-.mic-icon {
-  color: #6b7280;
-  font-size: 16px;
-} */
+        {`
 
 .vaccination-page {
   box-sizing: border-box;
@@ -415,7 +391,7 @@ const Vaccination = () => {
   }
 }
 .prescription-container {
-  padding: 30px 12px 12px;
+  padding: 12px;
 }
 
 .section-title {
@@ -431,11 +407,38 @@ const Vaccination = () => {
   display: flex;
   padding: 10px;
   color: white;
-  overflow: visible; /* Allow image to pop out */
+  overflow: visible;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   align-items: center;
   justify-content: space-evenly;
   position: relative;
+}
+
+/* Decorative objects */
+.prescription-card::before,
+.prescription-card::after {
+  content: "";
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.1); /* subtle overlay */
+}
+
+/* Top-left object */
+.prescription-card::before {
+  width: 50px;
+  height: 50px;
+  top: -10px;
+  left: -10px;
+  border-radius: 0 0 100% 0;
+}
+
+/* Bottom-right object */
+.prescription-card::after {
+  width: 80px;
+  height: 80px;
+  bottom: -15px;
+  right: -1px;
+  border-radius: 100% 0 0 0;
+  border: 2px solid rgba(255, 255, 255, 0.2); /* adds curved line effect */
 }
 
 .prescription-content {
@@ -485,6 +488,7 @@ const Vaccination = () => {
   object-fit: cover;
   border-radius: 12px;
 }
+
 
 .vaccine-benefits {
   display: flex;

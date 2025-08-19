@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import SleepIntro from "../../../../assets/SleepIntro.svg";
 import SleepIntroBG from "../../../../assets/sleepintrobg.svg";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 
 const Intro = () => {
   const navigate = useNavigate();

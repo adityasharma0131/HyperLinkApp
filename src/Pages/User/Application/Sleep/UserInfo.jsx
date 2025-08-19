@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 import AppButton from "../../../../Components/AppButton";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +38,7 @@ const UserInfo = () => {
 
   const handleContinue = () => {
     setShowPopup(false);
-    navigate("/app/sleep/dashboard"); // Replace with your actual navigation path
+    navigate("/app/sleep"); // Replace with your actual navigation path
   };
 
   const handleCancel = () => {
