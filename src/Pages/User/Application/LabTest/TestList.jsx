@@ -177,64 +177,70 @@ const TestList = () => {
 
       {/* Test Cards List */}
       <div className="labtest-cards-container">
-        {filteredTests.length > 0 ? (
-          filteredTests.map((test) => (
-            <div className="test-list-container" key={test.id}>
-              {/* Test Card */}
-              <div className="test-card">
-                <div className="test-icon-container">
-                  <div className="test-icon-bg">
-                    <GiLoveInjection className="test-icon" />
+        <div className="labtest-list">
+          {filteredTests.length > 0 ? (
+            filteredTests.map((test) => (
+              <div className="test-list-container" key={test.id}>
+                {/* Test Card */}
+                <div className="test-card">
+                  <div className="labtest-icon-container">
+                    <div className="test-icon-bg">
+                      <GiLoveInjection className="test-icon" />
+                    </div>
+                  </div>
+
+                  <div className="test-info">
+                    <div className="test-header">
+                      <h2 className="test-title">{test.name}</h2>
+                    </div>
+
+                    {/* Clicking here will now open Info Tray */}
+                    <p
+                      className="test-sub clickable"
+                      onClick={() => setSelectedTest(test)}
+                    >
+                      Contains {test.tests} tests
+                      <IoIosArrowDown className="arrow-icon" />
+                    </p>
+
+                    <p className="test-report">
+                      Report within {test.reportTime}
+                    </p>
                   </div>
                 </div>
 
-                <div className="test-info">
-                  <div className="test-header">
-                    <h2 className="test-title">{test.name}</h2>
+                {/* Pricing Section */}
+                <div className="price-section">
+                  <div className="price-info">
+                    <h3 className="final-price">₹{test.price}</h3>
+                    <span className="original-price">
+                      ₹{test.originalPrice}
+                    </span>
+                    <span className="discount">{test.discount}</span>
                   </div>
-
-                  {/* Clicking here will now open Info Tray */}
-                  <p
-                    className="test-sub clickable"
-                    onClick={() => setSelectedTest(test)}
-                  >
-                    Contains {test.tests} tests
-                    <IoIosArrowDown className="arrow-icon" />
-                  </p>
-
-                  <p className="test-report">Report within {test.reportTime}</p>
+                  <div className="test-buttons">
+                    <AppButton
+                      icon={FiCalendar}
+                      text={"Book"}
+                      onClick={() => handleBookTest(test)}
+                    />
+                    <AppButton
+                      icon={FiInfo}
+                      text={"Info"}
+                      variant="secondary"
+                      onClick={() => setSelectedTest(test)}
+                    />
+                  </div>
                 </div>
               </div>
-
-              {/* Pricing Section */}
-              <div className="price-section">
-                <div className="price-info">
-                  <h3 className="final-price">₹{test.price}</h3>
-                  <span className="original-price">₹{test.originalPrice}</span>
-                  <span className="discount">{test.discount}</span>
-                </div>
-                <div className="test-buttons">
-                  <AppButton
-                    icon={FiCalendar}
-                    text={"Book Now"}
-                    onClick={() => handleBookTest(test)}
-                  />
-                  <AppButton
-                    icon={FiInfo}
-                    text={"More Info"}
-                    variant="secondary"
-                    onClick={() => setSelectedTest(test)}
-                  />
-                </div>
-              </div>
+            ))
+          ) : (
+            <div className="no-results">
+              <p>No lab tests found.</p>
+              <p>Try a different search term.</p>
             </div>
-          ))
-        ) : (
-          <div className="no-results">
-            <p>No lab tests found.</p>
-            <p>Try a different search term.</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Info Tray */}
@@ -252,7 +258,6 @@ const TestList = () => {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background: #f9fafb;
   min-height: 100vh;
 }
 
@@ -340,14 +345,14 @@ const TestList = () => {
   max-width: 500px;
 } /* -------- Test Card Container -------- */
 .test-list-container {
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
-  width: 100%;
-  max-width: 360px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid #eef2f7;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid #eef2f7;
 }
 
 .test-list-container:hover {
@@ -358,10 +363,18 @@ const TestList = () => {
 /* -------- Test Card Layout -------- */
 
 .labtest-cards-container {
-  display: flex;
-  gap: 16px;
-  flex-direction: column;
-  align-items: center;
+    padding: 0 20px;
+    margin: 28px 0;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.labtest-list{
+    display: grid
+;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
 }
 .test-card {
   display: flex;
@@ -370,7 +383,7 @@ const TestList = () => {
 }
 
 /* Icon */
-.test-icon-container {
+.labtest-icon-container {
   flex-shrink: 0;
 }
 
@@ -429,6 +442,12 @@ const TestList = () => {
   margin: 0;
 }
 
+@media (max-width: 768px) {
+    .labtest-list {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* -------- Pricing Section -------- */
 .price-section {
   display: flex;
@@ -481,6 +500,10 @@ const TestList = () => {
     gap: 10px;
   }
 
+.labtest-cards-container {
+          padding: 0 16px;
+
+}
   .price-section {
     flex-direction: column;
     align-items: flex-start;
