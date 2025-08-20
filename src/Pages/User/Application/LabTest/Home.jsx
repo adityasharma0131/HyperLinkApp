@@ -3,6 +3,7 @@ import "./style.css";
 import { FaMicrophone } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import {
   FaVials,
@@ -22,6 +23,12 @@ import HealthFeed2 from "../../../../assets/healthfeed2.png";
 import AppButton from "../../../../Components/AppButton";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/app/lab-test/test-list");
+  };
 
   const labTestCategories = [
     { icon: <MdBloodtype />, label: "Blood Test" },
@@ -104,7 +111,6 @@ const Home = () => {
 
         <div className="labtest-category-container">
           <h1 className="labtest-category-title">Categories</h1>
-
           <div className="labtest-category-grid">
             {labTestCategories.map(({ icon, label }, idx) => (
               <div
@@ -112,6 +118,8 @@ const Home = () => {
                 className="labtest-category-card"
                 role="button"
                 tabIndex={0}
+                onClick={handleNavigation}
+                onKeyPress={(e) => e.key === "Enter" && handleNavigation()}
               >
                 <div className="icon-wrapper">{icon}</div>
                 <p className="labtest-category-label">{label}</p>
