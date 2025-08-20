@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { FiArrowLeft, FiCalendar, FiInfo } from "react-icons/fi";
+import React, { useState, useEffect } from "react";
+import { FiArrowLeft, FiCalendar, FiInfo, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { IoIosArrowDown, IoIosSearch } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoIosSearch } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { GiLoveInjection } from "react-icons/gi";
 import AppButton from "../../../../Components/AppButton";
+
+import LabTestInfoTray from "./LabTestInfoTray";
 import "./style.css";
 
 const TestList = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTest, setSelectedTest] = useState(null);
+  const [expandedTestId, setExpandedTestId] = useState(null);
+  const [filteredTests, setFilteredTests] = useState([]);
 
-  // --- Sample Lab Tests Data ---
+  // Sample Lab Tests Data
   const labTests = [
     {
       id: 1,
@@ -124,10 +129,23 @@ const TestList = () => {
     },
   ];
 
-  // --- Filtered based on Search ---
-  const filteredTests = labTests.filter((test) =>
-    test.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter tests based on search query
+  useEffect(() => {
+    const filtered = labTests.filter((test) =>
+      test.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredTests(filtered);
+  }, [searchQuery]);
+
+  const toggleExpand = (testId) => {
+    setExpandedTestId(expandedTestId === testId ? null : testId);
+  };
+
+  const handleBookTest = (test) => {
+    // In a real app, this would navigate to booking page
+    console.log("Booking test:", test.name);
+    alert(`Booking ${test.name} for ₹${test.price}`);
+  };
 
   return (
     <div className="labtest-list-page">
@@ -175,10 +193,15 @@ const TestList = () => {
                     <h2 className="test-title">{test.name}</h2>
                   </div>
 
-                  <p className="test-sub">
+                  {/* Clicking here will now open Info Tray */}
+                  <p
+                    className="test-sub clickable"
+                    onClick={() => setSelectedTest(test)}
+                  >
                     Contains {test.tests} tests
                     <IoIosArrowDown className="arrow-icon" />
                   </p>
+
                   <p className="test-report">Report within {test.reportTime}</p>
                 </div>
               </div>
@@ -191,16 +214,284 @@ const TestList = () => {
                   <span className="discount">{test.discount}</span>
                 </div>
                 <div className="test-buttons">
-                  <AppButton icon={FiCalendar} text={"Book Now"} />
-                  <AppButton icon={FiInfo} text={"Info"} variant="secondary" />
+                  <AppButton
+                    icon={FiCalendar}
+                    text={"Book Now"}
+                    onClick={() => handleBookTest(test)}
+                  />
+                  <AppButton
+                    icon={FiInfo}
+                    text={"More Info"}
+                    variant="secondary"
+                    onClick={() => setSelectedTest(test)}
+                  />
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <p className="no-results">No lab tests found.</p>
+          <div className="no-results">
+            <p>No lab tests found.</p>
+            <p>Try a different search term.</p>
+          </div>
         )}
       </div>
+
+      {/* Info Tray */}
+      {selectedTest && (
+        <LabTestInfoTray
+          test={selectedTest}
+          onClose={() => setSelectedTest(null)}
+        />
+      )}
+
+      <style>
+        {`
+        /* -------- Page Layout -------- */
+.labtest-list-page {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+/* -------- Hero Section -------- */
+.labtest-list-hero {
+  background: linear-gradient(to bottom, #4a90e2, #8c60e2);
+  padding: 20px;
+
+  margin-bottom: 3rem;
+  padding-bottom: 40px; /* extra space for search bar */
+  border-radius: 0 0 32px 32px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2);
+  position: relative; /* important: anchor for absolute child */
+}
+
+.hero-top-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.hero-icon {
+  font-size: 18px;
+  color: white;
+}
+
+.hero-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* -------- Search Bar -------- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.search-icon,
+.mic-icon {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.hero-search {
+  position: absolute;
+  bottom: -26px; /* pulls it slightly out of purple */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 500px;
+} /* -------- Test Card Container -------- */
+.test-list-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  width: 100%;
+  max-width: 360px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #eef2f7;
+}
+
+.test-list-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* -------- Test Card Layout -------- */
+
+.labtest-cards-container {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+}
+.test-card {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+/* Icon */
+.test-icon-container {
+  flex-shrink: 0;
+}
+
+.test-icon-bg {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #f3f4ff, #e0e7ff);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.test-icon {
+  color: #7c3aed;
+  font-size: 22px;
+}
+
+/* Info */
+.test-info {
+  flex: 1;
+}
+
+.test-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.test-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.arrow-icon {
+  font-size: 18px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+.test-sub {
+  font-size: 13px;
+  color: #475569;
+  margin: 6px 0 4px 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.test-report {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* -------- Pricing Section -------- */
+.price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.price-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.final-price {
+  font-size: 18px;
+  font-weight: 900;
+  color: #1e293b;
+  margin: 0;
+}
+
+.original-price {
+  font-size: 13px;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.discount {
+  font-size: 13px;
+  color: #16a34a;
+  font-weight: 600;
+  background: #e9f7ef;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* Buttons */
+.test-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 480px) {
+  .test-list-container {
+    padding: 14px;
+  }
+
+  .test-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .price-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .test-buttons {
+    width: 100%;
+  }
+}
+`}
+      </style>
     </div>
   );
 };
