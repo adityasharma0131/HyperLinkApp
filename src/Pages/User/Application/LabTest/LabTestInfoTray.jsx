@@ -256,7 +256,17 @@ const LabTestInfoTray = ({ test, onClose }) => {
   font-size: 14px;
   color: #374151;
   animation: fadeIn 0.3s ease-in-out;
+
+  /* Added scroll support */
+  max-height: 180px;   /* adjust as per your design */
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
 }
+.test-parameters::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
 .test-parameters ul {
   margin: 0;
   padding: 0;
