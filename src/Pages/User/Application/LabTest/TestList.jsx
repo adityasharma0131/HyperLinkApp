@@ -142,9 +142,8 @@ const TestList = () => {
   };
 
   const handleBookTest = (test) => {
-    // In a real app, this would navigate to booking page
-    console.log("Booking test:", test.name);
-    alert(`Booking ${test.name} for ₹${test.price}`);
+    // Navigate to the booking page with test data
+    navigate("/app/lab-test/test", { state: { test } });
   };
 
   return (
@@ -174,7 +173,6 @@ const TestList = () => {
           <FaMicrophone className="mic-icon" />
         </div>
       </div>
-
       {/* Test Cards List */}
       <div className="labtest-cards-container">
         <div className="labtest-list">
@@ -242,12 +240,15 @@ const TestList = () => {
           )}
         </div>
       </div>
-
       {/* Info Tray */}
       {selectedTest && (
         <LabTestInfoTray
           test={selectedTest}
           onClose={() => setSelectedTest(null)}
+          onBook={() => {
+            setSelectedTest(null);
+            handleBookTest(selectedTest);
+          }}
         />
       )}
 

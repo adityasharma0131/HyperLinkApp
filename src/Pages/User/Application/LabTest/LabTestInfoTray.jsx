@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FiX, FiCalendar } from "react-icons/fi";
 import { GiLoveInjection } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 import AppButton from "../../../../Components/AppButton";
 import "./style.css";
 
 const LabTestInfoTray = ({ test, onClose }) => {
   const [expanded, setExpanded] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (test) {
@@ -15,12 +17,18 @@ const LabTestInfoTray = ({ test, onClose }) => {
     }
   }, [test]);
 
-  if (!test) return null;
+  const handleBookTest = () => {
+    // Navigate to the booking page with test data
+    navigate("/app/lab-test/test", { state: { test } });
+    handleClose();
+  };
 
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => onClose(), 300); // wait for animation before unmount
   };
+
+  if (!test) return null;
 
   return (
     <>
@@ -94,10 +102,7 @@ const LabTestInfoTray = ({ test, onClose }) => {
               icon={FiCalendar}
               text="Book This Test"
               fullWidth
-              onClick={() => {
-                alert(`Booking ${test.name} for ₹${test.price}`);
-                handleClose();
-              }}
+              onClick={handleBookTest}
             />
           </div>
         </div>
