@@ -19,14 +19,105 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import { BsGraphUp, BsCheckCircle } from "react-icons/bs";
+import GridInfoTray from "./GridInfoTray";
 import "./style.css";
 
 const Test = () => {
   const navigate = useNavigate();
   const [openIndex, setOpenIndex] = useState(0);
 
+  const [trayOpen, setTrayOpen] = useState(false);
+  const [trayContent, setTrayContent] = useState({});
+
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  // Define content for each card
+  const cardContents = {
+    samples: {
+      title: "Samples Required",
+      body: (
+        <div>
+          <p>For this test, we require a blood sample.</p>
+          <h3>Collection Process:</h3>
+          <ul>
+            <li>A trained phlebotomist will collect your sample</li>
+            <li>The process typically takes 5-10 minutes</li>
+            <li>We use sterile, single-use equipment</li>
+          </ul>
+        </div>
+      ),
+    },
+    information: {
+      title: "Why This Test Is Booked",
+      body: (
+        <div>
+          <p>This test has been booked for the following reasons:</p>
+          <ul>
+            <li>Routine health screening as per your age group</li>
+            <li>Baseline measurement for future comparisons</li>
+            <li>Assessment of specific health markers based on your profile</li>
+          </ul>
+          <p>
+            If you have any questions about why this test was recommended,
+            please consult with your healthcare provider.
+          </p>
+        </div>
+      ),
+    },
+    preparations: {
+      title: "Test Preparations",
+      body: (
+        <div>
+          <h3>Overnight Fasting Required</h3>
+          <p>For accurate results, please follow these instructions:</p>
+          <ul>
+            <li>
+              Do not eat or drink anything (except water) for 8-12 hours before
+              the test
+            </li>
+            <li>
+              You may take prescribed medications with a small amount of water
+            </li>
+            <li>Avoid strenuous exercise before the test</li>
+            <li>Continue drinking water to stay hydrated</li>
+          </ul>
+          <p>
+            Fasting helps ensure accurate measurements of glucose, cholesterol,
+            and other biomarkers.
+          </p>
+        </div>
+      ),
+    },
+    collection: {
+      title: "Sample Collection",
+      body: (
+        <div>
+          <h3>Who will collect your samples?</h3>
+          <p>
+            Your sample will be collected by one of our certified phlebotomists
+            who:
+          </p>
+          <ul>
+            <li>Are trained and experienced in blood collection procedures</li>
+            <li>Follow all safety and hygiene protocols</li>
+            <li>
+              Are committed to making the process as comfortable as possible
+            </li>
+          </ul>
+          <p>
+            Our phlebotomists undergo regular training and competency
+            assessments to ensure the highest standards of care.
+          </p>
+        </div>
+      ),
+    },
+  };
+
+  const handleCardClick = (contentKey) => {
+    setTrayContent(cardContents[contentKey]);
+    setTrayOpen(true);
   };
   const faqs = [
     {
@@ -147,7 +238,7 @@ const Test = () => {
 
           {/* Three cards in a single row */}
           <div className="card-grid three-columns">
-            <div className="card">
+            <div className="card" onClick={() => handleCardClick("samples")}>
               <div className="card-icons">
                 <GiLoveInjection className="card-icon" />
                 <IoIosArrowForward className="arrow-icon" />
@@ -158,22 +249,28 @@ const Test = () => {
               </div>
             </div>
 
-            <div className="card">
+            <div
+              className="card"
+              onClick={() => handleCardClick("information")}
+            >
               <div className="card-icons">
                 <FiInfo className="card-icon" />
                 <IoIosArrowForward className="arrow-icon" />
-              </div>{" "}
+              </div>
               <div className="card-content">
                 <h3>Find out</h3>
                 <p>Why is this test booked?</p>
               </div>
             </div>
 
-            <div className="card">
+            <div
+              className="card"
+              onClick={() => handleCardClick("preparations")}
+            >
               <div className="card-icons">
                 <FiClipboard className="card-icon" />
                 <IoIosArrowForward className="arrow-icon" />
-              </div>{" "}
+              </div>
               <div className="card-content">
                 <h3>Preparations</h3>
                 <p>Overnight Fasting Required</p>
@@ -181,13 +278,25 @@ const Test = () => {
             </div>
           </div>
 
-          <div className="single-card">
-            <FiUserCheck className="card-icon" />
+          <div
+            className="single-card"
+            onClick={() => handleCardClick("collection")}
+          >
+            <div className="card-icons">
+              <FiUserCheck className="card-icon" />
+              <IoIosArrowForward className="arrow-icon" />
+            </div>
             <div>
               <h3>Sample Collection</h3>
               <p>Who will collect your samples?</p>
             </div>
           </div>
+
+          <GridInfoTray
+            isOpen={trayOpen}
+            onClose={() => setTrayOpen(false)}
+            content={trayContent}
+          />
         </div>
 
         <div className="popular-test-list">
