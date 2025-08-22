@@ -373,7 +373,10 @@ const Test = () => {
           </div>
           <p className="price-note">Inclusive of all taxes</p>
         </div>
-        <AppButton text={"Add to Cart"} />
+        <AppButton
+          text={"Add to Cart"}
+          onClick={() => navigate(`/app/lab-test/test/cart`)}
+        />
       </div>
 
       <style>

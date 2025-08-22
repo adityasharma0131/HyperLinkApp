@@ -17,6 +17,7 @@ import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
 
 import AddLocation from "./Pages/User/Application/Vaccination/AddLocation";
+import LabTestAddLocation from "./Pages/User/Application/LabTest/AddLocation";
 
 import Vaccination from "./Pages/User/Application/Vaccination/Vaccination";
 import ChildVaccination from "./Pages/User/Application/Vaccination/ChildVaccination";
@@ -48,8 +49,9 @@ import SleepRecord from "./Pages/User/Application/Sleep/SleepRecord";
 import LabTestHome from "./Pages/User/Application/LabTest/Home";
 import LabTestList from "./Pages/User/Application/LabTest/TestList";
 import LabTestTest from "./Pages/User/Application/LabTest/Test";
+import LabTestCart from "./Pages/User/Application/LabTest/LabtestCart";
 
-import Testing from "./Pages/User/Application/Vaccination/Testing";
+import Testing from "./Pages/User/Application/LabTest/Testing";
 
 function App() {
   return (
@@ -136,6 +138,11 @@ function App() {
           <Route path="/app/lab-test" element={<LabTestHome />} />
           <Route path="/app/lab-test/test-list" element={<LabTestList />} />
           <Route path="/app/lab-test/test" element={<LabTestTest />} />
+          <Route path="/app/lab-test/test/cart" element={<LabTestCart />} />
+          <Route
+            path="/app/user/lab-test/add-location"
+            element={<LabTestAddLocation />}
+          />
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>
