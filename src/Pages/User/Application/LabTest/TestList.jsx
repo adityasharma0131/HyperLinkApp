@@ -7,7 +7,6 @@ import { GiLoveInjection } from "react-icons/gi";
 import AppButton from "../../../../Components/AppButton";
 
 import LabTestInfoTray from "./LabTestInfoTray";
-import "./style.css";
 
 const TestList = () => {
   const navigate = useNavigate();

@@ -13,7 +13,6 @@ import {
 import { GiLoveInjection } from "react-icons/gi";
 import { CiCirclePlus } from "react-icons/ci";
 
-import "./style.css";
 import AppButton from "../../../../Components/AppButton";
 import SchedulingTray from "../Vaccination/SchedulingTray";
 import BookingDetailTray from "../LabTest/BookingDetailTray";

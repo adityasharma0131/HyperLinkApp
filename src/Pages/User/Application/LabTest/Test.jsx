@@ -20,7 +20,6 @@ import {
 } from "react-icons/fa";
 import { BsGraphUp, BsCheckCircle } from "react-icons/bs";
 import GridInfoTray from "./GridInfoTray";
-import "./style.css";
 
 const Test = () => {
   const navigate = useNavigate();

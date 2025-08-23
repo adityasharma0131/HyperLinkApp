@@ -51,6 +51,12 @@ import LabTestList from "./Pages/User/Application/LabTest/TestList";
 import LabTestTest from "./Pages/User/Application/LabTest/Test";
 import LabTestCart from "./Pages/User/Application/LabTest/LabtestCart";
 
+import PersonaAbout from "./Pages/User/Application/Persona Builder/About";
+import PersonaPhysicalActivity from "./Pages/User/Application/Persona Builder/PhysicalActivity";
+import PersonaNutrition from "./Pages/User/Application/Persona Builder/Nutrition";
+import PersonaSleep from "./Pages/User/Application/Persona Builder/sleep";
+import PersonaMedicalCondition from "./Pages/User/Application/Persona Builder/MedicalCondition";
+
 import Testing from "./Pages/User/Application/LabTest/Testing";
 
 function App() {
@@ -143,6 +149,22 @@ function App() {
             path="/app/user/lab-test/add-location"
             element={<LabTestAddLocation />}
           />
+
+          <Route path="/app/persona-builder/about" element={<PersonaAbout />} />
+          <Route
+            path="/app/persona-builder/physical-activity"
+            element={<PersonaPhysicalActivity />}
+          />
+          <Route
+            path="/app/persona-builder/nutrition"
+            element={<PersonaNutrition />}
+          />
+          <Route path="/app/persona-builder/sleep" element={<PersonaSleep />} />
+          <Route
+            path="/app/persona-builder/medical-condition"
+            element={<PersonaMedicalCondition />}
+          />
+
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>

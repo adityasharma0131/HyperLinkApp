@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 import { FaMicrophone } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { FiArrowLeft } from "react-icons/fi";

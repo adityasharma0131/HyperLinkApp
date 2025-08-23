@@ -4,7 +4,6 @@ import { FiX, FiCalendar } from "react-icons/fi";
 import { GiLoveInjection } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import AppButton from "../../../../Components/AppButton";
-import "./style.css";
 
 const LabTestInfoTray = ({ test, onClose }) => {
   const [expanded, setExpanded] = useState(true);
