@@ -54,7 +54,7 @@ import LabTestCart from "./Pages/User/Application/LabTest/LabtestCart";
 import PersonaAbout from "./Pages/User/Application/Persona Builder/About";
 import PersonaPhysicalActivity from "./Pages/User/Application/Persona Builder/PhysicalActivity";
 import PersonaNutrition from "./Pages/User/Application/Persona Builder/Nutrition";
-import PersonaSleep from "./Pages/User/Application/Persona Builder/sleep";
+import PersonaSleep from "./Pages/User/Application/Persona Builder/SleepInfo";
 import PersonaMedicalCondition from "./Pages/User/Application/Persona Builder/MedicalCondition";
 
 import Testing from "./Pages/User/Application/LabTest/Testing";
