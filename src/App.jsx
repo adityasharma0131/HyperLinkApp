@@ -57,6 +57,11 @@ import PersonaNutrition from "./Pages/User/Application/Persona Builder/Nutrition
 import PersonaSleep from "./Pages/User/Application/Persona Builder/SleepInfo";
 import PersonaMedicalCondition from "./Pages/User/Application/Persona Builder/MedicalCondition";
 
+import NutritionIntro from "./Pages/User/Application/Nutrition/Intro";
+import NutritionHome from "./Pages/User/Application/Nutrition/Home";
+import NutritionSetGoal from "./Pages/User/Application/Nutrition/SetGoal";
+import NutritionDietDash from "./Pages/User/Application/Nutrition/DietDash";
+import NutritionAddDiet from "./Pages/User/Application/Nutrition/AddDiet";
 import Testing from "./Pages/User/Application/LabTest/Testing";
 
 function App() {
@@ -163,6 +168,21 @@ function App() {
           <Route
             path="/app/persona-builder/medical-condition"
             element={<PersonaMedicalCondition />}
+          />
+
+          <Route path="/app/nutrition/intro" element={<NutritionIntro />} />
+          <Route path="/app/nutrition" element={<NutritionHome />} />
+          <Route
+            path="/app/nutrition/set-goal"
+            element={<NutritionSetGoal />}
+          />
+          <Route
+            path="/app/nutrition/diet-dashboard"
+            element={<NutritionDietDash />}
+          />
+          <Route
+            path="/app/nutrition/diet-search"
+            element={<NutritionAddDiet />}
           />
 
           <Route path="/app/testing" element={<Testing />} />
