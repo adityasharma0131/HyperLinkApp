@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -24,28 +24,32 @@ const About = () => {
     { id: 5, label: "Medical condition" },
   ];
 
-  const calculateBMI = () => {
-    if (!height || !weight) {
-      alert("Please enter both height and weight.");
-      return;
+  // 🔹 Auto-calculate BMI when height or weight changes
+  useEffect(() => {
+    if (height && weight) {
+      calculateBMI();
+    } else {
+      setBmi(null);
+      setBmiCategory("");
     }
+  }, [height, weight]);
+
+  const calculateBMI = () => {
     const h = parseFloat(height) / 100;
     const w = parseFloat(weight);
-    if (h <= 0 || w <= 0) {
-      alert("Please enter valid height and weight.");
-      return;
+
+    if (h > 0 && w > 0) {
+      const bmiValue = w / (h * h);
+      setBmi(bmiValue);
+
+      let category = "";
+      if (bmiValue < 18.5) category = "Underweight";
+      else if (bmiValue < 25) category = "Normal";
+      else if (bmiValue < 30) category = "Overweight";
+      else category = "Obesity";
+
+      setBmiCategory(category);
     }
-
-    const bmiValue = w / (h * h);
-    setBmi(bmiValue);
-
-    let category = "";
-    if (bmiValue < 18.5) category = "Underweight";
-    else if (bmiValue < 25) category = "Normal";
-    else if (bmiValue < 30) category = "Overweight";
-    else category = "Obesity";
-
-    setBmiCategory(category);
   };
 
   const getCategoryColor = () => {
@@ -187,12 +191,7 @@ const About = () => {
             </div>
           </form>
 
-          {/* Calculate BMI */}
-          <div className="cta-btn">
-            <AppButton text="CALCULATE YOUR BMI" onClick={calculateBMI} />
-          </div>
-
-          {/* BMI Result */}
+          {/* 🔹 Auto BMI Result (no button needed) */}
           {bmi && (
             <div className="bmi-result-card">
               <h3 className="bmi-title">Your BMI</h3>
@@ -321,16 +320,16 @@ const About = () => {
   font-weight: 600;
   margin: 0;
 }
-
 /* -------- Steps Section -------- */
 .steps-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 28px;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 8px;
+  gap: 0; /* no unnecessary gaps */
+  overflow-x: hidden; /* prevent scrolling */
+  width: 100%;
+  max-width: 100%;
   position: relative;
 }
 
@@ -339,8 +338,8 @@ const About = () => {
   flex-direction: column;
   align-items: center;
   position: relative;
-  flex: 1;
-  min-width: 80px;
+  flex: 1; /* evenly distribute */
+  min-width: 0; /* allow shrinking to fit container */
 }
 
 .step-circle {
@@ -367,11 +366,14 @@ const About = () => {
   background: #f1f1f1;
   border-color: #c4c4c4;
 }
+
 .step-text {
   margin-top: 6px;
   font-size: 0.8rem;
   text-align: center;
-  max-width: 90px;
+  white-space: normal; /* allow wrapping */
+  word-wrap: break-word;
+  max-width: 80px;
 }
 .active-text {
   font-weight: 700;
@@ -380,6 +382,7 @@ const About = () => {
 .disabled-text {
   color: #999;
 }
+
 .step-line {
   position: absolute;
   top: 20px;
@@ -388,7 +391,11 @@ const About = () => {
   height: 2px;
   background: #e0e0e0;
   z-index: 0;
-} /* -------- User Info Section -------- */
+  transform: translateX(0%);
+}
+
+
+/* -------- User Info Section -------- */
 .user-info-section {
   margin: 20px 12px;
   padding: 16px;
