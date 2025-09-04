@@ -9,25 +9,28 @@ import Mealimg from "../../../../assets/Mealimg.png";
 import HealthFeed1 from "../../../../assets/healthfeed1.png";
 import HealthFeed2 from "../../../../assets/healthfeed2.png";
 import { IoIosAddCircle } from "react-icons/io";
+import { FaCamera } from "react-icons/fa";
 
 import { FaTrophy } from "react-icons/fa";
 import { IoFastFood } from "react-icons/io5";
+import { IoIosBarcode } from "react-icons/io";
 
 import "./style.css";
 
 const Home = () => {
   const navigate = useNavigate();
-
   const features = [
     {
       img: NutritionSetGoal,
       icon: <FaTrophy />,
-      title: "Set Goals",
+      title: "Set Goal",
+      path: "/app/nutrition/set-goal",
     },
     {
       img: NutritionAddFood,
       icon: <IoFastFood />,
       title: "Add your food",
+      path: "/app/nutrition/diet-dashboard",
     },
   ];
 
@@ -69,10 +72,14 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Features Container at Center Bottom */}
+        {/* Features Section */}
         <div className="features-container">
           {features.map((feature, index) => (
-            <div key={index} className="feature-card">
+            <div
+              key={index}
+              className="feature-card"
+              onClick={() => navigate(feature.path)} // ✅ navigate on click
+            >
               <img
                 src={feature.img}
                 alt={feature.title}
@@ -84,6 +91,18 @@ const Home = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+      {/* Scan Options */}
+      <div className="scan-options">
+        <div className="scan-card">
+          <FaCamera className="scan-icon" />
+          <p className="scan-text">Scan a Meal</p>
+        </div>
+
+        <div className="scan-card">
+          <IoIosBarcode className="scan-icon" />
+          <p className="scan-text">Scan a Barcode</p>
         </div>
       </div>
 
@@ -173,8 +192,7 @@ const Home = () => {
 }
 
 .nutrition-hero {
-  background: linear-gradient(to bottom, #004918 0%, #02b614 100%),
-    url("../../../../assets/NutritionHomebg.svg");
+  background: linear-gradient(to bottom, #004918 0%, #02b614 100%);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -206,7 +224,7 @@ const Home = () => {
 
 .hero-title {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0;
   line-height: 1.2;
   text-align: left;
@@ -340,6 +358,47 @@ const Home = () => {
     font-size: 13px;
   }
 }
+
+
+.scan-options {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.scan-card {
+  background: #fff;
+  border-radius: 12px;
+  width: 180px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.scan-icon {
+  font-size: 40px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.scan-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222;
+}
+
 .food-section {
   max-width: 600px;
   margin: 25px auto;
