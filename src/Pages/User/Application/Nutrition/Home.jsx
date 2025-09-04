@@ -1,24 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppButton from "../../../../Components/AppButton";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiBookOpen } from "react-icons/fi";
+import Mealimg from "../../../../assets/Mealimg.png";
+import NutritionIntro from "../../../../assets/NutritionIntro.svg";
 import NutritionSetGoal from "../../../../assets/NutritionSetGoal.svg";
 import NutritionAddFood from "../../../../assets/NutritionAddFood.svg";
-import Mealimg from "../../../../assets/Mealimg.png";
+import { FaTrophy } from "react-icons/fa";
+import { GiKnifeFork } from "react-icons/gi";
+import { IoFastFood } from "react-icons/io5";
+import { IoIosBarcode } from "react-icons/io";
+import { FaCamera } from "react-icons/fa";
 
 import HealthFeed1 from "../../../../assets/healthfeed1.png";
 import HealthFeed2 from "../../../../assets/healthfeed2.png";
 import { IoIosAddCircle } from "react-icons/io";
-import { FaCamera } from "react-icons/fa";
-
-import { FaTrophy } from "react-icons/fa";
-import { IoFastFood } from "react-icons/io5";
-import { IoIosBarcode } from "react-icons/io";
-
-import "./style.css";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [hasGoalData, setHasGoalData] = useState(false);
+  const [goalData, setGoalData] = useState(null);
+
+  useEffect(() => {
+    // Check if calorieGoalData exists in localStorage
+    const storedGoalData = localStorage.getItem("calorieGoalData");
+    if (storedGoalData) {
+      try {
+        const parsedData = JSON.parse(storedGoalData);
+        setGoalData(parsedData);
+        setHasGoalData(true);
+      } catch (error) {
+        console.error("Error parsing calorieGoalData:", error);
+        setHasGoalData(false);
+      }
+    } else {
+      setHasGoalData(false);
+    }
+  }, []);
+
   const features = [
     {
       img: NutritionSetGoal,
@@ -40,6 +59,25 @@ const Home = () => {
     { title: "Snacks", img: Mealimg },
     { title: "Dinner", img: Mealimg },
   ];
+
+  const [activeTab, setActiveTab] = useState("7 days");
+  const tabs = ["7 days", "14 days", "1 month"];
+
+  // Use actual goal data if available, otherwise use defaults
+  const goalCalories = hasGoalData && goalData ? goalData.calorieGoal : 1400;
+  const intakeCalories = 650; // dummy data
+  const caloriesLeft = goalCalories - intakeCalories;
+
+  const nutrients = {
+    protein: { current: 8, total: 12, color: "protein" },
+    carbs: { current: 10, total: 12, color: "carbs" },
+    fats: { current: 6, total: 12, color: "fats" },
+  };
+
+  // Circle Progress
+  const radius = 45;
+  const circumference = 2 * Math.PI * radius;
+  const progress = (caloriesLeft / goalCalories) * circumference;
 
   return (
     <div className="nutrition-dash-page">
@@ -72,41 +110,156 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Features Section */}
-        <div className="features-container">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="feature-card"
-              onClick={() => navigate(feature.path)} // ✅ navigate on click
-            >
-              <img
-                src={feature.img}
-                alt={feature.title}
-                className="feature-img"
-              />
-              <div className="feature-footer">
-                <span className="feature-icon">{feature.icon}</span>
-                <p className="feature-title">{feature.title}</p>
+        {/* Conditional rendering based on localStorage data */}
+        {hasGoalData ? (
+          /* Dashboard with goal data */
+          <>
+            {/* Tabs at bottom */}
+            <div className="tab-container">
+              {tabs.map((tab) => (
+                <div
+                  key={tab}
+                  className={`tab ${activeTab === tab ? "active" : ""}`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          /* Features Container for when no goal is set */
+          <div className="features-container">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="feature-card"
+                onClick={() => navigate(feature.path)}
+              >
+                <img
+                  src={feature.img}
+                  alt={feature.title}
+                  className="feature-img"
+                />
+                <div className="feature-footer">
+                  <span className="feature-icon">{feature.icon}</span>
+                  <p className="feature-title">{feature.title}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {hasGoalData ? (
+        /* Dashboard content when goal data exists */
+        <div className="nutrition-dashboard">
+          {/* Header */}
+          <div className="dashboard-header">
+            <h1 className="dashboard-title">Update your diet plan daily</h1>
+            <button className="next-btn">›</button>
+          </div>
+
+          {/* Top Section */}
+          <div className="dashboard-top">
+            {/* Left Side: Goal + Intake */}
+            <div className="left-cards">
+              <div className="card goal-card">
+                <h2>{goalCalories} cals</h2>
+                <p>
+                  <FaTrophy /> Your Goals
+                </p>
+              </div>
+
+              <div className="card intake-card">
+                <h2>{intakeCalories} cals</h2>
+                <p>
+                  <GiKnifeFork /> Food Intake
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-      {/* Scan Options */}
-      <div className="scan-options">
-        <div className="scan-card">
-          <FaCamera className="scan-icon" />
-          <p className="scan-text">Scan a Meal</p>
-        </div>
 
-        <div className="scan-card">
-          <IoIosBarcode className="scan-icon" />
-          <p className="scan-text">Scan a Barcode</p>
-        </div>
-      </div>
+            {/* Right Side: Illustration */}
+            <div className="card illustration-card">
+              <img src={NutritionIntro} alt="Nutrition Illustration" />
+            </div>
+          </div>
 
-      {/* Food Intake Section */}
+          {/* Stats Section */}
+          <div className="stats-card">
+            <h2>Statistics</h2>
+            <div className="stats-content">
+              {/* Circle Progress */}
+              <div className="circle-progress">
+                <svg viewBox="0 0 120 120" className="progress-ring">
+                  <circle
+                    className="progress-ring-bg"
+                    cx="60"
+                    cy="60"
+                    r={radius}
+                  />
+                  <circle
+                    className="progress-ring-fill"
+                    cx="60"
+                    cy="60"
+                    r={radius}
+                    style={{
+                      strokeDasharray: circumference,
+                      strokeDashoffset: circumference - progress,
+                    }}
+                  />
+                </svg>
+                <div className="circle-inner">
+                  <h1>{caloriesLeft}</h1>
+                  <p>calories left</p>
+                </div>
+              </div>
+
+              {/* Nutrient Bars */}
+              <div className="nutrients">
+                {Object.entries(nutrients).map(
+                  ([name, { current, total, color }]) => {
+                    const percent = (current / total) * 100;
+                    return (
+                      <div className="nutrient" key={name}>
+                        <div className="nutrient-header">
+                          <span>
+                            {name.charAt(0).toUpperCase() + name.slice(1)}
+                          </span>
+                          <span>
+                            {current}/{total}g
+                          </span>
+                        </div>
+                        <div className="bar">
+                          <div
+                            className={`fill ${color}`}
+                            style={{ width: `${percent}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Scan Options for when no goal is set */
+        <div className="scan-options">
+          <div className="scan-card">
+            <FaCamera className="scan-icon" />
+            <p className="scan-text">Scan a Meal</p>
+          </div>
+
+          <div className="scan-card">
+            <IoIosBarcode className="scan-icon" />
+            <p className="scan-text">Scan a Barcode</p>
+          </div>
+        </div>
+      )}
+
+      {/* Food Intake Section (common to both views) */}
       <div className="food-section">
         <h1 className="food-heading">Add daily food intake</h1>
 
@@ -127,6 +280,7 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Health Feeds Section (common to both views) */}
       <div className="health-feeds-wrapper">
         <div className="health-feeds-header">
           <h2>Recent Health Feeds</h2>
@@ -180,14 +334,13 @@ const Home = () => {
           </div>
         </div>
       </div>
+
       <style>
-        {`
-        
-        .nutrition-dash-page {
+        {`        
+.nutrition-dash-page {
   box-sizing: border-box;
   padding: 0;
   background-color: #f7fafc;
-
   margin: 0;
 }
 
@@ -203,8 +356,8 @@ const Home = () => {
   box-shadow: 0 10px 30px rgba(0, 162, 91, 0.3);
   display: flex;
   flex-direction: column;
-  min-height: 50vh;
-  margin-bottom: 5rem;
+  min-height: ${hasGoalData ? "37vh" : "50vh"};
+  margin-bottom: 2rem;
 }
 
 /* Top Bar */
@@ -278,6 +431,231 @@ const Home = () => {
 
 .hero-button {
   width: 50%;
+}
+  
+.tab-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: fit-content;
+
+  position: absolute;
+  bottom: -20px;          /* floats slightly outside hero */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.tab {
+  padding: 10px 25px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #000;
+  border-radius: 10px;
+
+  /* ✅ Prevent text wrapping */
+  white-space: nowrap;
+}
+
+.tab.active {
+  background: #16aa16;  /* vibrant green */
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.tab:not(.active):hover {
+  background: #f3f3f3;
+}
+
+.nutrition-dashboard {
+  padding: 20px;
+  color: #1a1a1a;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.dashboard-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.next-btn {
+  font-size: 22px;
+  font-weight: bold;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Top Section */
+.dashboard-top {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* left cards + right image */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.left-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.card {
+  background: linear-gradient(to bottom, #02b614  0%, #004918 100%);
+  border-radius: 12px;
+  padding: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align:center;
+}
+
+.goal-card h2,
+.intake-card h2 {
+  font-size: 15px;
+  margin: 0 0 5px 0;
+  font-weight: 800;
+}
+
+.goal-card p,
+.intake-card p {
+  font-size: 15px;
+  margin: 0;
+  
+    white-space: nowrap;
+}
+
+.illustration-card {
+  background: linear-gradient(to bottom, #02b614  0%, #004918 100%);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illustration-card img {
+    width: 45%;
+    height: auto;
+    object-fit: contain;
+    position: absolute;
+    right: 20px;
+    bottom: 178px;
+}
+
+/* Stats Section */
+.stats-card {
+  background: linear-gradient(to bottom, #02b614  0%, #004918 100%);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+}
+
+.stats-card h2 {
+  font-size: 16px;
+}
+
+.stats-content {
+  display: flex;
+  align-items: center;
+}
+
+/* Circle Progress */
+.circle-progress {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  width: 120px;
+  height: 120px;
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 10;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: white;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.circle-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.circle-inner h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.circle-inner p {
+  margin: 0;
+  font-size: 12px;
+}
+
+/* Nutrients */
+.nutrients {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.nutrient-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+}
+
+.fill.protein {
+  background: #0071e3;
+}
+
+.fill.carbs {
+  background: #00c896;
+}
+
+.fill.fats {
+  background: #ff6b35;
 }
 
 /* Features Container at bottom border */
@@ -359,13 +737,13 @@ const Home = () => {
   }
 }
 
-
 .scan-options {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
+  margin: 5rem 0 1rem
 }
 
 .scan-card {
@@ -401,8 +779,8 @@ const Home = () => {
 
 .food-section {
   max-width: 600px;
-  margin: 25px auto;
   padding: 16px;
+  margin: 0 auto;
 }
 
 .food-heading {
