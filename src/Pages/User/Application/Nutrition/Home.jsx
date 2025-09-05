@@ -307,7 +307,8 @@ const Home = () => {
   box-shadow: 0 10px 30px rgba(0, 162, 91, 0.3);
   display: flex;
   flex-direction: column;
-  min-height: ${hasGoalData ? "37vh" : "50vh"};
+  padding-bottom: ${hasGoalData ? "60px" : "110px"};
+  
   margin-bottom: 2rem;
 }
 
