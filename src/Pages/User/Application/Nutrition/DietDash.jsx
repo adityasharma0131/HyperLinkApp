@@ -114,7 +114,12 @@ const DietDash = () => {
 
         {/* Submit Button */}
         <div className="submit-section">
-          <button className="submit-btn">Done</button>
+          <button
+            className="submit-btn"
+            onClick={() => navigate("/app/nutrition")}
+          >
+            Done
+          </button>
         </div>
 
         <style>
