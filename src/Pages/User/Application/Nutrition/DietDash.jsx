@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-import { FiPlus } from "react-icons/fi";
+import { FiArrowLeft, FiPlus } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import BreakFastMeal from "../../../../assets/BreakFastMeal.png";
 import LunchMeal from "../../../../assets/LunchMeal.png";
@@ -10,6 +10,20 @@ import DinnerMeal from "../../../../assets/DinnerMeal.png";
 const DietDash = () => {
   const [activeTab, setActiveTab] = useState("7 days");
   const tabs = ["7 days", "14 days", "1 month"];
+  const navigate = useNavigate();
+
+  // meals data
+  const meals = [
+    { name: "Breakfast", img: BreakFastMeal },
+    { name: "Lunch", img: LunchMeal },
+    { name: "Snacks", img: SnackMeal },
+    { name: "Dinner", img: DinnerMeal },
+  ];
+
+  const handleAddClick = (meal) => {
+    navigate("/app/nutrition/diet-search", { state: { mealType: meal } });
+  };
+
   return (
     <>
       <div className="diet-dashboard-page">
@@ -22,125 +36,56 @@ const DietDash = () => {
             >
               <FiArrowLeft className="hero-icon" />
             </button>
-
             <h1 className="hero-title">MY DIET PLAN</h1>
           </div>
-          <div>
-            <div className="tab-container">
-              {tabs.map((tab) => (
-                <div
-                  key={tab}
-                  className={`tab ${activeTab === tab ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </div>
-              ))}
-            </div>
+
+          <div className="tab-container">
+            {tabs.map((tab) => (
+              <div
+                key={tab}
+                className={`tab ${activeTab === tab ? "active" : ""}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* Meal Cards */}
         <div className="meal-card-container">
-          <div className="meal-card">
-            {/* Meal Image */}
-            <img src={BreakFastMeal} alt="Breakfast" className="meal-image" />
+          {meals.map((meal) => (
+            <div className="meal-card" key={meal.name}>
+              <img src={meal.img} alt={meal.name} className="meal-image" />
 
-            {/* Meal Content */}
-            <div className="meal-content">
-              <div className="meal-header">
-                <h2 className="meal-title">Breakfast</h2>
-                <button className="add-btn">
-                  <FiPlus className="add-icon" /> Add
-                </button>
-              </div>
-              <p className="meal-subtext">No food item(s) added</p>
+              <div className="meal-content">
+                <div className="meal-header">
+                  <h2 className="meal-title">{meal.name}</h2>
+                  <button
+                    className="add-btn"
+                    onClick={() => handleAddClick(meal.name)}
+                  >
+                    <FiPlus className="add-icon" />
+                  </button>
+                </div>
+                <p className="meal-subtext">No food item(s) added</p>
 
-              {/* Suggested Items */}
-              <div className="suggested">
-                <span className="suggested-label">Suggested :</span>
-                <div className="suggested-list">
-                  <span className="suggested-item">Milk</span>
-                  <span className="suggested-item">Eggs</span>
-                  <span className="suggested-item">Apple</span>
+                <div className="suggested">
+                  <span className="suggested-label">Suggested :</span>
+                  <div className="suggested-list">
+                    <span className="suggested-item">Milk</span>
+                    <span className="suggested-item">Eggs</span>
+                    <span className="suggested-item">Apple</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="meal-card">
-            {/* Meal Image */}
-            <img src={LunchMeal} alt="Breakfast" className="meal-image" />
+          ))}
+        </div>
 
-            {/* Meal Content */}
-            <div className="meal-content">
-              <div className="meal-header">
-                <h2 className="meal-title">Lunch</h2>
-                <button className="add-btn">
-                  <FiPlus className="add-icon" /> Add
-                </button>
-              </div>
-              <p className="meal-subtext">No food item(s) added</p>
-
-              {/* Suggested Items */}
-              <div className="suggested">
-                <span className="suggested-label">Suggested :</span>
-                <div className="suggested-list">
-                  <span className="suggested-item">Milk</span>
-                  <span className="suggested-item">Eggs</span>
-                  <span className="suggested-item">Apple</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="meal-card">
-            {/* Meal Image */}
-            <img src={SnackMeal} alt="Breakfast" className="meal-image" />
-
-            {/* Meal Content */}
-            <div className="meal-content">
-              <div className="meal-header">
-                <h2 className="meal-title">Snacks</h2>
-                <button className="add-btn">
-                  <FiPlus className="add-icon" /> Add
-                </button>
-              </div>
-              <p className="meal-subtext">No food item(s) added</p>
-
-              {/* Suggested Items */}
-              <div className="suggested">
-                <span className="suggested-label">Suggested :</span>
-                <div className="suggested-list">
-                  <span className="suggested-item">Milk</span>
-                  <span className="suggested-item">Eggs</span>
-                  <span className="suggested-item">Apple</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="meal-card">
-            {/* Meal Image */}
-            <img src={DinnerMeal} alt="Breakfast" className="meal-image" />
-
-            {/* Meal Content */}
-            <div className="meal-content">
-              <div className="meal-header">
-                <h2 className="meal-title">Dinner</h2>
-                <button className="add-btn">
-                  <FiPlus className="add-icon" /> Add
-                </button>
-              </div>
-              <p className="meal-subtext">No food item(s) added</p>
-
-              {/* Suggested Items */}
-              <div className="suggested">
-                <span className="suggested-label">Suggested :</span>
-                <div className="suggested-list">
-                  <span className="suggested-item">Milk</span>
-                  <span className="suggested-item">Eggs</span>
-                  <span className="suggested-item">Apple</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Submit Button */}
+        <div className="submit-section">
+          <button className="submit-btn">Done</button>
         </div>
 
         <style>
@@ -299,24 +244,26 @@ const DietDash = () => {
   margin: 0;
   color: #1a1a1a;
 }
-
-.add-btn {
+  .add-btn {
   display: flex;
   align-items: center;
   gap: 4px;
   background: none;
   border: none;
-  color: #16aa16;
+  color: #16aa16;         /* main green color */
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
   transition: color 0.3s ease;
 }
+
 .add-btn:hover {
-  color: #0e7c0e;
+  color: #fff;         /* darker green on hover */
 }
+
 .add-icon {
   font-size: 16px;
+  color: inherit;         /* inherit button text color */
 }
 
 .meal-subtext {
@@ -356,6 +303,41 @@ const DietDash = () => {
 }
 .suggested-item:hover {
   background: #eaeaea;
+}
+
+
+/* Submit Section */
+.submit-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn {
+  width: 100%;
+  max-width: 400px;
+  padding: 14px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #16aa16, #0d7d0d);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(22, 170, 22, 0.25);
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(22, 170, 22, 0.35);
 }
 
           `}

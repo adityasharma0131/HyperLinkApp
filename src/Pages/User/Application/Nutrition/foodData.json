@@ -1,0 +1,612 @@
+{
+    "foods": [
+        {
+            "name": "Roti (1 pc)",
+            "calories": 106,
+            "category": "Indian",
+            "protein": 3.1,
+            "carbs": 15.2,
+            "fat": 2.7
+        },
+        {
+            "name": "Chapati (1 pc)",
+            "calories": 120,
+            "category": "Indian",
+            "protein": 3.5,
+            "carbs": 18.5,
+            "fat": 3.2
+        },
+        {
+            "name": "Naan (1 pc)",
+            "calories": 262,
+            "category": "Indian",
+            "protein": 5.8,
+            "carbs": 36.2,
+            "fat": 10.1
+        },
+        {
+            "name": "Paratha (1 pc)",
+            "calories": 210,
+            "category": "Indian",
+            "protein": 4.2,
+            "carbs": 25.8,
+            "fat": 9.8
+        },
+        {
+            "name": "Daal (1 cup)",
+            "calories": 198,
+            "category": "Indian",
+            "protein": 11.5,
+            "carbs": 30.2,
+            "fat": 2.1
+        },
+        {
+            "name": "Paneer Curry (1 cup)",
+            "calories": 320,
+            "category": "Indian",
+            "protein": 15.2,
+            "carbs": 12.5,
+            "fat": 22.4
+        },
+        {
+            "name": "Chana Masala (1 cup)",
+            "calories": 280,
+            "category": "Indian",
+            "protein": 10.8,
+            "carbs": 35.6,
+            "fat": 9.2
+        },
+        {
+            "name": "Palak Paneer (1 cup)",
+            "calories": 310,
+            "category": "Indian",
+            "protein": 14.2,
+            "carbs": 10.5,
+            "fat": 23.1
+        },
+        {
+            "name": "Butter Chicken (1 cup)",
+            "calories": 450,
+            "category": "Indian",
+            "protein": 25.6,
+            "carbs": 8.2,
+            "fat": 35.4
+        },
+        {
+            "name": "Biryani (1 cup)",
+            "calories": 292,
+            "category": "Indian",
+            "protein": 9.8,
+            "carbs": 45.2,
+            "fat": 7.8
+        },
+        {
+            "name": "Rice (1 cup)",
+            "calories": 206,
+            "category": "Indian",
+            "protein": 4.2,
+            "carbs": 45.0,
+            "fat": 0.4
+        },
+        {
+            "name": "Samosa (1 pc)",
+            "calories": 262,
+            "category": "Indian",
+            "protein": 3.5,
+            "carbs": 28.5,
+            "fat": 14.2
+        },
+        {
+            "name": "Pakora (1 pc)",
+            "calories": 80,
+            "category": "Indian",
+            "protein": 2.2,
+            "carbs": 8.5,
+            "fat": 4.1
+        },
+        {
+            "name": "Idli (2 pcs)",
+            "calories": 150,
+            "category": "Indian",
+            "protein": 4.5,
+            "carbs": 30.2,
+            "fat": 1.2
+        },
+        {
+            "name": "Dosa (1 pc)",
+            "calories": 168,
+            "category": "Indian",
+            "protein": 4.2,
+            "carbs": 32.5,
+            "fat": 2.8
+        },
+        {
+            "name": "Vada (1 pc)",
+            "calories": 140,
+            "category": "Indian",
+            "protein": 3.8,
+            "carbs": 18.5,
+            "fat": 5.2
+        },
+        {
+            "name": "Poha (1 cup)",
+            "calories": 250,
+            "category": "Indian",
+            "protein": 5.2,
+            "carbs": 45.8,
+            "fat": 4.2
+        },
+        {
+            "name": "Upma (1 cup)",
+            "calories": 180,
+            "category": "Indian",
+            "protein": 4.8,
+            "carbs": 32.5,
+            "fat": 3.5
+        },
+        {
+            "name": "Chole Bhature (1 serving)",
+            "calories": 427,
+            "category": "Indian",
+            "protein": 12.5,
+            "carbs": 55.8,
+            "fat": 16.8
+        },
+        {
+            "name": "Rajma (1 cup)",
+            "calories": 230,
+            "category": "Indian",
+            "protein": 11.2,
+            "carbs": 35.8,
+            "fat": 2.5
+        },
+        {
+            "name": "Sambar (1 cup)",
+            "calories": 90,
+            "category": "Indian",
+            "protein": 4.5,
+            "carbs": 15.2,
+            "fat": 1.8
+        },
+        {
+            "name": "Rasam (1 cup)",
+            "calories": 60,
+            "category": "Indian",
+            "protein": 2.2,
+            "carbs": 10.5,
+            "fat": 0.8
+        },
+        {
+            "name": "Lassi (1 glass)",
+            "calories": 158,
+            "category": "Indian",
+            "protein": 8.5,
+            "carbs": 18.2,
+            "fat": 5.2
+        },
+        {
+            "name": "Chai (1 cup)",
+            "calories": 60,
+            "category": "Indian",
+            "protein": 2.5,
+            "carbs": 10.2,
+            "fat": 1.2
+        },
+        {
+            "name": "Apple",
+            "calories": 95,
+            "category": "Fruits",
+            "protein": 0.5,
+            "carbs": 25.0,
+            "fat": 0.3
+        },
+        {
+            "name": "Banana",
+            "calories": 105,
+            "category": "Fruits",
+            "protein": 1.3,
+            "carbs": 27.0,
+            "fat": 0.4
+        },
+        {
+            "name": "Orange",
+            "calories": 62,
+            "category": "Fruits",
+            "protein": 1.2,
+            "carbs": 15.4,
+            "fat": 0.2
+        },
+        {
+            "name": "Mango",
+            "calories": 150,
+            "category": "Fruits",
+            "protein": 1.0,
+            "carbs": 37.5,
+            "fat": 0.6
+        },
+        {
+            "name": "Grapes (1 cup)",
+            "calories": 104,
+            "category": "Fruits",
+            "protein": 1.1,
+            "carbs": 27.3,
+            "fat": 0.2
+        },
+        {
+            "name": "Watermelon (1 slice)",
+            "calories": 86,
+            "category": "Fruits",
+            "protein": 1.7,
+            "carbs": 21.6,
+            "fat": 0.4
+        },
+        {
+            "name": "Pineapple (1 cup)",
+            "calories": 82,
+            "category": "Fruits",
+            "protein": 0.9,
+            "carbs": 21.6,
+            "fat": 0.2
+        },
+        {
+            "name": "Strawberries (1 cup)",
+            "calories": 53,
+            "category": "Fruits",
+            "protein": 1.1,
+            "carbs": 12.8,
+            "fat": 0.5
+        },
+        {
+            "name": "Blueberries (1 cup)",
+            "calories": 84,
+            "category": "Fruits",
+            "protein": 1.1,
+            "carbs": 21.4,
+            "fat": 0.5
+        },
+        {
+            "name": "Peach",
+            "calories": 59,
+            "category": "Fruits",
+            "protein": 1.4,
+            "carbs": 14.3,
+            "fat": 0.4
+        },
+        {
+            "name": "Pear",
+            "calories": 101,
+            "category": "Fruits",
+            "protein": 0.6,
+            "carbs": 27.0,
+            "fat": 0.2
+        },
+        {
+            "name": "Kiwi",
+            "calories": 61,
+            "category": "Fruits",
+            "protein": 1.1,
+            "carbs": 14.7,
+            "fat": 0.5
+        },
+        {
+            "name": "Broccoli (1 cup)",
+            "calories": 55,
+            "category": "Vegetables",
+            "protein": 3.7,
+            "carbs": 11.2,
+            "fat": 0.6
+        },
+        {
+            "name": "Carrot (1 medium)",
+            "calories": 25,
+            "category": "Vegetables",
+            "protein": 0.6,
+            "carbs": 5.8,
+            "fat": 0.1
+        },
+        {
+            "name": "Spinach (1 cup)",
+            "calories": 7,
+            "category": "Vegetables",
+            "protein": 0.9,
+            "carbs": 1.1,
+            "fat": 0.1
+        },
+        {
+            "name": "Potato (1 medium)",
+            "calories": 163,
+            "category": "Vegetables",
+            "protein": 4.3,
+            "carbs": 37.0,
+            "fat": 0.2
+        },
+        {
+            "name": "Sweet Potato (1 medium)",
+            "calories": 112,
+            "category": "Vegetables",
+            "protein": 2.0,
+            "carbs": 26.2,
+            "fat": 0.1
+        },
+        {
+            "name": "Cucumber (1 cup)",
+            "calories": 16,
+            "category": "Vegetables",
+            "protein": 0.7,
+            "carbs": 3.8,
+            "fat": 0.1
+        },
+        {
+            "name": "Tomato (1 medium)",
+            "calories": 22,
+            "category": "Vegetables",
+            "protein": 1.1,
+            "carbs": 4.8,
+            "fat": 0.2
+        },
+        {
+            "name": "Bell Pepper (1 medium)",
+            "calories": 30,
+            "category": "Vegetables",
+            "protein": 1.0,
+            "carbs": 7.0,
+            "fat": 0.3
+        },
+        {
+            "name": "Cauliflower (1 cup)",
+            "calories": 25,
+            "category": "Vegetables",
+            "protein": 2.0,
+            "carbs": 5.0,
+            "fat": 0.1
+        },
+        {
+            "name": "Onion (1 medium)",
+            "calories": 44,
+            "category": "Vegetables",
+            "protein": 1.2,
+            "carbs": 10.3,
+            "fat": 0.1
+        },
+        {
+            "name": "Boiled Egg",
+            "calories": 78,
+            "category": "Proteins",
+            "protein": 6.3,
+            "carbs": 0.6,
+            "fat": 5.3
+        },
+        {
+            "name": "Grilled Chicken Breast (100g)",
+            "calories": 165,
+            "category": "Proteins",
+            "protein": 31.0,
+            "carbs": 0.0,
+            "fat": 3.6
+        },
+        {
+            "name": "Salmon (100g)",
+            "calories": 208,
+            "category": "Proteins",
+            "protein": 20.4,
+            "carbs": 0.0,
+            "fat": 13.4
+        },
+        {
+            "name": "Tuna (100g)",
+            "calories": 132,
+            "category": "Proteins",
+            "protein": 28.0,
+            "carbs": 0.0,
+            "fat": 1.3
+        },
+        {
+            "name": "Tofu (100g)",
+            "calories": 76,
+            "category": "Proteins",
+            "protein": 8.1,
+            "carbs": 1.9,
+            "fat": 4.8
+        },
+        {
+            "name": "Lentils (1 cup cooked)",
+            "calories": 230,
+            "category": "Proteins",
+            "protein": 18.0,
+            "carbs": 40.0,
+            "fat": 0.8
+        },
+        {
+            "name": "Chickpeas (1 cup cooked)",
+            "calories": 269,
+            "category": "Proteins",
+            "protein": 14.5,
+            "carbs": 45.0,
+            "fat": 4.2
+        },
+        {
+            "name": "Greek Yogurt (100g)",
+            "calories": 59,
+            "category": "Proteins",
+            "protein": 10.0,
+            "carbs": 3.6,
+            "fat": 0.4
+        },
+        {
+            "name": "Cottage Cheese (100g)",
+            "calories": 98,
+            "category": "Proteins",
+            "protein": 11.1,
+            "carbs": 3.4,
+            "fat": 4.3
+        },
+        {
+            "name": "Milk (1 glass)",
+            "calories": 103,
+            "category": "Proteins",
+            "protein": 8.0,
+            "carbs": 12.0,
+            "fat": 2.4
+        },
+        {
+            "name": "Whey Protein (1 scoop)",
+            "calories": 120,
+            "category": "Proteins",
+            "protein": 24.0,
+            "carbs": 3.0,
+            "fat": 1.0
+        },
+        {
+            "name": "Brown Rice (1 cup)",
+            "calories": 216,
+            "category": "Grains",
+            "protein": 5.0,
+            "carbs": 45.0,
+            "fat": 1.8
+        },
+        {
+            "name": "Quinoa (1 cup)",
+            "calories": 222,
+            "category": "Grains",
+            "protein": 8.1,
+            "carbs": 39.4,
+            "fat": 3.6
+        },
+        {
+            "name": "Oats (1 cup cooked)",
+            "calories": 154,
+            "category": "Grains",
+            "protein": 6.0,
+            "carbs": 27.0,
+            "fat": 2.6
+        },
+        {
+            "name": "Whole Wheat Bread (1 slice)",
+            "calories": 69,
+            "category": "Grains",
+            "protein": 3.6,
+            "carbs": 12.0,
+            "fat": 0.9
+        },
+        {
+            "name": "Pasta (1 cup cooked)",
+            "calories": 220,
+            "category": "Grains",
+            "protein": 8.0,
+            "carbs": 43.0,
+            "fat": 1.3
+        },
+        {
+            "name": "Noodles (1 cup cooked)",
+            "calories": 210,
+            "category": "Grains",
+            "protein": 7.0,
+            "carbs": 40.0,
+            "fat": 1.5
+        },
+        {
+            "name": "Almonds (1 oz)",
+            "calories": 164,
+            "category": "Snacks",
+            "protein": 6.0,
+            "carbs": 6.1,
+            "fat": 14.2
+        },
+        {
+            "name": "Walnuts (1 oz)",
+            "calories": 185,
+            "category": "Snacks",
+            "protein": 4.3,
+            "carbs": 3.9,
+            "fat": 18.5
+        },
+        {
+            "name": "Peanuts (1 oz)",
+            "calories": 161,
+            "category": "Snacks",
+            "protein": 7.3,
+            "carbs": 4.6,
+            "fat": 14.0
+        },
+        {
+            "name": "Dark Chocolate (1 oz)",
+            "calories": 170,
+            "category": "Snacks",
+            "protein": 2.2,
+            "carbs": 13.0,
+            "fat": 12.1
+        },
+        {
+            "name": "Chips (1 oz)",
+            "calories": 152,
+            "category": "Snacks",
+            "protein": 2.0,
+            "carbs": 15.0,
+            "fat": 10.0
+        },
+        {
+            "name": "Cookies (1 pc)",
+            "calories": 80,
+            "category": "Snacks",
+            "protein": 1.0,
+            "carbs": 12.0,
+            "fat": 3.5
+        },
+        {
+            "name": "Cake (1 slice)",
+            "calories": 235,
+            "category": "Snacks",
+            "protein": 3.0,
+            "carbs": 35.0,
+            "fat": 10.0
+        },
+        {
+            "name": "Ice Cream (1/2 cup)",
+            "calories": 140,
+            "category": "Snacks",
+            "protein": 2.5,
+            "carbs": 20.0,
+            "fat": 6.0
+        },
+        {
+            "name": "Coffee (black)",
+            "calories": 2,
+            "category": "Beverages",
+            "protein": 0.3,
+            "carbs": 0.0,
+            "fat": 0.0
+        },
+        {
+            "name": "Green Tea",
+            "calories": 0,
+            "category": "Beverages",
+            "protein": 0.0,
+            "carbs": 0.0,
+            "fat": 0.0
+        },
+        {
+            "name": "Orange Juice (1 cup)",
+            "calories": 112,
+            "category": "Beverages",
+            "protein": 1.7,
+            "carbs": 25.8,
+            "fat": 0.5
+        },
+        {
+            "name": "Apple Juice (1 cup)",
+            "calories": 114,
+            "category": "Beverages",
+            "protein": 0.2,
+            "carbs": 28.0,
+            "fat": 0.3
+        },
+        {
+            "name": "Soda (1 can)",
+            "calories": 150,
+            "category": "Beverages",
+            "protein": 0.0,
+            "carbs": 39.0,
+            "fat": 0.0
+        }
+    ]
+}
