@@ -62,6 +62,7 @@ import NutritionHome from "./Pages/User/Application/Nutrition/Home";
 import NutritionSetGoal from "./Pages/User/Application/Nutrition/SetGoal";
 import NutritionDietDash from "./Pages/User/Application/Nutrition/DietDash";
 import NutritionAddDiet from "./Pages/User/Application/Nutrition/AddDiet";
+import NutritionScan from "./Pages/User/Application/Nutrition/Scan";
 import Testing from "./Pages/User/Application/LabTest/Testing";
 
 function App() {
@@ -184,6 +185,7 @@ function App() {
             path="/app/nutrition/diet-search"
             element={<NutritionAddDiet />}
           />
+          <Route path="/app/nutrition/scan" element={<NutritionScan />} />
 
           <Route path="/app/testing" element={<Testing />} />
         </Routes>

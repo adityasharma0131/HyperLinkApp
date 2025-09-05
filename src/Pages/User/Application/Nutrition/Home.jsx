@@ -148,7 +148,12 @@ const Home = () => {
         <div className="nutrition-dashboard">
           <div className="dashboard-header">
             <h1 className="dashboard-title">Update your diet plan daily</h1>
-            <button className="next-btn">›</button>
+            <button
+              className="next-btn"
+              onClick={() => navigate("/app/nutrition/diet-dashboard")}
+            >
+              ›
+            </button>
           </div>
 
           <div className="dashboard-top">
@@ -248,9 +253,16 @@ const Home = () => {
 
         <div className="food-container">
           {foodItems.map((item, index) => (
-            <div key={index} className="food-card">
+            <div
+              key={index}
+              className="food-card"
+              onClick={() =>
+                navigate("/app/nutrition/diet-search", {
+                  state: { mealType: item.title },
+                })
+              }
+            >
               <img src={item.img} alt={item.title} className="food-img" />
-
               <div className="food-content">
                 <div className="food-title">{item.title}</div>
               </div>

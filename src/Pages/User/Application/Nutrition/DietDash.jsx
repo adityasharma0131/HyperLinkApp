@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiArrowLeft, FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,7 @@ import DinnerMeal from "../../../../assets/DinnerMeal.png";
 
 const DietDash = () => {
   const [activeTab, setActiveTab] = useState("7 days");
+  const [mealTray, setMealTray] = useState({});
   const tabs = ["7 days", "14 days", "1 month"];
   const navigate = useNavigate();
 
@@ -19,6 +20,14 @@ const DietDash = () => {
     { name: "Snacks", img: SnackMeal },
     { name: "Dinner", img: DinnerMeal },
   ];
+
+  // ✅ Load meals from localStorage
+  useEffect(() => {
+    const storedTray = localStorage.getItem("mealTray");
+    if (storedTray) {
+      setMealTray(JSON.parse(storedTray));
+    }
+  }, []);
 
   const handleAddClick = (meal) => {
     navigate("/app/nutrition/diet-search", { state: { mealType: meal } });
@@ -39,6 +48,7 @@ const DietDash = () => {
             <h1 className="hero-title">MY DIET PLAN</h1>
           </div>
 
+          {/* Tabs */}
           <div className="tab-container">
             {tabs.map((tab) => (
               <div
@@ -54,33 +64,52 @@ const DietDash = () => {
 
         {/* Meal Cards */}
         <div className="meal-card-container">
-          {meals.map((meal) => (
-            <div className="meal-card" key={meal.name}>
-              <img src={meal.img} alt={meal.name} className="meal-image" />
+          {meals.map((meal) => {
+            const items = mealTray[meal.name] || []; // fetch items for each meal type
+            return (
+              <div className="meal-card" key={meal.name}>
+                <img src={meal.img} alt={meal.name} className="meal-image" />
 
-              <div className="meal-content">
-                <div className="meal-header">
-                  <h2 className="meal-title">{meal.name}</h2>
-                  <button
-                    className="add-btn"
-                    onClick={() => handleAddClick(meal.name)}
-                  >
-                    <FiPlus className="add-icon" />
-                  </button>
-                </div>
-                <p className="meal-subtext">No food item(s) added</p>
+                <div className="meal-content">
+                  <div className="meal-header">
+                    <h2 className="meal-title">{meal.name}</h2>
+                    <button
+                      className="add-btn"
+                      onClick={() => handleAddClick(meal.name)}
+                    >
+                      <FiPlus className="add-icon" />
+                    </button>
+                  </div>
 
-                <div className="suggested">
-                  <span className="suggested-label">Suggested :</span>
-                  <div className="suggested-list">
-                    <span className="suggested-item">Milk</span>
-                    <span className="suggested-item">Eggs</span>
-                    <span className="suggested-item">Apple</span>
+                  {/* ✅ Show added items if available */}
+                  <div className="meal-items">
+                    {items.length > 0 ? (
+                      <p className="meal-summary">
+                        {items.length} item{items.length > 1 ? "s" : ""} added •{" "}
+                        {items.reduce(
+                          (total, item) => total + item.totalCalories,
+                          0
+                        )}{" "}
+                        kcal
+                      </p>
+                    ) : (
+                      <p className="meal-subtext">No food item(s) added</p>
+                    )}
+                  </div>
+
+                  {/* Suggested items (static) */}
+                  <div className="suggested">
+                    <span className="suggested-label">Suggested :</span>
+                    <div className="suggested-list">
+                      <span className="suggested-item">Milk</span>
+                      <span className="suggested-item">Eggs</span>
+                      <span className="suggested-item">Apple</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Submit Button */}
@@ -339,6 +368,16 @@ const DietDash = () => {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(22, 170, 22, 0.35);
 }
+  .meal-summary {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151; /* dark gray */
+  background: #f9fafb;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
 
           `}
         </style>

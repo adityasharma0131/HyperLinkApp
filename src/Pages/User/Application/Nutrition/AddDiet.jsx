@@ -160,11 +160,24 @@ const AddDiet = () => {
           <>
             {/* Scan Options */}
             <div className="scan-options">
-              <div className="scan-card">
+              {/* Scan a Meal → Navigate with mealType */}
+              <div
+                className="scan-card"
+                onClick={() =>
+                  navigate("/app/nutrition/scan", { state: { mealType } })
+                }
+              >
                 <FaCamera className="scan-icon" />
                 <p className="scan-text">Scan a Meal</p>
               </div>
-              <div className="scan-card">
+
+              {/* Scan a Barcode → (future feature) */}
+              <div
+                className="scan-card"
+                onClick={() =>
+                  navigate("/app/nutrition/scan", { state: { mealType } })
+                }
+              >
                 <IoIosBarcode className="scan-icon" />
                 <p className="scan-text">Scan a Barcode</p>
               </div>
