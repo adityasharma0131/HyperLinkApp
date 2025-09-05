@@ -9,12 +9,11 @@ import NutritionAddFood from "../../../../assets/NutritionAddFood.svg";
 import { FaTrophy } from "react-icons/fa";
 import { GiKnifeFork } from "react-icons/gi";
 import { IoFastFood } from "react-icons/io5";
-import { IoIosBarcode } from "react-icons/io";
+import { IoIosBarcode, IoIosAddCircle } from "react-icons/io";
 import { FaCamera } from "react-icons/fa";
 
 import HealthFeed1 from "../../../../assets/healthfeed1.png";
 import HealthFeed2 from "../../../../assets/healthfeed2.png";
-import { IoIosAddCircle } from "react-icons/io";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ const Home = () => {
   const [goalData, setGoalData] = useState(null);
 
   useEffect(() => {
-    // Check if calorieGoalData exists in localStorage
     const storedGoalData = localStorage.getItem("calorieGoalData");
     if (storedGoalData) {
       try {
@@ -63,9 +61,8 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState("7 days");
   const tabs = ["7 days", "14 days", "1 month"];
 
-  // Use actual goal data if available, otherwise use defaults
   const goalCalories = hasGoalData && goalData ? goalData.calorieGoal : 1400;
-  const intakeCalories = 650; // dummy data
+  const intakeCalories = 650;
   const caloriesLeft = goalCalories - intakeCalories;
 
   const nutrients = {
@@ -74,7 +71,6 @@ const Home = () => {
     fats: { current: 6, total: 12, color: "fats" },
   };
 
-  // Circle Progress
   const radius = 45;
   const circumference = 2 * Math.PI * radius;
   const progress = (caloriesLeft / goalCalories) * circumference;
@@ -110,25 +106,19 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Conditional rendering based on localStorage data */}
         {hasGoalData ? (
-          /* Dashboard with goal data */
-          <>
-            {/* Tabs at bottom */}
-            <div className="tab-container">
-              {tabs.map((tab) => (
-                <div
-                  key={tab}
-                  className={`tab ${activeTab === tab ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </div>
-              ))}
-            </div>
-          </>
+          <div className="tab-container">
+            {tabs.map((tab) => (
+              <div
+                key={tab}
+                className={`tab ${activeTab === tab ? "active" : ""}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </div>
+            ))}
+          </div>
         ) : (
-          /* Features Container for when no goal is set */
           <div className="features-container">
             {features.map((feature, index) => (
               <div
@@ -152,17 +142,13 @@ const Home = () => {
       </div>
 
       {hasGoalData ? (
-        /* Dashboard content when goal data exists */
         <div className="nutrition-dashboard">
-          {/* Header */}
           <div className="dashboard-header">
             <h1 className="dashboard-title">Update your diet plan daily</h1>
             <button className="next-btn">›</button>
           </div>
 
-          {/* Top Section */}
           <div className="dashboard-top">
-            {/* Left Side: Goal + Intake */}
             <div className="left-cards">
               <div className="card goal-card">
                 <h2>{goalCalories} cals</h2>
@@ -179,17 +165,14 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Side: Illustration */}
             <div className="card illustration-card">
               <img src={NutritionIntro} alt="Nutrition Illustration" />
             </div>
           </div>
 
-          {/* Stats Section */}
           <div className="stats-card">
             <h2>Statistics</h2>
             <div className="stats-content">
-              {/* Circle Progress */}
               <div className="circle-progress">
                 <svg viewBox="0 0 120 120" className="progress-ring">
                   <circle
@@ -215,7 +198,6 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Nutrient Bars */}
               <div className="nutrients">
                 {Object.entries(nutrients).map(
                   ([name, { current, total, color }]) => {
@@ -245,7 +227,6 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        /* Scan Options for when no goal is set */
         <div className="scan-options">
           <div className="scan-card">
             <FaCamera className="scan-icon" />
@@ -259,7 +240,6 @@ const Home = () => {
         </div>
       )}
 
-      {/* Food Intake Section (common to both views) */}
       <div className="food-section">
         <h1 className="food-heading">Add daily food intake</h1>
 
@@ -280,7 +260,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Health Feeds Section (common to both views) */}
       <div className="health-feeds-wrapper">
         <div className="health-feeds-header">
           <h2>Recent Health Feeds</h2>
@@ -290,48 +269,20 @@ const Home = () => {
         </div>
 
         <div className="health-feeds-scroll">
-          <div className="health-card">
-            <img
-              src={HealthFeed1}
-              alt="Diabetes Check"
-              className="feed-image"
-            />
-            <span className="tag blue">#GeneticInsights</span>
-            <h3 className="feed-title">
-              Understanding Your Genetic Predisposition to Diabetes
-            </h3>
-            <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
-          </div>
-
-          <div className="health-card">
-            <img src={HealthFeed2} alt="Heart Health" className="feed-image" />
-            <span className="tag green">#HeartHealth</span>
-            <h3 className="feed-title">
-              Understanding Your Genetic Predisposition to Diabetes
-            </h3>
-            <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
-          </div>
-          <div className="health-card">
-            <img
-              src={HealthFeed1}
-              alt="Diabetes Check"
-              className="feed-image"
-            />
-            <span className="tag blue">#GeneticInsights</span>
-            <h3 className="feed-title">
-              Understanding Your Genetic Predisposition to Diabetes
-            </h3>
-            <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
-          </div>
-
-          <div className="health-card">
-            <img src={HealthFeed2} alt="Heart Health" className="feed-image" />
-            <span className="tag green">#HeartHealth</span>
-            <h3 className="feed-title">
-              Understanding Your Genetic Predisposition to Diabetes
-            </h3>
-            <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
-          </div>
+          {[HealthFeed1, HealthFeed2, HealthFeed1, HealthFeed2].map(
+            (img, idx) => (
+              <div key={idx} className="health-card">
+                <img src={img} alt="Feed" className="feed-image" />
+                <span className={`tag ${idx % 2 === 0 ? "blue" : "green"}`}>
+                  {idx % 2 === 0 ? "#GeneticInsights" : "#HeartHealth"}
+                </span>
+                <h3 className="feed-title">
+                  Understanding Your Genetic Predisposition to Diabetes
+                </h3>
+                <p className="feed-meta">5 min read · Dr. Kavita Madhuri</p>
+              </div>
+            )
+          )}
         </div>
       </div>
 
@@ -542,20 +493,49 @@ const Home = () => {
 }
 
 .illustration-card {
-  background: linear-gradient(to bottom, #02b614  0%, #004918 100%);
-  padding: 10px;
+  background: linear-gradient(to bottom, #02b614 0%, #004918 100%);
+  border-radius: 12px;
+  position: relative; /* anchor for absolute child */
+  overflow: visible; /* allow image pop-out */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .illustration-card img {
-    width: 45%;
-    height: auto;
-    object-fit: contain;
-    position: absolute;
-    right: 20px;
-    bottom: 178px;
+  width: 77%;
+  height: auto;
+  object-fit: contain;
+  position: absolute;
+  left: 45px;
+  bottom: 11px;
+  transition: all 0.3s ease-in-out; /* smooth resize */
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .illustration-card img {
+    width: 70%;
+    left: 35px;
+    bottom: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .illustration-card img {
+    width: 65%;
+    left: 25px;
+    bottom: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .illustration-card img {
+          width: 70%;
+        left: 58px;
+        bottom: 15px;
+  }
 }
 
 /* Stats Section */
@@ -727,9 +707,9 @@ const Home = () => {
   }
 
   .feature-card {
-    width: 160px;
-    height: 170px;
-    padding: 18px;
+ width: 145px;
+        height: 170px;
+        padding: 18px;
   }
 
   .feature-title {
@@ -742,7 +722,7 @@ const Home = () => {
   gap: 20px;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 30px;
   margin: 5rem 0 1rem
 }
 
