@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import AppButton from "../../../../Components/AppButton";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiBookOpen } from "react-icons/fi";
-import Mealimg from "../../../../assets/Mealimg.png";
 import NutritionIntro from "../../../../assets/NutritionIntro.svg";
 import { FaTrophy } from "react-icons/fa";
 import { GiKnifeFork } from "react-icons/gi";
@@ -608,13 +607,13 @@ const Home = () => {
 }
 
 .food-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  position: absolute;
-  top: -20px;
-  left: -20px;
+      width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: -10px;
+    left: -10px;
 }
 
 .food-content {

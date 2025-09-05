@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import AppButton from "../../../../Components/AppButton";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiBookOpen } from "react-icons/fi";
-import Mealimg from "../../../../assets/Mealimg.png";
+import BreakFastMeal from "../../../../assets/BreakFastMeal.png";
+import LunchMeal from "../../../../assets/LunchMeal.png";
+import SnackMeal from "../../../../assets/SnackMeal.png";
+import DinnerMeal from "../../../../assets/DinnerMeal.png";
 import NutritionIntro from "../../../../assets/NutritionIntro.svg";
 import NutritionSetGoal from "../../../../assets/NutritionSetGoal.svg";
 import NutritionAddFood from "../../../../assets/NutritionAddFood.svg";
@@ -52,10 +55,10 @@ const Home = () => {
   ];
 
   const foodItems = [
-    { title: "Breakfast", img: Mealimg },
-    { title: "Lunch", img: Mealimg },
-    { title: "Snacks", img: Mealimg },
-    { title: "Dinner", img: Mealimg },
+    { title: "Breakfast", img: BreakFastMeal },
+    { title: "Lunch", img: LunchMeal },
+    { title: "Snacks", img: SnackMeal },
+    { title: "Dinner", img: DinnerMeal },
   ];
 
   const [activeTab, setActiveTab] = useState("7 days");
@@ -793,14 +796,15 @@ const Home = () => {
 }
 
 .food-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  position: absolute;
-  top: -20px;
-  left: -20px;
+      width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: -10px;
+    left: -10px;
 }
+
 
 .food-content {
   margin-left: 30px; /* push text away from image */
