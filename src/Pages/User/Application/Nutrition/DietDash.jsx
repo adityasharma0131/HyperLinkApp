@@ -197,7 +197,7 @@ const DietDash = () => {
   gap: 20px;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 20px 20px 90px;
   flex-direction: column;
 }
 

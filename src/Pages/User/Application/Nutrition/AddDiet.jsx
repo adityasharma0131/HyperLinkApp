@@ -2,49 +2,55 @@ import React, { useState, useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { FaMicrophone, FaCamera, FaUtensils } from "react-icons/fa";
 import { IoIosSearch, IoIosBarcode, IoIosAdd } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 import { useLocation } from "react-router-dom";
-import foodData from "./foodData.json"; // Import the JSON file
+import foodData from "./foodData.json";
+import MealInfo from "./MealInfo";
+import { useNavigate } from "react-router-dom";
+
 import "./style.css";
 
 const AddDiet = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [recentFoods, setRecentFoods] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
-  const [servingSize, setServingSize] = useState(1);
+  const [mealTray, setMealTray] = useState([]);
   const location = useLocation();
   const mealType = location.state?.mealType || "Meal";
 
-  // Use the food data from the JSON file
-  const foodDatabase = foodData.foods;
-
-  // Load recent foods from localStorage on component mount
+  // ✅ Load from localStorage on mount
   useEffect(() => {
+    const savedMeals = JSON.parse(localStorage.getItem("mealTray")) || {};
+    setMealTray(savedMeals[mealType] || []);
+
     const savedRecentFoods = localStorage.getItem("recentFoods");
     if (savedRecentFoods) {
       setRecentFoods(JSON.parse(savedRecentFoods));
     }
-  }, []);
+  }, [mealType]);
 
-  // Save to recent foods when adding a food item
-  const addToRecent = (food, servings = 1) => {
-    const foodWithServings = {
-      ...food,
-      servings: servings,
-      totalCalories: Math.round(food.calories * servings),
-    };
-
-    const updatedRecent = [
-      foodWithServings,
-      ...recentFoods.filter((item) => item.name !== food.name),
-    ].slice(0, 6); // Keep only 6 most recent items
-
-    setRecentFoods(updatedRecent);
-    localStorage.setItem("recentFoods", JSON.stringify(updatedRecent));
-    setSelectedFood(null);
-
-    // In a real app, you would also add this to the meal plan
-    alert(`Added ${servings} serving(s) of ${food.name} to your ${mealType}`);
+  // ✅ Save tray changes by mealType
+  const updateMealTray = (updatedTray) => {
+    setMealTray(updatedTray);
+    const savedMeals = JSON.parse(localStorage.getItem("mealTray")) || {};
+    savedMeals[mealType] = updatedTray;
+    localStorage.setItem("mealTray", JSON.stringify(savedMeals));
   };
+
+  // ✅ Remove meal
+  const handleRemoveFromTray = (index) => {
+    const updatedTray = mealTray.filter((_, i) => i !== index);
+    updateMealTray(updatedTray);
+  };
+
+  // ✅ Foods grouped by category
+  const foodDatabase = foodData.foods;
+  const foodsByCategory = foodDatabase.reduce((acc, food) => {
+    if (!acc[food.category]) acc[food.category] = [];
+    acc[food.category].push(food);
+    return acc;
+  }, {});
 
   const isSearching = searchQuery.trim().length > 0;
   const filteredFoods = isSearching
@@ -53,12 +59,11 @@ const AddDiet = () => {
       )
     : [];
 
-  // Group foods by category for the browse section
-  const foodsByCategory = foodDatabase.reduce((acc, food) => {
-    if (!acc[food.category]) acc[food.category] = [];
-    acc[food.category].push(food);
-    return acc;
-  }, {});
+  // ✅ Calculate total calories in tray
+  const totalCalories = mealTray.reduce(
+    (sum, meal) => sum + (meal.totalCalories || 0),
+    0
+  );
 
   return (
     <div className="diet-dashboard-page">
@@ -89,6 +94,67 @@ const AddDiet = () => {
       </div>
 
       <div className="main-content">
+        {/* Tray Section */}
+        {mealTray.length > 0 && (
+          <div className="food-section">
+            <h2 className="section-title">Your Tray ({mealType})</h2>
+            <div className="food-list">
+              {mealTray.map((meal, index) => (
+                <div key={index} className="food-item">
+                  <div className="food-info">
+                    <p className="food-name">{meal.name}</p>
+                    <p className="food-calories">
+                      {meal.totalCalories * meal.quantity} cals ({meal.quantity}{" "}
+                      qty)
+                    </p>
+                  </div>
+
+                  {/* Quantity Controls */}
+                  <div className="qty-controls">
+                    <button
+                      className="qty-btn"
+                      onClick={() => {
+                        if (meal.quantity > 1) {
+                          const updatedTray = [...mealTray];
+                          updatedTray[index].quantity -= 1;
+                          updatedTray[index].totalCalories =
+                            meal.calories * updatedTray[index].quantity;
+                          updateMealTray(updatedTray);
+                        }
+                      }}
+                    >
+                      -
+                    </button>
+
+                    <span className="qty-value">{meal.quantity}</span>
+
+                    <button
+                      className="qty-btn"
+                      onClick={() => {
+                        const updatedTray = [...mealTray];
+                        updatedTray[index].quantity += 1;
+                        updatedTray[index].totalCalories =
+                          meal.calories * updatedTray[index].quantity;
+                        updateMealTray(updatedTray);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Delete Button */}
+                  <button
+                    className="remove-btn"
+                    onClick={() => handleRemoveFromTray(index)}
+                  >
+                    <MdDelete />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* If NOT searching → show Scan + Recent + Browse */}
         {!isSearching && (
           <>
@@ -188,6 +254,54 @@ const AddDiet = () => {
           </div>
         )}
       </div>
+
+      {/* ✅ Bottom Fixed Tray */}
+      {mealTray.length > 0 && (
+        <div className="add-diet-bottom-tray">
+          <div className="add-diet-tray-content">
+            <div className="add-diet-tray-info">
+              <span className="add-diet-tray-label">Total Calories</span>
+              <span className="add-diet-tray-calories">
+                {totalCalories} cal
+              </span>
+            </div>
+            <button
+              className="add-diet-done-btn"
+              onClick={() => navigate("/app/nutrition/diet-dashboard")}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Bottom Tray MealInfo */}
+      {selectedFood && (
+        <MealInfo
+          isOpen={!!selectedFood}
+          onClose={() => setSelectedFood(null)}
+          name={selectedFood.name}
+          protein={selectedFood.protein}
+          carbs={selectedFood.carbs}
+          fats={selectedFood.fats}
+          calories={selectedFood.calories}
+          onMealAdded={(newMeal) => {
+            const updated = [...mealTray, { ...newMeal, mealType }];
+            updateMealTray(updated);
+
+            // recent foods
+            setRecentFoods((prev) => {
+              const updatedRecent = [newMeal, ...prev].slice(0, 10);
+              localStorage.setItem(
+                "recentFoods",
+                JSON.stringify(updatedRecent)
+              );
+              return updatedRecent;
+            });
+          }}
+        />
+      )}
+
       <style>
         {`
         /* style.css */
@@ -441,6 +555,120 @@ const AddDiet = () => {
   .hero-title {
     font-size: 14px;
   }
+}
+   .remove-btn {
+  background: #e53935;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: #b71c1c;
+  transform: scale(1.1);
+}
+
+.remove-btn:active {
+  transform: scale(0.95);
+}
+
+.remove-btn:focus {
+  outline: 2px solid #ff8a80;
+  outline-offset: 2px;
+}
+
+.remove-icon {
+  color: white;
+  font-size: 18px;
+}
+
+.add-diet-bottom-tray {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 12px 20px;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.add-diet-tray-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-diet-tray-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.add-diet-tray-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.add-diet-tray-calories {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+}
+
+.add-diet-done-btn {
+  background: #16aa16;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-diet-done-btn:hover {
+  background: #0e7c0e;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  background: #16aa16;
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.qty-btn:hover {
+  background: #0e7c0e;
+}
+
+.qty-value {
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
 }
 
 `}

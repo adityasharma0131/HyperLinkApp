@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 
-// ✅ MealInfo Component
 const MealInfo = ({
   isOpen,
   onClose,
@@ -10,11 +9,11 @@ const MealInfo = ({
   carbs,
   fats,
   calories,
+  onMealAdded, // callback from AddDiet
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // ✅ Static Image
   const staticImage =
     "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80";
 
@@ -33,18 +32,28 @@ const MealInfo = ({
 
   const handleClose = () => {
     setIsVisible(false);
-    setTimeout(() => {
-      onClose();
-    }, 300);
+    setTimeout(() => onClose(), 300);
   };
 
   const increaseQty = () => setQuantity((prev) => prev + 1);
   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   const handleAdd = () => {
-    alert(
-      `✅ Added ${quantity}x ${name} | Total Calories: ${calories * quantity}`
-    );
+    const newMeal = {
+      name,
+      protein,
+      carbs,
+      fats,
+      calories,
+      quantity,
+      totalCalories: calories * quantity,
+      addedAt: new Date().toISOString(),
+    };
+
+    if (typeof onMealAdded === "function") {
+      onMealAdded(newMeal);
+    }
+
     handleClose();
   };
 
@@ -52,13 +61,11 @@ const MealInfo = ({
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
         onClick={handleClose}
       />
 
-      {/* Bottom Tray */}
       <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
         <div className="bottom-tray-handle">
           <div className="bottom-tray-handle-bar"></div>
@@ -73,7 +80,6 @@ const MealInfo = ({
         </button>
 
         <div className="bottom-tray-content">
-          {/* Header */}
           <div className="meal-header">
             <img src={staticImage} alt={name} className="meal-image" />
 
@@ -94,7 +100,6 @@ const MealInfo = ({
             </div>
           </div>
 
-          {/* Macronutrients & Calories */}
           <div className="macro-calorie-row">
             <div className="macronutrients">
               <div>
@@ -117,9 +122,8 @@ const MealInfo = ({
             </div>
           </div>
 
-          {/* Add button */}
           <button className="add-button" onClick={handleAdd}>
-            + Add to Tray
+            Add
           </button>
         </div>
       </div>
@@ -130,7 +134,6 @@ const MealInfo = ({
           position: fixed;
           inset: 0;
           background: rgba(0, 0, 0, 0.55);
-          backdrop-filter: blur(6px);
           z-index: 999;
           opacity: 0;
           transition: opacity 0.3s ease;
@@ -220,7 +223,6 @@ const MealInfo = ({
           align-items: center;
           gap: 8px;
           background: #f8f8f8;
-          border: 1px solid #ccc;
           border-radius: 8px;
           padding: 4px 10px;
         }
@@ -249,7 +251,6 @@ const MealInfo = ({
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 24px 0;
           border-top: 1px solid #eee;
           border-bottom: 1px solid #eee;
           padding: 14px 0;
