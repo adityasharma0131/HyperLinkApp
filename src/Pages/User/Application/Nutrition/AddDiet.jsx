@@ -8,7 +8,6 @@ import foodData from "./foodData.json";
 import MealInfo from "./MealInfo";
 import { useNavigate } from "react-router-dom";
 
-import "./style.css";
 
 const AddDiet = () => {
   const navigate = useNavigate();

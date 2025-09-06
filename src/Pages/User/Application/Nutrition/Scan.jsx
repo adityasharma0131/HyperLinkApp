@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FiArrowLeft, FiCamera, FiX, FiCheck } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./style.css";
 
 const Scan = () => {
   const navigate = useNavigate();
