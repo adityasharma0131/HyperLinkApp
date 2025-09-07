@@ -94,8 +94,8 @@ const AddActivity = () => {
   };
 
   return (
-    <div className="diet-dashboard-page">
-      <div className="diet-dashboard-hero">
+    <div className="add-activity-dashboard-page">
+      <div className="add-activity-dashboard-hero">
         <div className="hero-top-bar">
           <button
             className="icon-button"
@@ -208,13 +208,13 @@ const AddActivity = () => {
 
       <style>
         {`
-        .diet-dashboard-page {
+        .add-activity-dashboard-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-.diet-dashboard-hero {
+.add-activity-dashboard-hero {
   background: linear-gradient(to bottom, #d35400, #f39c12);
   padding: 20px;
   border-radius: 0 0 32px 32px;
