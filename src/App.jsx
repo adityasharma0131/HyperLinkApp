@@ -68,7 +68,6 @@ import PhysicalIntro from "./Pages/User/Application/Physical/Intro";
 import PhysicalHome from "./Pages/User/Application/Physical/Home";
 import PhysicalSetGoal from "./Pages/User/Application/Physical/SetGoal";
 import PhysicalAddActivity from "./Pages/User/Application/Physical/AddActivity";
-import PhysicalActivityDash from "./Pages/User/Application/Physical/ActivityDash";
 import PhysicalActivityDetail from "./Pages/User/Application/Physical/ActivityDetail";
 
 import Testing from "./Pages/User/Application/LabTest/Testing";
@@ -198,10 +197,15 @@ function App() {
           <Route path="/app/physical/intro" element={<PhysicalIntro />} />
           <Route path="/app/physical" element={<PhysicalHome />} />
           <Route path="/app/physical/set-goal" element={<PhysicalSetGoal />} />
-          <Route path="/app/physical/add-activity" element={<PhysicalAddActivity />} />
-          <Route path="/app/physical/activity-dashbaord" element={<PhysicalActivityDash />} />
-          <Route path="/app/physical/activity-details" element={<PhysicalActivityDetail />} />
-          
+          <Route
+            path="/app/physical/add-activity"
+            element={<PhysicalAddActivity />}
+          />
+          <Route
+            path="/app/physical/activity-details"
+            element={<PhysicalActivityDetail />}
+          />
+
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>
