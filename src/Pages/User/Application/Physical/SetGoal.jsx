@@ -13,11 +13,16 @@ const SetGoal = () => {
 
   const options = ["7 days", "14 days", "1 month"];
 
-  // ✅ Helper function for green progress background
-  const getRangeStyle = (value, max) => {
+  const getRangeStyle = (type, value, max) => {
     const percent = (value / max) * 100;
+    let color = "#4caf50"; // Default Green (Distance)
+
+    if (type === "calories") color = "#ff80bf"; // Pink
+    if (type === "steps") color = "#2196f3"; // Blue
+
     return {
-      background: `linear-gradient(to right, green ${percent}%, #ddd ${percent}%)`,
+      background: `linear-gradient(to right, ${color} ${percent}%, #ddd ${percent}%)`,
+      "--thumb-color": color, // Custom CSS variable
     };
   };
 
@@ -55,6 +60,7 @@ const SetGoal = () => {
         {/* ✅ Floating Goal Wrapper */}
         <div className="goal-wrapper">
           {/* Distance */}
+          {/* Distance */}
           <div className="goal-card">
             <div className="goal-header">
               <h3>Distance covered (in km)</h3>
@@ -70,7 +76,7 @@ const SetGoal = () => {
               max="200"
               value={distance}
               onChange={(e) => setDistance(e.target.value)}
-              style={getRangeStyle(distance, 200)}
+              style={getRangeStyle("distance", distance, 200)}
             />
             <div className="goal-footer">
               <span>0 km</span>
@@ -94,7 +100,7 @@ const SetGoal = () => {
               max="50000"
               value={steps}
               onChange={(e) => setSteps(e.target.value)}
-              style={getRangeStyle(steps, 50000)}
+              style={getRangeStyle("steps", steps, 50000)}
             />
             <div className="goal-footer">
               <span>0 steps</span>
@@ -118,7 +124,7 @@ const SetGoal = () => {
               max="5000"
               value={calories}
               onChange={(e) => setCalories(e.target.value)}
-              style={getRangeStyle(calories, 5000)}
+              style={getRangeStyle("calories", calories, 5000)}
             />
             <div className="goal-footer">
               <span>0 cal</span>
@@ -287,16 +293,18 @@ input[type="range"]::-webkit-slider-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: green;
+  background: var(--thumb-color, green); /* Fallback color */
   cursor: pointer;
+  border: none;
 }
 
 input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: green;
+  background: var(--thumb-color, green); /* Fallback color */
   cursor: pointer;
+  border: none;
 }
 
 .goal-footer {
