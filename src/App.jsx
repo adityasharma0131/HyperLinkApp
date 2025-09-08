@@ -15,6 +15,8 @@ import UserServices from "./Pages/User/Application/Services/Services";
 import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
 
+import PrescriptionUpload from "./Pages/User/Application/Prescription/UploadPrescription";
+
 import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import HyperLinkUploadReports from "./Pages/User/Application/HyperLink/UploadReports";
 
@@ -97,6 +99,8 @@ function App() {
 
           <Route path="/app/hyperlink360" element={<UserHyperLink />} />
           <Route path="/app/hyperlink360/upload-reports" element={<HyperLinkUploadReports />} />
+          
+          <Route path="/app/prescription/upload-prescription" element={<PrescriptionUpload />} />
          
           <Route path="/app/vaccination" element={<Vaccination />} />
           <Route path="/app/vaccination/child" element={<ChildVaccination />} />
