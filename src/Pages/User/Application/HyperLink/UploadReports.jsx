@@ -5,15 +5,18 @@ import { RiGalleryFill } from "react-icons/ri";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 
 const UploadReports = () => {
+  const [uploadedFile, setUploadedFile] = useState(null);
+
   const handleCameraClick = () => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*";
+    input.accept = "image/*,application/pdf"; // Accept image or PDF
     input.capture = "environment"; // Opens camera on mobile
     input.onchange = (e) => {
       const file = e.target.files[0];
       console.log("Captured from camera:", file);
-      // Process the file as needed
+      setUploadedFile(file);
+      // Further processing of the file
     };
     input.click();
   };
@@ -21,11 +24,12 @@ const UploadReports = () => {
   const handleGalleryClick = () => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*";
+    input.accept = "image/*,application/pdf"; // Accept image or PDF
     input.onchange = (e) => {
       const file = e.target.files[0];
       console.log("Selected from gallery:", file);
-      // Process the file as needed
+      setUploadedFile(file);
+      // Further processing of the file
     };
     input.click();
   };
@@ -44,6 +48,7 @@ const UploadReports = () => {
           <h1 className="hero-title">PHYSICAL HEALTH</h1>
         </div>
       </div>
+
       <div className="upload-prescription-section">
         <h1>Have a prescription? Upload here</h1>
 
@@ -67,6 +72,13 @@ const UploadReports = () => {
             <p>My Prescription</p>
           </div>
         </div>
+
+        {uploadedFile && (
+          <div className="file-preview">
+            <h2>Uploaded File:</h2>
+            <p>{uploadedFile.name}</p>
+          </div>
+        )}
       </div>
     </div>
   );
