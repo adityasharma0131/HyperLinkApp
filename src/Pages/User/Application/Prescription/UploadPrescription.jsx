@@ -6,7 +6,7 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import ConsultDoctorBg from "../../../../assets/ConsultDoctorBg.svg";
 import AppButton from "../../../../Components/AppButton";
 
-const UploadReports = () => {
+const UploadPrescription = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showBackdrop, setShowBackdrop] = useState(false);
 
@@ -432,4 +432,4 @@ const UploadReports = () => {
   );
 };
 
-export default UploadReports;
+export default UploadPrescription;
