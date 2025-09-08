@@ -433,7 +433,7 @@ const Home = () => {
 .labtest-category-card {
   background: linear-gradient(to bottom, #daeffe 10%, #e0d3ff 80%);
   border-radius: 1rem;
-  padding: 1.2rem 0.1rem;
+  padding: 1rem 0.1rem;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
@@ -487,7 +487,7 @@ const Home = () => {
 }
 
 .labtest-category-label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   color: #1f1f1f;
   margin: 0;
@@ -564,7 +564,7 @@ const Home = () => {
 }
 
 .prescription-heading {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.4;
   text-transform: uppercase;
@@ -572,7 +572,7 @@ const Home = () => {
 }
 
 .prescription-subtext {
-  font-size: 10px;
+  font-size: 12px;
   white-space: nowrap;
   opacity: 0.95;
 }
@@ -669,7 +669,7 @@ const Home = () => {
 
 .tag {
   display: inline-block;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 600;
   padding: 0.2rem 0.5rem;
   border-radius: 9999px;
@@ -688,7 +688,7 @@ const Home = () => {
 }
 
 .feed-title {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: #111827;
   margin: 0 1rem 0.4rem 1rem;

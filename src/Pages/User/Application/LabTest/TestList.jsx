@@ -425,7 +425,7 @@ const TestList = () => {
 }
 
 .test-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #1e293b;
   margin: 0;
