@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FiX, FiCalendar } from "react-icons/fi";
-import { GiLoveInjection } from "react-icons/gi";
+import { PiTestTubeFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import AppButton from "../../../../Components/AppButton";
 
@@ -51,7 +51,7 @@ const LabTestInfoTray = ({ test, onClose }) => {
           <div className="tray-header">
             <div className="test-icon-container">
               <div className="test-icon-bg">
-                <GiLoveInjection className="test-icon" />
+                <PiTestTubeFill className="test-icon" />
               </div>
             </div>
             <h2 className="tray-title">{test.name}</h2>
@@ -97,12 +97,11 @@ const LabTestInfoTray = ({ test, onClose }) => {
               <span className="final-price">₹{test.price}</span>
               <span className="discount">{test.discount}</span>
             </div>
-            <AppButton
-              icon={FiCalendar}
-              text="Book This Test"
-              fullWidth
-              onClick={handleBookTest}
-            />
+
+            <button className="book-test-button" onClick={handleBookTest}>
+              <FiCalendar className="button-icon" />
+              Book This Test
+            </button>
           </div>
         </div>
       </div>
@@ -203,7 +202,7 @@ const LabTestInfoTray = ({ test, onClose }) => {
 .test-icon-container {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #f3f4ff, #e0e7ff);
+  background: linear-gradient(to bottom, #f9d9ea, #e9def7);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -215,7 +214,7 @@ const LabTestInfoTray = ({ test, onClose }) => {
   font-size: 24px;
 }
 .tray-title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: #1e293b;
   margin: 0;
@@ -223,13 +222,13 @@ const LabTestInfoTray = ({ test, onClose }) => {
 
 /* Sections */
 .tray-section {
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 }
 .tray-section h3 {
   font-size: 15px;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 .tray-purpose,
 .highlight-text {
@@ -253,8 +252,7 @@ const LabTestInfoTray = ({ test, onClose }) => {
   color: #2563eb;
 }
 .test-parameters {
-  margin-top: 10px;
-  padding: 12px 16px;
+  padding: 4px 16px;
   background: #f8fafc;
   border-radius: 12px;
   font-size: 14px;
@@ -281,9 +279,7 @@ const LabTestInfoTray = ({ test, onClose }) => {
 }
 
 /* Pricing */
-.pricing-section {
-  margin-top: 24px;
-}
+
 .price-details {
   margin-bottom: 12px;
   display: flex;
@@ -295,19 +291,37 @@ const LabTestInfoTray = ({ test, onClose }) => {
   color: #9ca3af;
   text-decoration: line-through;
 }
-.final-price {
-  font-size: 18px;
-  font-weight: 700;
-  color: #10b981;
+
+
+.book-test-button {
+ display: flex;
+  font-family: "Outfit", sans-serif;
+
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #553fb5;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s 
+ease;
+    align-items: flex-end;
 }
-.discount {
- font-size: 13px;
-  color: #16a34a;
-  font-weight: 600;
-  background: #e9f7ef;
-  padding: 2px 6px;
-  border-radius: 6px;
+
+.book-test-button:hover {
+  background-color: #452c91;
 }
+
+.button-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
 
 /* Animations */
 @keyframes fadeIn {
