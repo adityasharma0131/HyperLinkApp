@@ -5,9 +5,10 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosSearch } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { GiLoveInjection } from "react-icons/gi";
 import AppButton from "../../../../Components/AppButton";
+import { PiTestTubeFill } from "react-icons/pi";
 
 import LabTestInfoTray from "./LabTestInfoTray";
-
+import "./style.css";
 const TestList = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -157,21 +158,23 @@ const TestList = () => {
           >
             <FiArrowLeft className="hero-icon" />
           </button>
-          <h1 className="hero-title">Blood Tests</h1>
+          <h1 className="hero-title">BLOOD TESTS</h1>
         </div>
 
-        {/* Search Bar */}
-        <div className="search-bar hero-search">
-          <IoIosSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search Lab Tests..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <FaMicrophone className="mic-icon" />
+        <div className="search-bar-container">
+          <div className="search-bar hero-search">
+            <IoIosSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search by Test..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <FaMicrophone className="mic-icon" />
+          </div>
         </div>
       </div>
+
       {/* Test Cards List */}
       <div className="labtest-cards-container">
         <div className="labtest-list">
@@ -182,7 +185,7 @@ const TestList = () => {
                 <div className="test-card">
                   <div className="labtest-icon-container">
                     <div className="test-icon-bg">
-                      <GiLoveInjection className="test-icon" />
+                      <PiTestTubeFill className="test-icon" />
                     </div>
                   </div>
 
@@ -205,7 +208,6 @@ const TestList = () => {
                     </p>
                   </div>
                 </div>
-
                 {/* Pricing Section */}
                 <div className="price-section">
                   <div className="price-info">
@@ -253,7 +255,7 @@ const TestList = () => {
 
       <style>
         {`
-        /* -------- Page Layout -------- */
+       /* -------- Page Layout -------- */
 .labtest-list-page {
   box-sizing: border-box;
   margin: 0;
@@ -263,11 +265,10 @@ const TestList = () => {
 
 /* -------- Hero Section -------- */
 .labtest-list-hero {
-  background: linear-gradient(to bottom, #4a90e2, #8c60e2);
+  background: linear-gradient(to bottom, #6ea6e7 0%, #daeffe 50%, #e0d3ff 80%);
   padding: 20px;
 
   margin-bottom: 3rem;
-  padding-bottom: 40px; /* extra space for search bar */
   border-radius: 0 0 32px 32px;
   color: white;
   box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2);
@@ -278,6 +279,7 @@ const TestList = () => {
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .icon-button {
@@ -302,30 +304,43 @@ const TestList = () => {
 .hero-icon {
   font-size: 18px;
   color: white;
+  color: #553fb5;
 }
 
 .hero-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  color: #553fb5;
   margin: 0;
   line-height: 1.2;
 }
 
 /* -------- Search Bar -------- */
+
+.search-bar-container {
+  position: absolute;
+  bottom: -25px; /* Float the search bar outside the hero section */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+}
+
 .search-bar {
   display: flex;
   align-items: center;
   background: #ffffff;
-  border-radius: 999px;
+  border-radius: 10px;
   padding: 10px 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  border: 1px solid #c9c9c9;
 }
 
 .search-bar input {
   flex: 1;
   border: none;
   outline: none;
-  padding: 6px 10px;
+  padding: 8px 12px;
   font-size: 14px;
   background: transparent;
 }
@@ -333,26 +348,23 @@ const TestList = () => {
 .search-icon,
 .mic-icon {
   color: #6b7280;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .hero-search {
-  position: absolute;
-  bottom: -26px; /* pulls it slightly out of purple */
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 40px);
-  max-width: 500px;
-} /* -------- Test Card Container -------- */
+  width: 100%;
+}
+
+/* -------- Test Card Container -------- */
 .test-list-container {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    border: 1px solid #eef2f7;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #eef2f7;
 }
 
 .test-list-container:hover {
@@ -363,23 +375,22 @@ const TestList = () => {
 /* -------- Test Card Layout -------- */
 
 .labtest-cards-container {
-    padding: 0 20px;
-    margin: 28px 0;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+  padding: 0 20px;
+  margin: 28px 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.labtest-list{
-    display: grid
-;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 16px;
+.labtest-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
 }
 .test-card {
   display: flex;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 5px;
 }
 
 /* Icon */
@@ -390,7 +401,7 @@ const TestList = () => {
 .test-icon-bg {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #f3f4ff, #e0e7ff);
+  background: linear-gradient(to bottom, #f9d9ea, #e9def7);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -398,7 +409,7 @@ const TestList = () => {
 }
 
 .test-icon {
-  color: #7c3aed;
+  color: #553fb5;
   font-size: 22px;
 }
 
@@ -414,7 +425,7 @@ const TestList = () => {
 }
 
 .test-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #1e293b;
   margin: 0;
@@ -443,9 +454,9 @@ const TestList = () => {
 }
 
 @media (max-width: 768px) {
-    .labtest-list {
-        grid-template-columns: 1fr;
-    }
+  .labtest-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* -------- Pricing Section -------- */
@@ -459,6 +470,7 @@ const TestList = () => {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-left: 60px;
 }
 
 .final-price {
@@ -495,15 +507,9 @@ const TestList = () => {
     padding: 14px;
   }
 
-  .test-card {
-    flex-direction: column;
-    gap: 10px;
+  .labtest-cards-container {
+    padding: 0 16px;
   }
-
-.labtest-cards-container {
-          padding: 0 16px;
-
-}
   .price-section {
     flex-direction: column;
     align-items: flex-start;
@@ -513,6 +519,7 @@ const TestList = () => {
     width: 100%;
   }
 }
+
 `}
       </style>
     </div>

@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const UploadPrescription = () => {
-  return (
-    <>
-    
-    </>
-  )
-}
+  return <div>UploadPrescription</div>;
+};
 
-export default UploadPrescription
+export default UploadPrescription;
