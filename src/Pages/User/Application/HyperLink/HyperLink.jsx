@@ -118,7 +118,7 @@ const HyperLink = () => {
 
       <style>
         {`
-        .hyperlink-page {
+       .hyperlink-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -360,7 +360,7 @@ const HyperLink = () => {
 }
 
 .consult-doctor-image img {
-  width: 120px; /* Slightly larger for pop-out effect */
+  width: 115px; /* Slightly larger for pop-out effect */
   height: auto;
 }
 
@@ -449,6 +449,7 @@ const HyperLink = () => {
     font-size: 1.3rem;
   }
 }
+
 `}
       </style>
     </>

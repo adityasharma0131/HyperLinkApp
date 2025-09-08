@@ -12,9 +12,12 @@ import UserLocation from "./Pages/User/Intro/UserInfo/UserLocation";
 
 import UserHome from "./Pages/User/Application/Home/Home";
 import UserServices from "./Pages/User/Application/Services/Services";
-import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import UserHealthFeeds from "./Pages/User/Application/HealthFeeds/HealthFeeds";
 import UserProfile from "./Pages/User/Application/Profile/Profile";
+
+import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
+import HyperLinkUploadReports from "./Pages/User/Application/HyperLink/UploadReports";
+
 
 import AddLocation from "./Pages/User/Application/Vaccination/AddLocation";
 import LabTestAddLocation from "./Pages/User/Application/LabTest/AddLocation";
@@ -88,10 +91,13 @@ function App() {
 
           <Route path="/app" element={<UserHome />} />
           <Route path="/app/services" element={<UserServices />} />
-          <Route path="/app/hyperlink360" element={<UserHyperLink />} />
+
           <Route path="/app/healthfeeds" element={<UserHealthFeeds />} />
           <Route path="/app/profile" element={<UserProfile />} />
 
+          <Route path="/app/hyperlink360" element={<UserHyperLink />} />
+          <Route path="/app/hyperlink360/upload-reports" element={<HyperLinkUploadReports />} />
+         
           <Route path="/app/vaccination" element={<Vaccination />} />
           <Route path="/app/vaccination/child" element={<ChildVaccination />} />
           <Route path="/app/vaccination/adult" element={<AdultVaccination />} />
