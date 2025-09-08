@@ -8,7 +8,7 @@ import {
 } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
 
-import { GiLoveInjection } from "react-icons/gi";
+import { PiTestTubeFill } from "react-icons/pi";
 import { FiInfo, FiClipboard, FiUserCheck, FiClock } from "react-icons/fi";
 import AppButton from "../../../../Components/AppButton";
 import {
@@ -152,7 +152,7 @@ const Test = () => {
             >
               <FiArrowLeft className="hero-icon" />
             </button>
-            <h2 className="hero-title">Lab Test Details</h2>
+            <h2 className="hero-title">LAB TEST DETAILS</h2>
           </div>
 
           {/* Right side: share + cart */}
@@ -173,7 +173,7 @@ const Test = () => {
         <div className="modern-card">
           <div className="labtest-icon-container">
             <div className="test-icon-bg">
-              <GiLoveInjection className="test-icon" />
+              <PiTestTubeFill className="test-icon" />
             </div>
             <div className="test-text-content">
               <h2 className="test-title">
@@ -189,14 +189,16 @@ const Test = () => {
           </p>
 
           {/* Small Info (Stats under header) */}
-          <div className="test-stats-inline">
+          {/* <div className="test-stats-inline">
             <span>
-              <BsGraphUp className="inline-icon" /> 40,557+ booked recently
+              <BsGraphUp className="inline-icon" />
+              <p>40,557+ booked recently</p>
             </span>
             <span>
-              <FaUser className="inline-icon" /> For men & women
+              <FaUser className="inline-icon" />
+              <p>For men & women</p>
             </span>
-          </div>
+          </div> */}
 
           {/* Divider */}
           <div className="divider"></div>
@@ -239,7 +241,7 @@ const Test = () => {
           <div className="card-grid three-columns">
             <div className="card" onClick={() => handleCardClick("samples")}>
               <div className="card-icons">
-                <GiLoveInjection className="card-icon" />
+                <PiTestTubeFill className="card-icon" />
                 <IoIosArrowForward className="arrow-icon" />
               </div>
               <div className="card-content">
@@ -286,8 +288,8 @@ const Test = () => {
               <IoIosArrowForward className="arrow-icon" />
             </div>
             <div>
-              <h3>Sample Collection</h3>
-              <p>Who will collect your samples?</p>
+              <p>Sample Collection</p>
+              <h3>Who will collect your samples?</h3>
             </div>
           </div>
 
@@ -304,7 +306,7 @@ const Test = () => {
           <div className="popular-test-card">
             <div className="popular-labtest-icon-container">
               <div className="test-icon-bg">
-                <GiLoveInjection className="test-icon" />
+                <PiTestTubeFill className="test-icon" />
               </div>
             </div>
 
@@ -318,7 +320,7 @@ const Test = () => {
           <div className="popular-test-card">
             <div className="popular-labtest-icon-container">
               <div className="test-icon-bg">
-                <GiLoveInjection className="test-icon" />
+                <PiTestTubeFill className="test-icon" />
               </div>
             </div>
 
@@ -372,15 +374,18 @@ const Test = () => {
           </div>
           <p className="price-note">Inclusive of all taxes</p>
         </div>
-        <AppButton
-          text={"Add to Cart"}
+
+        <button
+          className="book-test-button"
           onClick={() => navigate(`/app/lab-test/test/cart`)}
-        />
+        >
+          Add to Cart
+        </button>
       </div>
 
       <style>
         {`
-        /* -------- Page Layout -------- */
+     /* -------- Page Layout -------- */
 .labtest-test-page {
   min-height: 100vh;
   background: #f5f7fa;
@@ -399,7 +404,7 @@ const Test = () => {
 
 /* -------- Hero Section (unchanged) -------- */
 .labtest-test-hero {
-  background: linear-gradient(to bottom right, #4a90e2, #8c60e2);
+  background: linear-gradient(to bottom, #6ea6e7 0%, #daeffe 50%, #e0d3ff 80%);
   padding: 20px;
   border-radius: 0 0 32px 32px;
   color: white;
@@ -444,11 +449,12 @@ const Test = () => {
 
 .hero-icon {
   font-size: 18px;
-  color: white;
+  color: #553fb5;
 }
 .hero-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  color: #553fb5;
   margin: 0;
   line-height: 1.2;
 }
@@ -476,7 +482,7 @@ const Test = () => {
 .test-icon-bg {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #f3f4ff, #e0e7ff);
+  background: linear-gradient(to bottom, #f9d9ea, #e9def7);
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -485,12 +491,12 @@ const Test = () => {
 }
 
 .test-icon {
-  color: #7c3aed;
+  color: #553fb5;
   font-size: 24px;
 }
 
 .test-title {
-  font-size: 1.25rem;
+  font-size: 17px;
   font-weight: 700;
   color: #1f2937;
   margin: 0 0 8px;
@@ -498,7 +504,7 @@ const Test = () => {
 }
 
 .test-subtitle {
-  font-size: 0.95rem;
+  font-size: 14px;
   color: #6b7280;
   margin: 0 0 12px;
   line-height: 1.5;
@@ -513,21 +519,31 @@ const Test = () => {
 }
 
 /* -------- Inline Stats -------- */
-.test-stats-inline {
+/* .test-stats-inline {
   display: flex;
   gap: 16px;
   font-size: 0.85rem;
   color: #4b5563;
-  margin-top: 12px;
+  margin-top: 15px;
 }
 
 .inline-icon {
-  font-size: 14px;
-  color: #4f46e5;
-  margin-right: 6px;
+  font-size: 20px;
+  color: #553fb5;
+  margin-right: 10px;
   vertical-align: middle;
 }
 
+.test-stats-inline span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.test-stats-inline p {
+  font-size: 13px;
+} */
 /* -------- Divider -------- */
 .divider {
   height: 1px;
@@ -544,7 +560,7 @@ const Test = () => {
 .extra-card {
   flex: 1;
   background: #f9fafb;
-  padding: 16px;
+  padding: 10px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -559,7 +575,7 @@ const Test = () => {
 .extra-icon-container {
   width: 40px;
   height: 40px;
-  background: #e0e7ff;
+  background: linear-gradient(to bottom, #f9d9ea, #e9def7);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -568,17 +584,17 @@ const Test = () => {
 
 .extra-icon {
   font-size: 18px;
-  color: #4f46e5;
+  color: #553fb5;
 }
 
 .extra-label {
-  font-size: 0.85rem;
+  font-size: 12px;
   color: #6b7280;
   margin: 0;
 }
 
 .extra-value {
-  font-size: 1.1rem;
+  font-size: 14px;
   font-weight: 600;
   color: #1f2937;
   margin: 4px 0 0;
@@ -659,10 +675,6 @@ const Test = () => {
     padding: 16px;
   }
 
-  .test-extra-column {
-    flex-direction: column;
-  }
-
   .benefits-grid {
     grid-template-columns: 1fr;
   }
@@ -687,7 +699,7 @@ const Test = () => {
 }
 
 .section-title {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   margin-bottom: 12px;
   color: #1a73e8;
@@ -697,7 +709,7 @@ const Test = () => {
   background: #fff;
   padding: 12px;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 11px;
   line-height: 1.4;
   color: #444;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -749,7 +761,7 @@ const Test = () => {
 
 .card-icon {
   font-size: 20px;
-  color: #6a1b9a;
+  color: #553fb5;
 }
 
 .arrow-icon {
@@ -782,9 +794,9 @@ const Test = () => {
 }
 
 .section-heading {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #1a73e8;
   text-align: left;
 }
@@ -844,7 +856,7 @@ const Test = () => {
   }
 
   .popular-test-title {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 /* Container */
@@ -917,7 +929,7 @@ const Test = () => {
 }
 .faq-answer {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 12px;
   color: #555;
   line-height: 1.5;
 }
@@ -925,15 +937,44 @@ const Test = () => {
 /* Mobile */
 @media (max-width: 600px) {
   .faq-heading {
-    font-size: 20px;
+    font-size: 16px;
   }
   .faq-item {
     padding: 14px;
   }
   .faq-question {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
+
+.book-test-button {
+  display: flex;
+  font-family: "Outfit", sans-serif;
+
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  background-color: #553fb5;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: flex-end;
+}
+
+.book-test-button:hover {
+  background-color: #452c91;
+}
+
+.button-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
 `}
       </style>
     </div>

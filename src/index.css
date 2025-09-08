@@ -270,6 +270,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: "Outfit", sans-serif;
   gap: 8px;
   padding: 12px 20px;
   border-radius: 10px;
