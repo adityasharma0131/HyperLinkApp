@@ -419,11 +419,11 @@ body {
 
 /* Card Container - no scroll, wrap instead */
 .card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between;
-  padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    /* gap: 16px; */
+    justify-content: space-around;
+    padding-bottom: 10px;
 }
 
 /* Card group keeps card + footer together */
