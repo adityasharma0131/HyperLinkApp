@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { PiTestTubeFill } from "react-icons/pi";
 import { IoIosAdd } from "react-icons/io";
 import { LuChartSpline } from "react-icons/lu";
 import { IoAlertCircleOutline } from "react-icons/io5";
+import AddData from "./AddData"; // <-- import your AddData component
 import "./style.css";
 
 const ViewReport = () => {
+  const [isAddDataOpen, setIsAddDataOpen] = useState(false);
+
   return (
     <>
       {/* Hero Section */}
@@ -66,7 +69,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -91,7 +97,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -122,7 +131,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -147,7 +159,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -172,7 +187,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -187,11 +205,11 @@ const ViewReport = () => {
       <div className="health-section normal">
         <h1 className="section-title">Normal</h1>
         <div className="card-container">
-          {/* Apolipoprotein A-1 */}
+          {/* Apolipoprotein */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
-                <h2>Apolipoprotein </h2>
+                <h2>Apolipoprotein</h2>
                 <IoAlertCircleOutline className="alert-icon" />
               </div>
               <div className="card-content">
@@ -203,7 +221,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -228,7 +249,10 @@ const ViewReport = () => {
               </div>
             </div>
             <div className="card-actions">
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsAddDataOpen(true)}
+              >
                 <IoIosAdd /> Add Data
               </div>
               <div className="footer-btn">
@@ -238,6 +262,9 @@ const ViewReport = () => {
           </div>
         </div>
       </div>
+
+      {/* AddData Component Mounted Globally */}
+      <AddData isOpen={isAddDataOpen} onClose={() => setIsAddDataOpen(false)} />
 
       <style>
         {`
