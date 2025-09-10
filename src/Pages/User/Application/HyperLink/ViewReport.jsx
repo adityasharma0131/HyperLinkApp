@@ -49,7 +49,6 @@ const ViewReport = () => {
       {/* Concerning Section */}
       <div className="health-section concerning">
         <h1 className="section-title">Concerning</h1>
-
         <div className="card-container">
           {/* Card 1 */}
           <div className="card-group">
@@ -58,7 +57,6 @@ const ViewReport = () => {
                 <h2>Total Cholesterol</h2>
                 <IoAlertCircleOutline className="alert-icon" />
               </div>
-
               <div className="card-content">
                 <PiTestTubeFill className="main-icon" />
                 <div>
@@ -67,7 +65,6 @@ const ViewReport = () => {
                 </div>
               </div>
             </div>
-
             <div className="card-actions">
               <div className="footer-btn">
                 <IoIosAdd /> Add Data
@@ -85,7 +82,6 @@ const ViewReport = () => {
                 <h2>Triglycerides</h2>
                 <IoAlertCircleOutline className="alert-icon" />
               </div>
-
               <div className="card-content">
                 <PiTestTubeFill className="main-icon" />
                 <div>
@@ -94,7 +90,6 @@ const ViewReport = () => {
                 </div>
               </div>
             </div>
-
             <div className="card-actions">
               <div className="footer-btn">
                 <IoIosAdd /> Add Data
@@ -110,7 +105,6 @@ const ViewReport = () => {
       {/* Abnormal Section */}
       <div className="health-section abnormal">
         <h1 className="section-title">Abnormal</h1>
-
         <div className="card-container">
           {/* HDL */}
           <div className="card-group">
@@ -172,7 +166,7 @@ const ViewReport = () => {
               <div className="card-content">
                 <PiTestTubeFill className="main-icon" />
                 <div>
-                  <p className="value">200</p>
+                  <p className="value abnormal">200</p>
                   <p className="unit">total</p>
                 </div>
               </div>
@@ -192,13 +186,12 @@ const ViewReport = () => {
       {/* Normal Section */}
       <div className="health-section normal">
         <h1 className="section-title">Normal</h1>
-
         <div className="card-container">
           {/* Apolipoprotein A-1 */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
-                <h2>Apolipoprotein A-1</h2>
+                <h2>Apolipoprotein </h2>
                 <IoAlertCircleOutline className="alert-icon" />
               </div>
               <div className="card-content">
@@ -248,12 +241,7 @@ const ViewReport = () => {
 
       <style>
         {`
-        /* General */
-body {
-  font-family: Arial, sans-serif;
-}
-
-/* Hero */
+        /* Hero */
 .diet-dashboard-page {
   box-sizing: border-box;
   margin: 0;
@@ -266,7 +254,7 @@ body {
   border-radius: 0 0 32px 32px;
   color: white;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 10px 30px rgba(103, 108, 255, 0.2);
 }
 
@@ -313,8 +301,8 @@ body {
   display: flex;
   gap: 12px;
   padding: 16px;
-  overflow-x: auto;
-  justify-content: space-around;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .status-card {
@@ -322,9 +310,9 @@ body {
   background: #fff;
   border-radius: 12px;
   padding: 16px 12px;
-  text-align: left;
-  width: 90px;
-  min-width: 90px;
+  text-align: center;
+  width: 100px;
+  min-height: 100px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -360,7 +348,7 @@ body {
 }
 
 .status-card h1 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: #111827;
   margin-bottom: 8px;
@@ -371,66 +359,47 @@ body {
   color: #4b5563;
   margin: 0;
 }
-/* Concerning Section */
-.concerning .section-title {
-  color: #ff4d4d;
-}
-.concerning .value {
-  color: #ff4d4d;
-}
-
-/* Abnormal Section */
-.abnormal .section-title {
-  color: #ffa235;
-}
-.abnormal .value {
-  color: #ffa235;
-}
-
-/* Normal Section */
-.normal .section-title {
-  color: #0dcf0d;
-}
-.normal .value {
-  color: #0dcf0d;
-}
 
 /* General Health Section */
 .health-section {
   padding: 12px;
 }
 
-/* Section Titles */
 .section-title {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 14px;
+  text-align: left;
 }
 
-.concerning .section-title {
+.concerning .section-title,
+.concerning .value {
   color: #ff4d4d;
 }
-.abnormal .section-title {
+
+.abnormal .section-title,
+.abnormal .value {
   color: #ffa235;
 }
-.normal .section-title {
+
+.normal .section-title,
+.normal .value {
   color: #0dcf0d;
 }
 
-/* Card Container - no scroll, wrap instead */
+/* Card Container - UPDATED for proper alignment */
 .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    /* gap: 16px; */
-    justify-content: space-around;
-    padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+  justify-content: center;
+  padding-bottom: 16px;
 }
 
 /* Card group keeps card + footer together */
 .card-group {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: 8px;
 }
 
@@ -438,11 +407,9 @@ body {
 .card {
   background: #fff;
   border-radius: 12px;
-  padding: 14px;
+  padding: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  width: 160px; /* bigger card size */
-  min-height: 100px; /* taller for breathing room */
-  flex-shrink: 0;
+  min-height: 120px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -458,7 +425,7 @@ body {
 }
 
 .card-header h2 {
-  font-size: 13px;
+  font-size: 14px;
   margin: 0;
   color: #333;
 }
@@ -476,35 +443,34 @@ body {
 }
 
 .main-icon {
-  font-size: 26px;
+  font-size: 28px;
   color: #2196f3;
 }
 
 .value {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin: 0;
 }
 
 .unit {
-  font-size: 11px;
+  font-size: 12px;
   margin: 0;
   color: #555;
 }
 
-/* Actions (footer outside card) */
+/* Footer actions */
 .card-actions {
   display: flex;
   justify-content: space-between;
-  width: 160px; /* match bigger card width */
 }
 
 .footer-btn {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
-  padding: 6px 8px;
+  font-size: 12px;
+  padding: 6px 10px;
   border-radius: 8px;
   color: #555;
   background-color: #fff;
@@ -516,6 +482,23 @@ body {
 .footer-btn:hover {
   background: #f9fafb;
   color: #000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .health-status-container {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-group {
+    max-width: 100%;
+  }
 }
 `}
       </style>

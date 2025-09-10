@@ -1,7 +1,8 @@
 import React from "react";
-import { FiArrowLeft } from "react-icons/fi"; // Added import
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import UserNavigation from "../../../../Components/UserNavigation";
-import AppButton from "../../../../Components/AppButton"; // Assuming your button component path
+import AppButton from "../../../../Components/AppButton";
 import Health360bg from "../../../../assets/Health360bg.png";
 import hyperlink360s1 from "../../../../assets/hyperlink360s1.svg";
 import hyperlink360s2 from "../../../../assets/hyperlink360s2.svg";
@@ -13,7 +14,10 @@ import ConsultDoctorBg from "../../../../assets/ConsultDoctorBg.svg";
 import HealthRecord from "../../../../assets/healthrecord.png";
 
 import "./style.css";
+
 const HyperLink = () => {
+  const navigate = useNavigate(); // ✅ Hook for navigation
+
   const cards = [
     { title: "Physical Health", img: hyperlink360s1 },
     { title: "Key Vitals", img: hyperlink360s2 },
@@ -21,6 +25,7 @@ const HyperLink = () => {
     { title: "Genome Patri", img: hyperlink360s4 },
     { title: "Conditions", img: hyperlink360s5 },
   ];
+
   return (
     <>
       <div className="hyperlink-page">
@@ -35,7 +40,6 @@ const HyperLink = () => {
             </button>
             <div className="hero-texts">
               <h1 className="hero-title">HYPERLINK 360</h1>
-              {/* <p className="hero-subtitle">Ghatkopar, Mumbai </p> */}
             </div>
           </div>
 
@@ -46,7 +50,6 @@ const HyperLink = () => {
                 <br />
                 HEALTH 360
               </h1>
-
               <AppButton text="Get Tested " variant="secondary" />
             </div>
             <div className="hero-image">
@@ -56,6 +59,7 @@ const HyperLink = () => {
           </div>
         </div>
 
+        {/* Track Your Health */}
         <div className="track-health">
           <h1 className="track-title">Track Your Health</h1>
           <p className="track-subtitle">
@@ -65,7 +69,12 @@ const HyperLink = () => {
 
           <div className="card-grid">
             {cards.map((card, index) => (
-              <div key={index} className="health-card">
+              <div
+                key={index}
+                className="health-card"
+                onClick={() => navigate("/app/hyperlink360/upload-reports")} // ✅ Navigate on click
+                style={{ cursor: "pointer" }} // ✅ Show clickable cursor
+              >
                 <h2 className="card-title">{card.title}</h2>
                 <img src={card.img} alt={card.title} className="card-image" />
                 <p className="card-date">Updated on 20th June 2025</p>
@@ -73,6 +82,8 @@ const HyperLink = () => {
             ))}
           </div>
         </div>
+
+        {/* Insights Section */}
         <div className="insights-container">
           <div className="insights-text">
             <h1 className="insights-title">View Realtime Insights</h1>
@@ -86,6 +97,8 @@ const HyperLink = () => {
             <img src={Health360Insightsbg} alt="Realtime Insights" />
           </div>
         </div>
+
+        {/* Consult Doctor */}
         <div className="consult-doctor-card">
           <div className="consult-doctor-image">
             <img src={ConsultDoctorBg} alt="Doctor Illustration" />
@@ -97,6 +110,7 @@ const HyperLink = () => {
           </div>
         </div>
 
+        {/* Records */}
         <div className="report-banner">
           <div className="report-text">
             <h2>
