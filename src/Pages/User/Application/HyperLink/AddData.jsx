@@ -36,30 +36,34 @@ const AddData = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`overlay ${isOpen ? "fade-in" : "fade-out"}`}
-      onClick={onClose} // close when clicking outside
+      className={`adddata-tray-overlay ${
+        isOpen ? "adddata-tray-fade-in" : "adddata-tray-fade-out"
+      }`}
+      onClick={onClose}
     >
       <div
-        className={`bottom-tray ${isOpen ? "slide-up" : "slide-down"}`}
-        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+        className={`adddata-tray-container ${
+          isOpen ? "adddata-tray-slide-up" : "adddata-tray-slide-down"
+        }`}
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="bottom-tray-handle">
-          <div className="bottom-tray-handle-bar"></div>
+        <div className="adddata-tray-handle">
+          <div className="adddata-tray-handle-bar"></div>
         </div>
-        <div className="tray-header">
+        <div className="adddata-tray-header">
           <h2>Add Cholesterol Data</h2>
           <button
             onClick={onClose}
-            className="bottom-tray-close-btn"
+            className="adddata-tray-close-btn"
             aria-label="Close tray"
           >
-            <FiX className="bottom-tray-close-icon" />
+            <FiX className="adddata-tray-close-icon" />
           </button>
         </div>
 
-        <div className="tray-content">
+        <div className="adddata-tray-content">
           {/* Cholesterol Input */}
-          <div className="form-group">
+          <div className="adddata-tray-form-group">
             <label>Cholesterol Value (mg/dL)</label>
             <input
               type="number"
@@ -70,19 +74,19 @@ const AddData = ({ isOpen, onClose }) => {
           </div>
 
           {/* Date */}
-          <div className="form-group">
+          <div className="adddata-tray-form-group">
             <label>Date</label>
             <input type="text" value={formattedDate} readOnly />
           </div>
 
           {/* Time */}
-          <div className="form-group">
+          <div className="adddata-tray-form-group">
             <label>Time</label>
             <input type="text" value={formattedTime} readOnly />
           </div>
 
           {/* Notes */}
-          <div className="form-group">
+          <div className="adddata-tray-form-group">
             <label>Custom Notes</label>
             <textarea
               placeholder="Enter notes or observations"
@@ -92,11 +96,11 @@ const AddData = ({ isOpen, onClose }) => {
           </div>
 
           {/* Buttons */}
-          <div className="action-buttons">
-            <button className="cancel-btn" onClick={onClose}>
+          <div className="adddata-tray-action-buttons">
+            <button className="adddata-tray-cancel-btn" onClick={onClose}>
               Cancel
             </button>
-            <button className="add-btn" onClick={handleAddData}>
+            <button className="adddata-tray-add-btn" onClick={handleAddData}>
               Save Data
             </button>
           </div>
@@ -105,7 +109,7 @@ const AddData = ({ isOpen, onClose }) => {
 
       <style jsx>{`
         /* Overlay */
-        .overlay {
+        .adddata-tray-overlay {
           position: fixed;
           inset: 0;
           background: rgba(0, 0, 0, 0.5);
@@ -115,8 +119,8 @@ const AddData = ({ isOpen, onClose }) => {
           align-items: flex-end;
         }
 
-        /* Bottom Tray */
-        .bottom-tray {
+        /* Container */
+        .adddata-tray-container {
           position: relative;
           width: 100%;
           max-width: 500px;
@@ -127,8 +131,8 @@ const AddData = ({ isOpen, onClose }) => {
           overflow-y: auto;
         }
 
-        /* Tray header */
-        .tray-header {
+        /* Header */
+        .adddata-tray-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -136,80 +140,80 @@ const AddData = ({ isOpen, onClose }) => {
           border-bottom: 1px solid #e5e7eb;
         }
 
-        .tray-header h2 {
+        .adddata-tray-header h2 {
           margin: 0;
           font-size: 18px;
           font-weight: 600;
           color: #111827;
         }
 
-        /* Handle bar */
-        .bottom-tray-handle {
+        /* Handle */
+        .adddata-tray-handle {
           display: flex;
           justify-content: center;
           padding: 16px 0 12px;
-          cursor: pointer;
-          touch-action: manipulation;
         }
 
-        .bottom-tray-handle-bar {
+        .adddata-tray-handle-bar {
           width: 56px;
           height: 4px;
           background-color: rgba(0, 0, 0, 0.08);
           border-radius: 9999px;
-          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+          transition: all 0.3s;
         }
 
-        .bottom-tray-handle:hover .bottom-tray-handle-bar {
+        .adddata-tray-handle:hover .adddata-tray-handle-bar {
           background-color: rgba(0, 0, 0, 0.16);
           width: 64px;
         }
+
         /* Close button */
-        .bottom-tray-close-btn {
+        .adddata-tray-close-btn {
           position: absolute;
           top: 16px;
           right: 20px;
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
           background: rgba(0, 0, 0, 0.03);
           border: none;
           display: flex;
           align-items: center;
           justify-content: center;
-          backdrop-filter: blur(4px);
+          transition: all 0.3s;
         }
 
-        .bottom-tray-close-btn:hover {
+        .adddata-tray-close-btn:hover {
           background: rgba(0, 0, 0, 0.08);
           transform: rotate(90deg);
         }
 
-        .bottom-tray-close-icon {
+        .adddata-tray-close-icon {
           width: 20px;
           height: 20px;
           color: #64748b;
         }
-        .tray-content {
+
+        /* Content */
+        .adddata-tray-content {
           padding: 20px;
         }
 
-        .form-group {
+        .adddata-tray-form-group {
           margin-bottom: 18px;
           display: flex;
           flex-direction: column;
         }
 
-        .form-group label {
+        .adddata-tray-form-group label {
           font-size: 14px;
           margin-bottom: 6px;
           color: #374151;
           font-weight: 500;
         }
 
-        .form-group input,
-        .form-group textarea {
+        .adddata-tray-form-group input,
+        .adddata-tray-form-group textarea {
           padding: 12px;
           border: 1px solid #d1d5db;
           border-radius: 10px;
@@ -217,31 +221,32 @@ const AddData = ({ isOpen, onClose }) => {
           transition: border 0.2s, box-shadow 0.2s;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .adddata-tray-form-group input:focus,
+        .adddata-tray-form-group textarea:focus {
           border: 1px solid #6366f1;
           box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
           outline: none;
         }
 
-        .form-group input[readonly] {
+        .adddata-tray-form-group input[readonly] {
           background: #f9fafb;
           color: #6b7280;
         }
 
-        .form-group textarea {
+        .adddata-tray-form-group textarea {
           resize: none;
           min-height: 60px;
         }
 
-        .action-buttons {
+        /* Buttons */
+        .adddata-tray-action-buttons {
           display: flex;
           justify-content: space-between;
           margin-top: 24px;
         }
 
-        .cancel-btn,
-        .add-btn {
+        .adddata-tray-cancel-btn,
+        .adddata-tray-add-btn {
           flex: 1;
           padding: 14px;
           border-radius: 10px;
@@ -251,18 +256,18 @@ const AddData = ({ isOpen, onClose }) => {
           transition: all 0.3s;
         }
 
-        .cancel-btn {
+        .adddata-tray-cancel-btn {
           margin-right: 8px;
           border: 1px solid #d1d5db;
           background: #fff;
           color: #374151;
         }
 
-        .cancel-btn:hover {
+        .adddata-tray-cancel-btn:hover {
           background: #f3f4f6;
         }
 
-        .add-btn {
+        .adddata-tray-add-btn {
           margin-left: 8px;
           border: none;
           background: linear-gradient(135deg, #4f46e5, #6366f1);
@@ -270,22 +275,22 @@ const AddData = ({ isOpen, onClose }) => {
           box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
         }
 
-        .add-btn:hover {
+        .adddata-tray-add-btn:hover {
           background: linear-gradient(135deg, #4338ca, #4f46e5);
           box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5);
         }
 
         /* Animations */
-        .fade-in {
+        .adddata-tray-fade-in {
           animation: fadeIn 0.3s forwards;
         }
-        .fade-out {
+        .adddata-tray-fade-out {
           animation: fadeOut 0.3s forwards;
         }
-        .slide-up {
+        .adddata-tray-slide-up {
           animation: slideUp 0.3s forwards;
         }
-        .slide-down {
+        .adddata-tray-slide-down {
           animation: slideDown 0.3s forwards;
         }
 

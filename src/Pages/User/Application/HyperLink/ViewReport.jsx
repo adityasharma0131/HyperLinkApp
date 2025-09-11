@@ -4,11 +4,13 @@ import { PiTestTubeFill } from "react-icons/pi";
 import { IoIosAdd } from "react-icons/io";
 import { LuChartSpline } from "react-icons/lu";
 import { IoAlertCircleOutline } from "react-icons/io5";
-import AddData from "./AddData"; // <-- import your AddData component
+import AddData from "./AddData";
+import CholesterolTray from "./CholesterolTray"; // <-- import your tray
 import "./style.css";
 
 const ViewReport = () => {
   const [isAddDataOpen, setIsAddDataOpen] = useState(false);
+  const [isInsightsOpen, setIsInsightsOpen] = useState(false);
 
   return (
     <>
@@ -53,7 +55,7 @@ const ViewReport = () => {
       <div className="health-section concerning">
         <h1 className="section-title">Concerning</h1>
         <div className="card-container">
-          {/* Card 1 */}
+          {/* Card 1: Total Cholesterol */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
@@ -64,7 +66,7 @@ const ViewReport = () => {
                 <PiTestTubeFill className="main-icon" />
                 <div>
                   <p className="value concerning">200</p>
-                  <p className="unit">total</p>
+                  <p className="unit">mg/dl</p>
                 </div>
               </div>
             </div>
@@ -75,13 +77,16 @@ const ViewReport = () => {
               >
                 <IoIosAdd /> Add Data
               </div>
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsInsightsOpen(true)}
+              >
                 <LuChartSpline /> Insights
               </div>
             </div>
           </div>
 
-          {/* Card 2 */}
+          {/* Card 2: Triglycerides */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
@@ -103,7 +108,10 @@ const ViewReport = () => {
               >
                 <IoIosAdd /> Add Data
               </div>
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsInsightsOpen(true)}
+              >
                 <LuChartSpline /> Insights
               </div>
             </div>
@@ -115,7 +123,7 @@ const ViewReport = () => {
       <div className="health-section abnormal">
         <h1 className="section-title">Abnormal</h1>
         <div className="card-container">
-          {/* HDL */}
+          {/* Card 1: HDL */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
@@ -126,34 +134,6 @@ const ViewReport = () => {
                 <PiTestTubeFill className="main-icon" />
                 <div>
                   <p className="value abnormal">200</p>
-                  <p className="unit">total</p>
-                </div>
-              </div>
-            </div>
-            <div className="card-actions">
-              <div
-                className="footer-btn"
-                onClick={() => setIsAddDataOpen(true)}
-              >
-                <IoIosAdd /> Add Data
-              </div>
-              <div className="footer-btn">
-                <LuChartSpline /> Insights
-              </div>
-            </div>
-          </div>
-
-          {/* Homocysteine */}
-          <div className="card-group">
-            <div className="card">
-              <div className="card-header">
-                <h2>Homocysteine</h2>
-                <IoAlertCircleOutline className="alert-icon" />
-              </div>
-              <div className="card-content">
-                <PiTestTubeFill className="main-icon" />
-                <div>
-                  <p className="value abnormal">111</p>
                   <p className="unit">mg/dl</p>
                 </div>
               </div>
@@ -165,24 +145,27 @@ const ViewReport = () => {
               >
                 <IoIosAdd /> Add Data
               </div>
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsInsightsOpen(true)}
+              >
                 <LuChartSpline /> Insights
               </div>
             </div>
           </div>
 
-          {/* Total Cholesterol */}
+          {/* Card 2: Homocysteine */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
-                <h2>Total Cholesterol</h2>
+                <h2>Homocysteine</h2>
                 <IoAlertCircleOutline className="alert-icon" />
               </div>
               <div className="card-content">
                 <PiTestTubeFill className="main-icon" />
                 <div>
-                  <p className="value abnormal">200</p>
-                  <p className="unit">total</p>
+                  <p className="value abnormal">111</p>
+                  <p className="unit">µmol/L</p>
                 </div>
               </div>
             </div>
@@ -193,7 +176,10 @@ const ViewReport = () => {
               >
                 <IoIosAdd /> Add Data
               </div>
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsInsightsOpen(true)}
+              >
                 <LuChartSpline /> Insights
               </div>
             </div>
@@ -205,7 +191,7 @@ const ViewReport = () => {
       <div className="health-section normal">
         <h1 className="section-title">Normal</h1>
         <div className="card-container">
-          {/* Apolipoprotein */}
+          {/* Card 1: Apolipoprotein */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
@@ -216,7 +202,7 @@ const ViewReport = () => {
                 <PiTestTubeFill className="main-icon" />
                 <div>
                   <p className="value normal">200</p>
-                  <p className="unit">total</p>
+                  <p className="unit">mg/dl</p>
                 </div>
               </div>
             </div>
@@ -227,13 +213,16 @@ const ViewReport = () => {
               >
                 <IoIosAdd /> Add Data
               </div>
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsInsightsOpen(true)}
+              >
                 <LuChartSpline /> Insights
               </div>
             </div>
           </div>
 
-          {/* Triglycerides */}
+          {/* Card 2: Triglycerides */}
           <div className="card-group">
             <div className="card">
               <div className="card-header">
@@ -255,7 +244,10 @@ const ViewReport = () => {
               >
                 <IoIosAdd /> Add Data
               </div>
-              <div className="footer-btn">
+              <div
+                className="footer-btn"
+                onClick={() => setIsInsightsOpen(true)}
+              >
                 <LuChartSpline /> Insights
               </div>
             </div>
@@ -263,8 +255,12 @@ const ViewReport = () => {
         </div>
       </div>
 
-      {/* AddData Component Mounted Globally */}
+      {/* Mount Trays */}
       <AddData isOpen={isAddDataOpen} onClose={() => setIsAddDataOpen(false)} />
+      <CholesterolTray
+        isOpen={isInsightsOpen}
+        onClose={() => setIsInsightsOpen(false)}
+      />
 
       <style>
         {`

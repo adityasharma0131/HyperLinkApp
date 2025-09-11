@@ -7,6 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { FiX } from "react-icons/fi";
 
 // Sample datasets
 const dataSets = {
@@ -35,25 +36,19 @@ const dataSets = {
   ],
 };
 
-const CholesterolTray = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const CholesterolTray = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState("Daily");
 
   const handleAddData = () => {
     console.log("Add Data Clicked");
-    setIsOpen(false);
+    onClose();
   };
 
   return (
-    <div className="testlist-page">
-      {/* Floating Action Button */}
-      <button className="fab-btn" onClick={() => setIsOpen(true)}>
-        📊
-      </button>
-
+    <div>
+      {" "}
       {/* Overlay */}
-      {isOpen && <div className="overlay" onClick={() => setIsOpen(false)} />}
-
+      {isOpen && <div className="overlay" onClick={onClose} />}
       {/* Bottom Tray */}
       <div className={`bottom-tray ${isOpen ? "show" : ""}`}>
         <div className="bottom-tray-handle">
@@ -63,8 +58,12 @@ const CholesterolTray = () => {
         {/* Header */}
         <div className="tray-header">
           <h2>Cholesterol Insights</h2>
-          <button className="close-btn" onClick={() => setIsOpen(false)}>
-            ✕
+          <button
+            onClick={onClose}
+            className="tray-close-btn"
+            aria-label="Close tray"
+          >
+            <FiX className="tray-close-icon" />
           </button>
         </div>
 
@@ -84,7 +83,7 @@ const CholesterolTray = () => {
           </div>
 
           {/* Card */}
-          <div className="card">
+          <div className="chart-cardcard">
             <p className="label">CHOLESTEROL</p>
             <h1 className="value">200</h1>
             <p className="subtext">
@@ -138,7 +137,7 @@ const CholesterolTray = () => {
 
           {/* Actions */}
           <div className="actions">
-            <button className="cancel-btn" onClick={() => setIsOpen(false)}>
+            <button className="cancel-btn" onClick={onClose}>
               Cancel
             </button>
             <button className="add-btn" onClick={handleAddData}>
@@ -147,7 +146,6 @@ const CholesterolTray = () => {
           </div>
         </div>
       </div>
-
       {/* Styles */}
       <style jsx>{`
         .testlist-page {
@@ -239,19 +237,32 @@ const CholesterolTray = () => {
           color: #111827;
         }
 
-        .close-btn {
-          background: transparent;
+        /* Close button */
+        .tray-close-btn {
+          position: absolute;
+          top: 16px;
+          right: 20px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.03);
           border: none;
-          font-size: 22px;
-          cursor: pointer;
-          color: #6b7280;
-          transition: color 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s;
         }
 
-        .close-btn:hover {
-          color: #111827;
+        .tray-close-btn:hover {
+          background: rgba(0, 0, 0, 0.08);
+          transform: rotate(90deg);
         }
 
+        .tray-close-icon {
+          width: 20px;
+          height: 20px;
+          color: #64748b;
+        }
         .tray-content {
           padding: 20px;
         }
@@ -288,7 +299,7 @@ const CholesterolTray = () => {
         }
 
         /* Card */
-        .card {
+        .chart-card {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
           border-radius: 20px;
