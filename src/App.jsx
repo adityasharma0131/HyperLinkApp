@@ -76,6 +76,9 @@ import PhysicalSetGoal from "./Pages/User/Application/Physical/SetGoal";
 import PhysicalAddActivity from "./Pages/User/Application/Physical/AddActivity";
 import PhysicalActivityDetail from "./Pages/User/Application/Physical/ActivityDetail";
 
+import WellnessHome from "./Pages/User/Application/Wellness/Home";
+
+
 import Testing from "./Pages/User/Application/LabTest/Testing";
 
 function App() {
@@ -218,6 +221,9 @@ function App() {
             element={<PhysicalActivityDetail />}
           />
 
+          <Route path="/app/wellness" element={<WellnessHome />} />
+
+          
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>

@@ -492,7 +492,7 @@ const Home = () => {
 /* Extra-small screens (≤640px) */
 @media (max-width: 640px) {
   .hero-section {
-    gap: 2.25rem;
+    gap: 4.25rem;
   }
 }
 /* Extra-small screens (≤640px) */
