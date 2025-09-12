@@ -178,6 +178,12 @@ body {
   justify-content: center;
 }
 
+.svg-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 .nav-icon {
   font-size: 35px;
   color: #6b7280;
@@ -213,7 +219,7 @@ body {
 }
 
 .nav-item.primary .icon-container {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(to bottom, #4a90e2, #d6efff, #8c60e2);
   width: 56px;
   height: 56px;
   border-radius: 50%;
