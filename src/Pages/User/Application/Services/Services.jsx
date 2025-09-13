@@ -239,21 +239,21 @@ const Services = () => {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  height: 280px;
+  height: 380px;
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
 }
 
 .circular-container {
-  position: absolute;
-  bottom: -150px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  perspective: 1000px;
+    position: absolute;
+    bottom: -145px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 340px;
+    height: 380px;
+    border-radius: 50%;
+    perspective: 1000px;
 }
 
 .circular-cards {
@@ -381,7 +381,7 @@ const Services = () => {
 }
 
 .card-title {
-  font-size: 15px;
+  font-size: 10px;
 }
 .card-description {
   font-size: 10px;
