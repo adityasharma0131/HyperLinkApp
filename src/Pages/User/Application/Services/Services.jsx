@@ -247,7 +247,7 @@ const Services = () => {
 
 .circular-container {
     position: absolute;
-    bottom: -145px;
+    bottom: -135px;
     left: 50%;
     transform: translateX(-50%);
     width: 340px;
