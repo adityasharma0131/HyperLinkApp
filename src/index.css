@@ -10,6 +10,10 @@
 body {
   font-family: "Outfit", sans-serif;
 }
+::placeholder {
+  font-family: "Outfit", sans-serif;
+}
+
 
 /* Center the loader on the screen */
 .loader-container {

@@ -7,6 +7,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import CounsellingDetailsBG from "../../../../assets/counsellingdetailsbg.svg";
 import AppButton from "../../../../Components/AppButton";
+import "./style.css";
 
 const PersonalDetails = () => {
   const navigate = useNavigate();
@@ -99,16 +100,16 @@ const PersonalDetails = () => {
           <button className="icon-button" onClick={() => window.history.back()}>
             <FiArrowLeft className="hero-icon" />
           </button>
-        </div>
-
-        {/* Image Section */}
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>DIABETES</h1>
+          <div className="hero-texts">
+            <h1 className="hero-title">DIABETES</h1>
             <p className="hero-subtitle">
               Understand Your Genetic Risk for Diabetes
             </p>
           </div>
+        </div>
+
+        {/* Image Section */}
+        <div className="hero-content">
           <div className="hero-image">
             <span className="image-decoration" />
             <img src={CounsellingDetailsBG} alt="Child receiving vaccine" />
@@ -332,27 +333,29 @@ const PersonalDetails = () => {
 
           {/* Action Button */}
           <div className="button-wrapper">
-            <AppButton
-              text="Start Assessment"
+  
+            <button
+              className="start-btn"
               onClick={() => navigate("/app/counselling/questionnaires")}
-            />
+            >
+              Start Assessment{" "}
+            </button>
           </div>
         </form>
       </div>
 
       <style>
         {`
-        
         .counselling-details-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  background-color:#f7fafc;
+  background-color: #f7fafc;
 }
 
 .counselling-details-hero {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  padding: 20px;
+  background: linear-gradient(to bottom, #6ea6e7 0%, #daeffe 50%, #e0d3ff 80%);
+  padding: 20px 20px 5px;
   border-radius: 0 0 32px 32px;
   color: white;
   position: relative;
@@ -362,12 +365,33 @@ const PersonalDetails = () => {
 .hero-top-bar {
   display: flex;
   align-items: flex-start;
-  gap: 0.8rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.hero-texts {
+  flex: 1;
+  text-align: left;
+}
+
+.hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #553fb5;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  opacity: 0.9;
 }
 
 .icon-button {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   border: none;
   width: 36px;
   height: 36px;
@@ -381,38 +405,22 @@ const PersonalDetails = () => {
 }
 
 .icon-button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
 }
 
 .hero-icon {
   font-size: 18px;
-  color: white;
+  color: #553fb5;
 }
 
 .hero-content {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end; /* Changed from center to flex-end */
+  justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 2;
-  height: 100%; /* Added to take full height */
-}
-
-.hero-text h1 {
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1.2;
-  margin: 0 0 12px 0;
-  letter-spacing: -0.5px;
-}
-
-.hero-subtitle {
-  font-size: 14px;
-  opacity: 0.9;
-  margin-bottom: 24px;
-  max-width: 200px;
-  line-height: 1.5;
+  height: 100%;
 }
 
 .hero-image {
@@ -432,7 +440,7 @@ const PersonalDetails = () => {
 .risk-assessment-card {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
   color: #2d3748;
   margin: 1rem 0;
@@ -466,7 +474,7 @@ const PersonalDetails = () => {
 .feature-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 5px;
 }
 
 .feature-item {
@@ -483,8 +491,8 @@ const PersonalDetails = () => {
 
 .feature-item p {
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.4;
   color: #4a5568;
 }
 
@@ -494,7 +502,7 @@ const PersonalDetails = () => {
   color: #667eea;
   padding: 0.2rem 0.6rem;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 12px;
   margin: 0.3rem 0.3rem 0.3rem 0;
   font-weight: 500;
 }
@@ -505,11 +513,11 @@ const PersonalDetails = () => {
 }
 
 .personal-details-heading {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 700;
   color: #1e293b;
-  margin: 0;
   text-align: left;
+  margin-bottom: 10px;
 }
 
 /* Profile Card */
@@ -519,9 +527,8 @@ const PersonalDetails = () => {
   align-items: center;
   background: linear-gradient(135deg, #6e8efb, #a777e3);
   border-radius: 16px;
-  padding: 18px;
+  padding: 14px;
   color: white;
-  margin-bottom: 24px;
   box-shadow: 0 6px 18px rgba(102, 126, 234, 0.25);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -814,7 +821,7 @@ const PersonalDetails = () => {
   padding: 12px 14px;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 13px;
   background: white;
   transition: all 0.2s ease;
 }
@@ -836,12 +843,7 @@ const PersonalDetails = () => {
     padding: 20px;
   }
 
-  .personal-details-heading {
-    font-size: 20px;
-  }
-
   .input-section {
-    flex-direction: column;
     gap: 16px;
   }
 
@@ -850,7 +852,24 @@ const PersonalDetails = () => {
     gap: 16px;
   }
 }
-`}
+
+
+
+.start-btn {
+  background-color: #553fb5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Outfit", sans-serif;
+
+  transition: background 0.2s ease;
+}
+       `}
       </style>
     </div>
   );
