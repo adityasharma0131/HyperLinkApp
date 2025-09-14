@@ -103,10 +103,12 @@ const BookingDetailTray = ({ onClose }) => {
 
         {/* Sticky Footer */}
         <div className="booking-tray-footer">
-          <AppButton
-            text="Proceed to Pay"
-            onClick={() => alert("Proceeding...")}
-          />
+          <button
+            className="proceed-btn"
+            onClick={() => setShowBookingTray(true)} // ✅ open BookingDetailTray
+          >
+            Proceed to Pay
+          </button>
         </div>
       </div>
 
@@ -281,9 +283,6 @@ const BookingDetailTray = ({ onClose }) => {
   left: 0;
   right: 0;
   padding: 12px 20px;
-  background: #ffffff;
-  border-top: 1px solid #eaeaea;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
 }
 
 /* Animations */
@@ -306,6 +305,22 @@ const BookingDetailTray = ({ onClose }) => {
   from { transform: translateY(0); }
   to { transform: translateY(100%); }
 }
+
+.proceed-btn {
+  background-color: #553fb5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Outfit", sans-serif;
+
+  transition: background 0.2s ease;
+}
+
         `}
       </style>
     </div>
