@@ -21,7 +21,6 @@ import UserHyperLink from "./Pages/User/Application/HyperLink/HyperLink";
 import HyperLinkUploadReports from "./Pages/User/Application/HyperLink/UploadReports";
 import HyperLinkViewReport from "./Pages/User/Application/HyperLink/ViewReport";
 
-
 import AddLocation from "./Pages/User/Application/Vaccination/AddLocation";
 import LabTestAddLocation from "./Pages/User/Application/LabTest/AddLocation";
 
@@ -78,7 +77,9 @@ import PhysicalActivityDetail from "./Pages/User/Application/Physical/ActivityDe
 
 import WellnessHome from "./Pages/User/Application/Wellness/Home";
 
-
+import HealthRecordsHome from "./Pages/User/Application/Health Records/Home";
+import HealthRecordsDirectoryList from "./Pages/User/Application/Health Records/DirectoryList";
+import HealthRecordsSingleDirectory from "./Pages/User/Application/Health Records/SingleDirectory";
 import Testing from "./Pages/User/Application/LabTest/Testing";
 
 function App() {
@@ -102,11 +103,20 @@ function App() {
           <Route path="/app/profile" element={<UserProfile />} />
 
           <Route path="/app/hyperlink360" element={<UserHyperLink />} />
-          <Route path="/app/hyperlink360/upload-reports" element={<HyperLinkUploadReports />} />
-          <Route path="/app/hyperlink360/view-report" element={<HyperLinkViewReport />} />
-          
-          <Route path="/app/prescription/upload-prescription" element={<PrescriptionUpload />} />
-         
+          <Route
+            path="/app/hyperlink360/upload-reports"
+            element={<HyperLinkUploadReports />}
+          />
+          <Route
+            path="/app/hyperlink360/view-report"
+            element={<HyperLinkViewReport />}
+          />
+
+          <Route
+            path="/app/prescription/upload-prescription"
+            element={<PrescriptionUpload />}
+          />
+
           <Route path="/app/vaccination" element={<Vaccination />} />
           <Route path="/app/vaccination/child" element={<ChildVaccination />} />
           <Route path="/app/vaccination/adult" element={<AdultVaccination />} />
@@ -222,8 +232,11 @@ function App() {
           />
 
           <Route path="/app/wellness" element={<WellnessHome />} />
-
           
+          <Route path="/app/health-record" element={<HealthRecordsHome />} />
+          <Route path="/app/wellness/folder-list" element={<HealthRecordsDirectoryList />} />
+          <Route path="/app/wellness/single-folder" element={<HealthRecordsSingleDirectory />} />
+
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
       </main>
