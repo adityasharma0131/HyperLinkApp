@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { FiX } from "react-icons/fi";
-import fingerprintIcon from "../../../../assets/fignerprintbg.svg";
+import { FiX, FiChevronRight } from "react-icons/fi";
 
-const LockerPinTray = () => {
+const UploadOptionsTray = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,56 +23,35 @@ const LockerPinTray = () => {
     setTimeout(() => setIsOpen(false), 300);
   };
 
-  const handleFingerprintScan = async () => {
-    try {
-      if (!window.PublicKeyCredential) {
-        alert("Your device does not support WebAuthn API.");
-        return;
-      }
-
-      const publicKeyCredentialRequestOptions = {
-        challenge: new Uint8Array([
-          /* Normally a random server-generated challenge */
-        ]),
-        allowCredentials: [],
-        timeout: 60000,
-        userVerification: "preferred",
-      };
-
-      const credential = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions,
-      });
-
-      if (credential) {
-        alert("Fingerprint scanned successfully!");
-        handleClose();
-      } else {
-        alert("Fingerprint scan failed or cancelled.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error during fingerprint scan: " + error.message);
-    }
-  };
+  const options = [
+    "Test Reports",
+    "Prescription",
+    "Vaccination Certificates",
+    "Doctor Consultations",
+  ];
 
   return (
     <>
+      {/* Toggle Button */}
       <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Secure Health Locker
+        Upload Files
       </button>
 
-      {(isOpen || isVisible) && (
+      {isOpen || isVisible ? (
         <>
+          {/* Backdrop */}
           <div
             className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
             onClick={handleClose}
           />
 
+          {/* Tray */}
           <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
             <div className="bottom-tray-handle">
               <div className="bottom-tray-handle-bar"></div>
             </div>
 
+            {/* Close Button */}
             <button
               onClick={handleClose}
               className="bottom-tray-close-btn"
@@ -82,29 +60,22 @@ const LockerPinTray = () => {
               <FiX className="bottom-tray-close-icon" />
             </button>
 
-            <div className="locker-container">
-              <h2 className="locker-title">Secure Your Health Locker</h2>
-              <p className="locker-subtitle">
-                Add biometrics to keep your health data private.
-              </p>
+            {/* Content */}
+            <div className="bottom-tray-content">
+              <h2 className="bottom-tray-title">What do you want to upload?</h2>
 
-              <div
-                className="fingerprint-section"
-                onClick={handleFingerprintScan}
-              >
-                <img
-                  src={fingerprintIcon}
-                  alt="Fingerprint Icon"
-                  className="fingerprint-icon"
-                />
-                <p className="fingerprint-text">Touch the fingerprint sensor</p>
-                <span className="or-text">or</span>
-                <button className="use-pin-btn">Use Pin</button>
-              </div>
+              <ul className="upload-options-list">
+                {options.map((item, idx) => (
+                  <li key={idx} className="upload-option">
+                    <span>{item}</span>
+                    <FiChevronRight className="arrow-icon" />
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </>
-      )}
+      ) : null}
 
       <style jsx>{`
         .open-tray-btn {
@@ -116,9 +87,10 @@ const LockerPinTray = () => {
           cursor: pointer;
           font-size: 14px;
           margin: 20px;
+          transition: background 0.2s ease;
         }
         .open-tray-btn:hover {
-          background-color: #0056b3;
+          background-color: #452fa0;
         }
 
         .bottom-tray-backdrop {
@@ -189,67 +161,43 @@ const LockerPinTray = () => {
           color: #64748b;
         }
 
-        .locker-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 24px;
-          text-align: center;
+        .bottom-tray-content {
+          padding: 20px 24px 32px;
+          text-align: left;
         }
-
-        .locker-title {
+        .bottom-tray-title {
           font-size: 18px;
           font-weight: 600;
-          margin-bottom: 6px;
-          color: #000;
+          margin: 0 0 20px 0;
+          color: #1e293b;
         }
 
-        .locker-subtitle {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 24px;
+        .upload-options-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
         }
-
-        .fingerprint-section {
+        .upload-option {
           display: flex;
-          flex-direction: column;
+          justify-content: space-between;
           align-items: center;
+          padding: 14px 0;
+          font-size: 16px;
+          color: #1e293b;
+          border-bottom: 1px solid #e5e7eb;
           cursor: pointer;
         }
-
-        .fingerprint-icon {
-          width: 80px;
-          height: 80px;
-          margin-bottom: 12px;
+        .upload-option:last-child {
+          border-bottom: none;
         }
-
-        .fingerprint-text {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .or-text {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .use-pin-btn {
-          background: none;
-          border: none;
-          color: #553fb5;
-          cursor: pointer;
-          font-weight: 500;
-          font-size: 14px;
-        }
-
-        .use-pin-btn:hover {
-          text-decoration: underline;
+        .arrow-icon {
+          color: #2563eb;
+          width: 18px;
+          height: 18px;
         }
       `}</style>
     </>
   );
 };
 
-export default LockerPinTray;
+export default UploadOptionsTray;

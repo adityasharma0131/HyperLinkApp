@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
-import fingerprintIcon from "../../../../assets/fignerprintbg.svg";
+import lockerpinsuccesssfullbg from "../../../../assets/lockerpinsuccesssfullbg.svg";
 
-const LockerPinTray = () => {
+const LockerSuccessTray = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -10,10 +10,18 @@ const LockerPinTray = () => {
     if (isOpen) {
       setIsVisible(true);
       document.body.style.overflow = "hidden";
+
+      // Auto close after 5 sec
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 5000);
+
+      return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
       document.body.style.overflow = "";
     }
+
     return () => {
       document.body.style.overflow = "";
     };
@@ -24,83 +32,38 @@ const LockerPinTray = () => {
     setTimeout(() => setIsOpen(false), 300);
   };
 
-  const handleFingerprintScan = async () => {
-    try {
-      if (!window.PublicKeyCredential) {
-        alert("Your device does not support WebAuthn API.");
-        return;
-      }
-
-      const publicKeyCredentialRequestOptions = {
-        challenge: new Uint8Array([
-          /* Normally a random server-generated challenge */
-        ]),
-        allowCredentials: [],
-        timeout: 60000,
-        userVerification: "preferred",
-      };
-
-      const credential = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions,
-      });
-
-      if (credential) {
-        alert("Fingerprint scanned successfully!");
-        handleClose();
-      } else {
-        alert("Fingerprint scan failed or cancelled.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error during fingerprint scan: " + error.message);
-    }
-  };
-
   return (
     <>
+      {/* Open Button for Demo */}
       <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Secure Health Locker
+        Show Success
       </button>
 
       {(isOpen || isVisible) && (
         <>
+          {/* Backdrop */}
           <div
             className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
             onClick={handleClose}
           />
 
+          {/* Bottom Tray */}
           <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
+            {/* Handle bar */}
             <div className="bottom-tray-handle">
               <div className="bottom-tray-handle-bar"></div>
             </div>
 
-            <button
-              onClick={handleClose}
-              className="bottom-tray-close-btn"
-              aria-label="Close tray"
-            >
-              <FiX className="bottom-tray-close-icon" />
-            </button>
-
+            {/* Success Content */}
             <div className="locker-container">
-              <h2 className="locker-title">Secure Your Health Locker</h2>
-              <p className="locker-subtitle">
-                Add biometrics to keep your health data private.
+              <img
+                src={lockerpinsuccesssfullbg}
+                alt="Success"
+                className="success-img"
+              />
+              <p className="success-text">
+                Your Health Locker is now protected !
               </p>
-
-              <div
-                className="fingerprint-section"
-                onClick={handleFingerprintScan}
-              >
-                <img
-                  src={fingerprintIcon}
-                  alt="Fingerprint Icon"
-                  className="fingerprint-icon"
-                />
-                <p className="fingerprint-text">Touch the fingerprint sensor</p>
-                <span className="or-text">or</span>
-                <button className="use-pin-btn">Use Pin</button>
-              </div>
             </div>
           </div>
         </>
@@ -116,9 +79,10 @@ const LockerPinTray = () => {
           cursor: pointer;
           font-size: 14px;
           margin: 20px;
+          transition: background 0.2s ease;
         }
         .open-tray-btn:hover {
-          background-color: #0056b3;
+          background-color: #4a37a0;
         }
 
         .bottom-tray-backdrop {
@@ -193,63 +157,21 @@ const LockerPinTray = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 24px;
+          padding: 32px 24px;
           text-align: center;
         }
-
-        .locker-title {
-          font-size: 18px;
-          font-weight: 600;
-          margin-bottom: 6px;
-          color: #000;
+        .success-img {
+          width: 220px;
+          margin-bottom: 20px;
         }
-
-        .locker-subtitle {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 24px;
-        }
-
-        .fingerprint-section {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          cursor: pointer;
-        }
-
-        .fingerprint-icon {
-          width: 80px;
-          height: 80px;
-          margin-bottom: 12px;
-        }
-
-        .fingerprint-text {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .or-text {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .use-pin-btn {
-          background: none;
-          border: none;
-          color: #553fb5;
-          cursor: pointer;
+        .success-text {
+          font-size: 16px;
           font-weight: 500;
-          font-size: 14px;
-        }
-
-        .use-pin-btn:hover {
-          text-decoration: underline;
+          color: #2e2e2e;
         }
       `}</style>
     </>
   );
 };
 
-export default LockerPinTray;
+export default LockerSuccessTray;

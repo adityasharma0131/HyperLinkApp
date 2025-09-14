@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
-import fingerprintIcon from "../../../../assets/fignerprintbg.svg";
 
 const LockerPinTray = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [pin, setPin] = useState(["", "", "", ""]);
 
   useEffect(() => {
     if (isOpen) {
@@ -24,56 +24,51 @@ const LockerPinTray = () => {
     setTimeout(() => setIsOpen(false), 300);
   };
 
-  const handleFingerprintScan = async () => {
-    try {
-      if (!window.PublicKeyCredential) {
-        alert("Your device does not support WebAuthn API.");
-        return;
+  const handleChange = (value, index) => {
+    if (/^\d?$/.test(value)) {
+      const newPin = [...pin];
+      newPin[index] = value;
+      setPin(newPin);
+
+      // Auto move to next input
+      if (value && index < 3) {
+        document.getElementById(`pin-${index + 1}`).focus();
       }
+    }
+  };
 
-      const publicKeyCredentialRequestOptions = {
-        challenge: new Uint8Array([
-          /* Normally a random server-generated challenge */
-        ]),
-        allowCredentials: [],
-        timeout: 60000,
-        userVerification: "preferred",
-      };
-
-      const credential = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions,
-      });
-
-      if (credential) {
-        alert("Fingerprint scanned successfully!");
-        handleClose();
-      } else {
-        alert("Fingerprint scan failed or cancelled.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error during fingerprint scan: " + error.message);
+  const handleSubmit = () => {
+    const enteredPin = pin.join("");
+    if (enteredPin.length === 4) {
+      alert("PIN Entered: " + enteredPin);
+    } else {
+      alert("Please enter a 4-digit PIN");
     }
   };
 
   return (
     <>
+      {/* Open Button */}
       <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Secure Health Locker
+        Unlock Locker
       </button>
 
       {(isOpen || isVisible) && (
         <>
+          {/* Backdrop */}
           <div
             className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
             onClick={handleClose}
           />
 
+          {/* Bottom Tray */}
           <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
+            {/* Handle bar */}
             <div className="bottom-tray-handle">
               <div className="bottom-tray-handle-bar"></div>
             </div>
 
+            {/* Close Button */}
             <button
               onClick={handleClose}
               className="bottom-tray-close-btn"
@@ -82,24 +77,35 @@ const LockerPinTray = () => {
               <FiX className="bottom-tray-close-icon" />
             </button>
 
+            {/* Locker Content */}
             <div className="locker-container">
-              <h2 className="locker-title">Secure Your Health Locker</h2>
+              <h2 className="locker-title">Enter Locker PIN</h2>
               <p className="locker-subtitle">
-                Add biometrics to keep your health data private.
+                Only you can unlock this health data
               </p>
 
-              <div
-                className="fingerprint-section"
-                onClick={handleFingerprintScan}
-              >
-                <img
-                  src={fingerprintIcon}
-                  alt="Fingerprint Icon"
-                  className="fingerprint-icon"
-                />
-                <p className="fingerprint-text">Touch the fingerprint sensor</p>
+              <div className="pin-inputs">
+                {pin.map((digit, index) => (
+                  <input
+                    key={index}
+                    id={`pin-${index}`}
+                    type="text"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleChange(e.target.value, index)}
+                    className="pin-box"
+                  />
+                ))}
+              </div>
+
+              <button className="unlock-btn" onClick={handleSubmit}>
+                Unlock
+              </button>
+
+              <div className="locker-links">
+                <button className="link-btn">Forgot pin</button>
                 <span className="or-text">or</span>
-                <button className="use-pin-btn">Use Pin</button>
+                <button className="link-btn">Use Biometrics</button>
               </div>
             </div>
           </div>
@@ -116,9 +122,10 @@ const LockerPinTray = () => {
           cursor: pointer;
           font-size: 14px;
           margin: 20px;
+          transition: background 0.2s ease;
         }
         .open-tray-btn:hover {
-          background-color: #0056b3;
+          background-color: #452fa0;
         }
 
         .bottom-tray-backdrop {
@@ -196,56 +203,65 @@ const LockerPinTray = () => {
           padding: 24px;
           text-align: center;
         }
-
         .locker-title {
-          font-size: 18px;
+          font-size: 20px;
           font-weight: 600;
           margin-bottom: 6px;
           color: #000;
         }
-
         .locker-subtitle {
           font-size: 14px;
           color: #555;
           margin-bottom: 24px;
         }
-
-        .fingerprint-section {
+        .pin-inputs {
           display: flex;
-          flex-direction: column;
-          align-items: center;
+          gap: 12px;
+          margin-bottom: 20px;
+        }
+        .pin-box {
+          width: 50px;
+          height: 50px;
+          border: 2px solid #553fb5;
+          border-radius: 8px;
+          font-size: 22px;
+          text-align: center;
+          outline: none;
+        }
+        .pin-box:focus {
+          border-color: #452fa0;
+          box-shadow: 0 0 0 2px rgba(85, 63, 181, 0.2);
+        }
+        .unlock-btn {
+          width: 100%;
+          max-width: 300px;
+          background: #553fb5;
+          color: #fff;
+          padding: 14px;
+          font-size: 16px;
+          border: none;
+          border-radius: 8px;
           cursor: pointer;
+          margin-bottom: 20px;
         }
-
-        .fingerprint-icon {
-          width: 80px;
-          height: 80px;
-          margin-bottom: 12px;
+        .unlock-btn:hover {
+          background: #452fa0;
         }
-
-        .fingerprint-text {
+        .locker-links {
+          display: flex;
+          align-items: center;
+          gap: 8px;
           font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
         }
-
-        .or-text {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .use-pin-btn {
+        .link-btn {
           background: none;
           border: none;
           color: #553fb5;
           cursor: pointer;
           font-weight: 500;
-          font-size: 14px;
         }
-
-        .use-pin-btn:hover {
-          text-decoration: underline;
+        .or-text {
+          color: #555;
         }
       `}</style>
     </>
