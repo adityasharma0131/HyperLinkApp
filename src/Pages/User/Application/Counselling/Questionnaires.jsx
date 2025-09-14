@@ -157,12 +157,16 @@ const Questionnaires = () => {
           <button className="icon-button" onClick={() => window.history.back()}>
             <FiArrowLeft className="hero-icon" />
           </button>
+          <div className="hero-texts">
+            <h1 className="hero-title">HEALTH ASSESSMENT</h1>
+            <p className="hero-subtitle">Understand Your Genetic Risk</p>
+          </div>
         </div>
 
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-              Health Risk <br /> Assessment
+              Hello! <br /> This is HELIX
             </h1>
             <p className="hero-subtitle">
               Answer a few questions to evaluate your genetic risk factors
@@ -230,24 +234,22 @@ const Questionnaires = () => {
 
         <div className="questionnaire-actions">
           <AppButton
-            className={`submit-button ${
-              !allQuestionsAnswered ? "disabled" : ""
-            }`}
+            className={` ${!allQuestionsAnswered ? "disabled" : ""}`}
             onClick={handleSubmit}
             disabled={!allQuestionsAnswered}
-            text={"Submit Assessment"}
+            text="Submit Assessment"
           />
           <AppButton
-            variant={"secondary"}
+            variant="secondary"
             onClick={resetQuestionnaire}
-            text={"Reset Answers"}
+            text="Reset Answers"
           />
         </div>
       </div>
 
       <style>
         {`
-          .counselling-questionnaires-page {
+        .counselling-questionnaires-page {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -256,7 +258,7 @@ const Questionnaires = () => {
 }
 
 .counselling-questionnaires-hero {
-  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  background: linear-gradient(to bottom, #6ea6e7 0%, #daeffe 50%, #e0d3ff 80%);
   padding: 24px;
   border-radius: 0 0 32px 32px;
   color: white;
@@ -266,22 +268,46 @@ const Questionnaires = () => {
 }
 
 .counselling-questionnaires-hero::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   right: -20%;
   width: 60%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
   z-index: 1;
 }
 
 .hero-top-bar {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1rem;
-  position: relative;
-  z-index: 2;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.hero-texts {
+  flex: 1;
+  text-align: left;
+}
+
+.hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #553fb5;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  opacity: 0.9;
 }
 
 .icon-button {
@@ -306,7 +332,7 @@ const Questionnaires = () => {
 
 .hero-icon {
   font-size: 20px;
-  color: white;
+  color: #553fb5;
 }
 
 .hero-content {
@@ -316,6 +342,7 @@ const Questionnaires = () => {
   position: relative;
   z-index: 2;
   height: 100%;
+  color: #553fb5;
 }
 
 .hero-text h1 {
@@ -331,7 +358,7 @@ const Questionnaires = () => {
   opacity: 0.9;
   margin-bottom: 24px;
   max-width: 280px;
-  line-height: 1.5;
+  line-height: 1.2;
   font-weight: 500;
 }
 
@@ -363,7 +390,7 @@ const Questionnaires = () => {
 
 .progress-indicator {
   height: 6px;
-  background: #EDF2F7;
+  background: #edf2f7;
   border-radius: 3px;
   margin-bottom: 8px;
   overflow: hidden;
@@ -371,7 +398,7 @@ const Questionnaires = () => {
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #6366F1, #8B5CF6);
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
   border-radius: 3px;
   transition: width 0.5s ease;
 }
@@ -379,7 +406,7 @@ const Questionnaires = () => {
 .progress-text {
   display: block;
   font-size: 14px;
-  color: #64748B;
+  color: #64748b;
   font-weight: 500;
   text-align: right;
 }
@@ -398,13 +425,13 @@ const Questionnaires = () => {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 1px solid #EDF2F7;
+  border: 1px solid #edf2f7;
   transform-origin: top center;
 }
 
 .accordion-item.active {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border-color: #C7D2FE;
+  border-color: #c7d2fe;
   transform: translateY(0) scale(1) !important;
   z-index: 100 !important;
   opacity: 1 !important;
@@ -444,7 +471,7 @@ const Questionnaires = () => {
 }
 
 .accordion-header:hover:not(.locked) {
-  background-color: #F8FAFC;
+  background-color: #f8fafc;
 }
 
 .question-number-container {
@@ -456,7 +483,7 @@ const Questionnaires = () => {
 .question-number {
   font-size: 16px;
   font-weight: 700;
-  color: #6366F1;
+  color: #6366f1;
   background: rgba(99, 102, 241, 0.1);
   width: 36px;
   height: 36px;
@@ -470,7 +497,7 @@ const Questionnaires = () => {
   position: absolute;
   bottom: -4px;
   right: -4px;
-  background: #10B981;
+  background: #10b981;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -493,24 +520,24 @@ const Questionnaires = () => {
 .question-text {
   font-size: 16px;
   font-weight: 600;
-  color: #1E293B;
+  color: #1e293b;
   margin-bottom: 6px;
   line-height: 1.4;
 }
 
 .answer-preview {
   font-size: 14px;
-  color: #64748B;
+  color: #64748b;
   margin: 0;
 }
 
 .selected-label {
   font-weight: 500;
-  color: #6366F1;
+  color: #6366f1;
 }
 
 .accordion-icon {
-  color: #94A3B8;
+  color: #94a3b8;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -518,11 +545,11 @@ const Questionnaires = () => {
 }
 
 .accordion-item.active .accordion-icon {
-  color: #6366F1;
+  color: #6366f1;
 }
 
 .accordion-item.locked .accordion-icon {
-  color: #CBD5E1;
+  color: #cbd5e1;
 }
 
 .options-group {
@@ -534,30 +561,30 @@ const Questionnaires = () => {
 }
 
 .option-card {
-  padding: 16px;
+  padding: 10px;
   border-radius: 12px;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .option-card:hover {
-  background: #F1F5F9;
-  border-color: #CBD5E1;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .option-card.selected {
   background: rgba(99, 102, 241, 0.05);
-  border-color: #6366F1;
-  color: #6366F1;
+  border-color: #6366f1;
+  color: #6366f1;
   font-weight: 600;
 }
 
@@ -591,7 +618,7 @@ const Questionnaires = () => {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #6366F1;
+  background: #6366f1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -605,12 +632,11 @@ const Questionnaires = () => {
 }
 
 .question-navigation {
-      display: flex
-;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1rem 0 3rem;
-    gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0 2rem;
+  gap: 1rem;
 }
 
 .nav-button {
@@ -667,18 +693,18 @@ const Questionnaires = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #F1F5F9;
-  color: #64748B;
+  background: #f1f5f9;
+  color: #64748b;
 }
 
 .nav-button.next {
-  background: #6366F1;
+  background: #6366f1;
   color: white;
 }
 
 .nav-button.prev {
-  background: #F1F5F9;
-  color: #64748B;
+  background: #f1f5f9;
+  color: #64748b;
 }
 
 .nav-button:hover:not(.disabled) {
@@ -694,15 +720,27 @@ const Questionnaires = () => {
 
 .question-counter {
   font-size: 14px;
-  color: #64748B;
+  color: #64748b;
   font-weight: 500;
 }
 
+/* Bottom Tray for Questionnaire Actions */
 .questionnaire-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 16px 16px 0 0;
+  padding: 1rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+
   display: flex;
   gap: 16px;
-  margin-top: 32px;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  justify-content: center;
 }
 
 @keyframes fadeIn {
@@ -741,6 +779,7 @@ const Questionnaires = () => {
 @media (max-width: 768px) {
   .health-questionnaire {
     padding: 16px;
+    padding-bottom: 5rem;
   }
 
   .hero-text h1 {
@@ -782,12 +821,11 @@ const Questionnaires = () => {
     width: 120px;
   }
 
-
-  
   .nav-button {
     width: 100%;
   }
 }
+
 `}
       </style>
     </div>
