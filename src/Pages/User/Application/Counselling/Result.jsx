@@ -1,6 +1,4 @@
-import { useLocation } from "react-router-dom";
 import {
-  FaHeartbeat,
   FaExclamationTriangle,
   FaCheckCircle,
   FaInfoCircle,
@@ -13,47 +11,15 @@ import AppButton from "../../../../Components/AppButton";
 import HealthRecord from "../../../../assets/healthrecord.png";
 
 const Result = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const { assessment } = location.state || {};
-
-  // Calculate percentage score
-  const percentageScore = assessment
-    ? Math.round((assessment.totalScore / assessment.maxPossibleScore) * 100)
-    : 0;
-
-  // Determine color and icon based on risk level
-  const getRiskVisuals = () => {
-    switch (assessment?.riskLevel) {
-      case "high":
-        return {
-          color: "#ff4757",
-          bgColor: "rgba(255, 71, 87, 0.1)",
-          icon: <FaExclamationTriangle />,
-          title: "Critical Risk",
-          gradient: "linear-gradient(135deg, #ff4757 0%, #d32f2f 100%)",
-        };
-      case "moderate":
-        return {
-          color: "#ffa502",
-          bgColor: "rgba(255, 165, 2, 0.1)",
-          icon: <FaExclamationTriangle />,
-          title: "Moderate Risk",
-          gradient: "linear-gradient(135deg, #ffa502 0%, #ff7f50 100%)",
-        };
-      default:
-        return {
-          color: "#2ed573",
-          bgColor: "rgba(46, 213, 115, 0.1)",
-          icon: <FaCheckCircle />,
-          title: "Normal Risk",
-          gradient: "linear-gradient(135deg, #2ed573 0%, #388e3c 100%)",
-        };
-    }
+  const riskVisuals = {
+    color: "#2ed573",
+    bgColor: "rgba(46, 213, 115, 0.1)",
+    icon: <FaCheckCircle />,
+    title: "Normal Risk",
+    gradient: "linear-gradient(135deg, #2ed573 0%, #388e3c 100%)",
   };
-
-  const riskVisuals = getRiskVisuals();
 
   return (
     <div className="result-container">
@@ -63,220 +29,22 @@ const Result = () => {
           style={{ background: riskVisuals.gradient }}
         >
           <div className="header-content">
-            <h1>Your Genetic Health Assessment</h1>
+            <h1>Congragulation Sakshi</h1>
+            <p>You have successfully completed your assessment</p>
             <div className="result-icon" style={{ color: "#fff" }}>
               {riskVisuals.icon}
             </div>
-            <div className="result-status" style={{ color: "#fff" }}>
-              {riskVisuals.title}
-            </div>
+          </div>
+          <div className="result-content-card">
+            <p>
+              Based on your responses and current health profile, you need to
+              consult a diabetologist for personalized advice.
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="result-content">
-        {/* Risk Summary Card */}
-        <div className="summary-card">
-          <div className="summary-content">
-            <h3>
-              <FaInfoCircle /> Risk Summary
-            </h3>
-            <div className="risk-meter-container">
-              <div className="risk-meter-labels">
-                <span>Low Risk</span>
-                <span>Medium Risk</span>
-                <span>High Risk</span>
-              </div>
-              <div className="risk-meter">
-                <div
-                  className="risk-meter-fill"
-                  style={{
-                    width: `${percentageScore}%`,
-                    background: riskVisuals.gradient,
-                    boxShadow: `0 0 15px ${riskVisuals.color}`,
-                  }}
-                ></div>
-              </div>
-              <div className="risk-score">
-                <span>Your Risk Score:</span>
-                <span
-                  className="score-value"
-                  style={{ color: riskVisuals.color }}
-                >
-                  {percentageScore}%
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Risk Factors */}
-        <div className="card">
-          <h3>
-            <FaExclamationTriangle /> Key Risk Factors Identified
-          </h3>
-          <div className="risk-factors-grid">
-            {assessment?.riskFactors.map((factor, index) => (
-              <div key={index} className="risk-factor-card">
-                <div className="factor-content">
-                  <div className="factor-question">{factor.question}</div>
-                  <div className="factor-answer">{factor.answer}</div>
-                </div>
-                <div
-                  className="factor-severity"
-                  style={{
-                    background:
-                      factor.severity === "high"
-                        ? "rgba(255, 71, 87, 0.2)"
-                        : "rgba(255, 165, 2, 0.2)",
-                    color: factor.severity === "high" ? "#ff4757" : "#ffa502",
-                  }}
-                >
-                  {factor.severity} risk
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Diabetes Information */}
-        <div className="card">
-          <h3>Understanding Diabetes Risk</h3>
-          <div className="diabetes-grid">
-            <div
-              className="diabetes-card"
-              style={{ borderTop: "4px solid #1976d2" }}
-            >
-              <h4>Type 1 Diabetes</h4>
-              <div className="diabetes-content">
-                <p>
-                  Autoimmune condition where pancreas produces little or no
-                  insulin.
-                </p>
-                <div className="risk-factors">
-                  <span>Risk Factors:</span>
-                  <ul>
-                    <li>Family history</li>
-                    <li>Genetic predisposition</li>
-                    <li>Age (usually develops in children/young adults)</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="diabetes-card"
-              style={{ borderTop: "4px solid #388e3c" }}
-            >
-              <h4>Type 2 Diabetes</h4>
-              <div className="diabetes-content">
-                <p>
-                  Body becomes resistant to insulin or doesn't produce enough
-                  insulin.
-                </p>
-                <div className="risk-factors">
-                  <span>Risk Factors:</span>
-                  <ul>
-                    <li>Family history</li>
-                    <li>Obesity</li>
-                    <li>Physical inactivity</li>
-                    <li>Age (over 45)</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="diabetes-card"
-              style={{ borderTop: "4px solid #7b1fa2" }}
-            >
-              <h4>Type 3 Diabetes</h4>
-              <div className="diabetes-content">
-                <p>
-                  Proposed term for Alzheimer's disease linked to insulin
-                  resistance in the brain.
-                </p>
-                <div className="risk-factors">
-                  <span>Risk Factors:</span>
-                  <ul>
-                    <li>Family history of Alzheimer's</li>
-                    <li>ApoE4 gene</li>
-                    <li>Metabolic syndrome</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Recommendations */}
-        <div
-          className="recommendations-card"
-          style={{
-            background: riskVisuals.bgColor,
-            borderLeft: `4px solid ${riskVisuals.color}`,
-          }}
-        >
-          <h3>Recommendations Based on Your Assessment</h3>
-          {assessment?.riskLevel === "high" ? (
-            <div className="recommendation-content">
-              <div className="recommendation-icon" style={{ color: "#ff4757" }}>
-                <FaExclamationTriangle />
-              </div>
-              <div>
-                <h4>Critical Risk</h4>
-                <p>
-                  We strongly recommend consulting with a genetic counselor and
-                  scheduling a comprehensive health screening. Early
-                  intervention is crucial.
-                </p>
-                <ul>
-                  <li>Schedule an appointment with an endocrinologist</li>
-                  <li>Consider genetic testing</li>
-                  <li>Begin lifestyle modifications immediately</li>
-                </ul>
-              </div>
-            </div>
-          ) : assessment?.riskLevel === "moderate" ? (
-            <div className="recommendation-content">
-              <div className="recommendation-icon" style={{ color: "#ffa502" }}>
-                <FaExclamationTriangle />
-              </div>
-              <div>
-                <h4>Moderate Risk</h4>
-                <p>
-                  Consider lifestyle modifications and regular monitoring. A
-                  follow-up with your primary care physician is advised.
-                </p>
-                <ul>
-                  <li>Annual blood glucose testing</li>
-                  <li>Weight management program</li>
-                  <li>Regular physical activity</li>
-                </ul>
-              </div>
-            </div>
-          ) : (
-            <div className="recommendation-content">
-              <div className="recommendation-icon" style={{ color: "#2ed573" }}>
-                <FaCheckCircle />
-              </div>
-              <div>
-                <h4>Normal Risk</h4>
-                <p>
-                  Maintain healthy lifestyle habits. Regular check-ups are still
-                  recommended for preventive care.
-                </p>
-                <ul>
-                  <li>Continue balanced diet and exercise</li>
-                  <li>Regular health screenings</li>
-                  <li>Monitor family health history</li>
-                </ul>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
+      {/* Doctor Consultation Section */}
       <div className="consult-container">
         <div className="consult-text-section">
           <h1 className="consult-heading">
@@ -296,10 +64,12 @@ const Result = () => {
             to ask questions, share past reports, or get further advice.
           </p>
 
-          <AppButton
-            text={"Book a Consultation"}
+          <button
+            className="book-btn"
             onClick={() => navigate("/app/consultation")}
-          />
+          >
+            Book a Consultation
+          </button>
         </div>
 
         <div className="consult-options">
@@ -318,6 +88,7 @@ const Result = () => {
         </div>
       </div>
 
+      {/* Health Record Banner */}
       <div className="report-banner">
         <div className="report-text">
           <h2>
@@ -383,6 +154,8 @@ body {
   color: white;
   text-align: center;
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  
+    border-radius: 0 0 32px 32px;
 }
 
 .header-content {
@@ -712,7 +485,7 @@ body {
 
 .consult-icon {
   font-size: 28px;
-  color: #8b5cf6;
+  color: #553fb5;
   margin-bottom: 8px;
 }
 
@@ -730,7 +503,7 @@ body {
   background: linear-gradient(180deg, #f0f4ff 0%, #e9dfff 100%);
   border-radius: 20px;
   padding: 1.2rem 1rem;
-  margin: 1rem 1rem 7rem 1rem;
+  margin: 1rem;
   gap: 1rem;
 }
 
@@ -773,6 +546,37 @@ body {
   .report-text h2 {
     font-size: 1.3rem;
   }
+}
+
+.result-content-card {
+  max-width: 720px;
+  margin: 1rem auto;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);        /* faint white */
+  backdrop-filter: blur(10px) saturate(120%);/* core glass effect */
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 30px rgba(12, 20, 30, 0.35);
+  color: #e6f0ff; /* light text good on dark background */
+  line-height: 1.5;
+}
+.result-content-card  p{ margin:0; font-size: 0.98rem; }
+
+
+.book-btn {
+  background-color: #553fb5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Outfit", sans-serif;
+
+  transition: background 0.2s ease;
 }
 `}
       </style>
