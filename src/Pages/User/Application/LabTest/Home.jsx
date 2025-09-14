@@ -380,7 +380,7 @@ const Home = () => {
 }
 
 .labtest-category-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   color: #1e293b;
   text-align: left;
@@ -487,7 +487,7 @@ const Home = () => {
 }
 
 .labtest-category-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: #1f1f1f;
   margin: 0;
