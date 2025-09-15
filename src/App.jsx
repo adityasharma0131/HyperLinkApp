@@ -234,8 +234,8 @@ function App() {
           <Route path="/app/wellness" element={<WellnessHome />} />
           
           <Route path="/app/health-record" element={<HealthRecordsHome />} />
-          <Route path="/app/wellness/folder-list" element={<HealthRecordsDirectoryList />} />
-          <Route path="/app/wellness/single-folder" element={<HealthRecordsSingleDirectory />} />
+          <Route path="/app/health-record/folder-list" element={<HealthRecordsDirectoryList />} />
+          <Route path="/app/health-record/single-folder" element={<HealthRecordsSingleDirectory />} />
 
           <Route path="/app/testing" element={<Testing />} />
         </Routes>
