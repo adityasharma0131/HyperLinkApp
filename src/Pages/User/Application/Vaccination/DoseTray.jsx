@@ -130,17 +130,20 @@ const DoseTray = ({
         case "pending":
           return (
             <div className="dose-actions dual-buttons">
-              <AppButton
-                text="Schedule Now"
-                icon={FiCalendar}
+              <button
+                className="schedule-btn"
                 onClick={() => onScheduleDose(dose.number)}
-              />
-              <AppButton
-                text="Upload Certificate"
-                icon={FiUpload}
-                variant="secondary"
+              >
+                <FiCalendar />
+                Schedule Now
+              </button>
+              <button
+                className="upload-btn"
                 onClick={() => onUploadCertificate(dose.number)}
-              />
+              >
+                <FiUpload />
+                Upload Certificate
+              </button>
             </div>
           );
         case "locked":
@@ -691,6 +694,41 @@ const DoseTray = ({
 
           .dose-tray-content::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
+          }
+
+          .schedule-btn {
+            background-color: #553fb5;
+            color: #fff;
+            border: none;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+          }
+          .upload-btn {
+            background-color: #fff;
+            color: #553fb5;
+            border: 1.5px solid #d1d5db;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
           }
         `}</style>
       </div>

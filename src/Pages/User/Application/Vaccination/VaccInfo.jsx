@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FiX, FiCalendar } from "react-icons/fi";
 import { GiLoveInjection } from "react-icons/gi";
-import AppButton from "../../../../Components/AppButton";
 
 const VaccInfo = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -93,11 +92,13 @@ const VaccInfo = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
                 </div>
               </div>
               <div className="bottom-tray-actions">
-                <AppButton
-                  text="Schedule Now"
-                  icon={FiCalendar}
+                <button
                   onClick={() => handleScheduleClick(vaccineData.name)}
-                />
+                  className="schedule-btn"
+                >
+                  <FiCalendar />
+                  Schedule Now
+                </button>
               </div>
             </>
           ) : (
@@ -385,6 +386,24 @@ const VaccInfo = ({ isOpen, onClose, vaccineData, handleScheduleClick }) => {
           .vaccine-tag.optional {
             background: #fff4e5;
             color: #ed6c02;
+          }
+
+          .schedule-btn {
+            background-color: #553fb5;
+            color: #fff;
+            border: none;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
           }
         `}</style>
       </div>

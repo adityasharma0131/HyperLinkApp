@@ -405,7 +405,7 @@ const AddLocation = () => {
             >
               <FiArrowLeft className="hero-icon" />
             </button>
-            <h1 className="hero-title">Order Summary</h1>
+            <h1 className="hero-title">Address</h1>
           </div>
 
           <div

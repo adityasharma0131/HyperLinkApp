@@ -55,10 +55,12 @@ const NewUserTray = ({ onClose }) => {
             a minute.
           </p>
 
-          <AppButton
-            text="Continue"
+          <button
             onClick={() => navigate("/app/vaccination/details")}
-          />
+            className="continue-btn"
+          >
+            Continue
+          </button>
         </div>
       </div>
       <style>
@@ -199,6 +201,25 @@ const NewUserTray = ({ onClose }) => {
     transform: translateY(100%);
   }
 }
+
+
+.continue-btn {
+            background-color: #553fb5;
+            color: #fff;
+            border: none;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+          }
 `}
       </style>
     </div>

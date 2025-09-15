@@ -30,7 +30,9 @@ import AdultVaccination from "./Pages/User/Application/Vaccination/AdultVaccinat
 import TravelVaccination from "./Pages/User/Application/Vaccination/TravelVaccination";
 import DetailsVaccination from "./Pages/User/Application/Vaccination/PersonalDetails";
 import QuestionnairesVaccination from "./Pages/User/Application/Vaccination/Questionnaires";
-import QuestionnairesOrderSummary from "./Pages/User/Application/Vaccination/OrderSummary";
+import VaccinationPage from "./Pages/User/Application/Vaccination/VaccinationPage";
+import VaccinationCart from "./Pages/User/Application/Vaccination/VaccinationCart";
+import VaccinationAddLocation from "./Pages/User/Application/Vaccination/AddLocation";
 
 import HomeCounselling from "./Pages/User/Application/Counselling/Home";
 import DetailsCounselling from "./Pages/User/Application/Counselling/PersonalDetails";
@@ -134,7 +136,15 @@ function App() {
           />
           <Route
             path="/app/vaccination/order-summary"
-            element={<QuestionnairesOrderSummary />}
+            element={<VaccinationPage />}
+          />
+          <Route
+            path="/app/vaccination/cart"
+            element={<VaccinationCart />}
+          />
+          <Route
+            path="/app/vaccination/add-location"
+            element={<VaccinationAddLocation />}
           />
           <Route path="/app/user/add-location" element={<AddLocation />} />
 
@@ -232,10 +242,16 @@ function App() {
           />
 
           <Route path="/app/wellness" element={<WellnessHome />} />
-          
+
           <Route path="/app/health-record" element={<HealthRecordsHome />} />
-          <Route path="/app/health-record/folder-list" element={<HealthRecordsDirectoryList />} />
-          <Route path="/app/health-record/single-folder" element={<HealthRecordsSingleDirectory />} />
+          <Route
+            path="/app/health-record/folder-list"
+            element={<HealthRecordsDirectoryList />}
+          />
+          <Route
+            path="/app/health-record/single-folder"
+            element={<HealthRecordsSingleDirectory />}
+          />
 
           <Route path="/app/testing" element={<Testing />} />
         </Routes>

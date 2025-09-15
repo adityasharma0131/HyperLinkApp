@@ -171,19 +171,18 @@ const Questionnaires = () => {
         </div>
 
         <div className="questionnaire-actions">
-          <AppButton
-            className={`submit-button ${
-              !allQuestionsAnswered ? "disabled" : ""
-            }`}
+          <button
+            className={`submit-btn ${!allQuestionsAnswered ? "disabled" : ""}`}
             onClick={handleSubmit}
-            disabled={!allQuestionsAnswered}
-            text={"Submit Assessment"}
-          />
-          <AppButton
-            variant={"secondary"}
+          >
+            Submit Assessment
+          </button>
+          <button
+            className={`reset-btn ${!allQuestionsAnswered ? "disabled" : ""}`}
             onClick={resetQuestionnaire}
-            text={"Reset Answers"}
-          />
+          >
+            Reset AnswersReset Answers
+          </button>
         </div>
       </div>
 
@@ -728,6 +727,43 @@ const Questionnaires = () => {
     width: 100%;
   }
 }
+
+
+   .submit-btn {
+            background-color: #553fb5;
+            color: #fff;
+            border: none;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+          }
+          .reset-btn {
+            background-color: #fff;
+            color: #553fb5;
+            border: 1.5px solid #d1d5db;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+          }
+
 `}
       </style>
     </div>

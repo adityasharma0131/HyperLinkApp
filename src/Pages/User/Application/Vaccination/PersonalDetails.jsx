@@ -247,10 +247,12 @@ const PersonalDetails = () => {
           )}
         </div>
 
-        <AppButton
-          text="Start Assessment"
+        <button
           onClick={() => navigate("/app/vaccination/questionnaires")}
-        />
+          className="start-btn"
+        >
+          Start Assessment
+        </button>
       </div>
 
       <style>
@@ -686,6 +688,25 @@ const PersonalDetails = () => {
     gap: 16px;
   }
 }
+
+
+ .start-btn {
+            background-color: #553fb5;
+            color: #fff;
+            border: none;
+            display: flex;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Outfit", sans-serif;
+            gap: 5px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+          }
 `}
       </style>
     </div>
