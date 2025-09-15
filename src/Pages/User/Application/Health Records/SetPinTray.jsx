@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 
-const LockerPinTray = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const SetPinTray = ({ onClose, onPinSet }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [pin, setPin] = useState(["", "", "", ""]);
   const [confirmPin, setConfirmPin] = useState(["", "", "", ""]);
 
   useEffect(() => {
-    if (isOpen) {
-      setIsVisible(true);
-      document.body.style.overflow = "hidden";
-    } else {
-      setIsVisible(false);
-      document.body.style.overflow = "";
-    }
+    setIsVisible(true);
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    setTimeout(() => setIsOpen(false), 300);
+    setTimeout(() => onClose(), 300);
   };
 
   const handleChange = (value, index, type) => {
@@ -49,101 +43,84 @@ const LockerPinTray = () => {
 
     if (enteredPin.length === 4 && enteredConfirm.length === 4) {
       if (enteredPin === enteredConfirm) {
-        alert("PIN Set Successfully: " + enteredPin);
+        localStorage.setItem("lockerPin", enteredPin);
+        localStorage.setItem("healthRecordNewUser", "false");
+        onPinSet(enteredPin); // Call parent callback
+        handleClose();
       } else {
-        alert("PINs do not match. Please try again.");
+        alert("❌ PINs do not match. Please try again.");
       }
     } else {
-      alert("Please enter and confirm a 4-digit PIN.");
+      alert("⚠️ Please enter and confirm a 4-digit PIN.");
     }
   };
 
   return (
     <>
-      {/* Open Button */}
-      <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Set Locker PIN
-      </button>
+      <div
+        className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
+        onClick={handleClose}
+      />
 
-      {(isOpen || isVisible) && (
-        <>
-          {/* Backdrop */}
-          <div
-            className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
-            onClick={handleClose}
-          />
+      <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
+        <div className="bottom-tray-handle">
+          <div className="bottom-tray-handle-bar"></div>
+        </div>
 
-          {/* Bottom Tray */}
-          <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
-            {/* Handle bar */}
-            <div className="bottom-tray-handle">
-              <div className="bottom-tray-handle-bar"></div>
-            </div>
+        <button
+          onClick={handleClose}
+          className="bottom-tray-close-btn"
+          aria-label="Close tray"
+        >
+          <FiX className="bottom-tray-close-icon" />
+        </button>
 
-            {/* Close Button */}
-            <button
-              onClick={handleClose}
-              className="bottom-tray-close-btn"
-              aria-label="Close tray"
-            >
-              <FiX className="bottom-tray-close-icon" />
-            </button>
+        <div className="locker-container">
+          <h2 className="locker-title">Secure Your Health Locker</h2>
+          <p className="locker-subtitle">
+            Add a 4-digit PIN to keep your health data private.
+          </p>
 
-            {/* Locker Content */}
-            <div className="locker-container">
-              <h2 className="locker-title">Secure Your Health Locker</h2>
-              <p className="locker-subtitle">
-                Add a 4-digit PIN to keep your health data private.
-              </p>
-
-              {/* Enter PIN */}
-              <label className="pin-label">Enter 4-digit pin here</label>
-              <div className="pin-inputs">
-                {pin.map((digit, index) => (
-                  <input
-                    key={index}
-                    id={`pin-${index}`}
-                    type="text"
-                    maxLength="1"
-                    value={digit}
-                    onChange={(e) => handleChange(e.target.value, index, "pin")}
-                    className="pin-box"
-                  />
-                ))}
-              </div>
-
-              {/* Confirm PIN */}
-              <label className="pin-label">Confirm Pin</label>
-              <div className="pin-inputs">
-                {confirmPin.map((digit, index) => (
-                  <input
-                    key={index}
-                    id={`confirm-${index}`}
-                    type="text"
-                    maxLength="1"
-                    value={digit}
-                    onChange={(e) =>
-                      handleChange(e.target.value, index, "confirm")
-                    }
-                    className="pin-box"
-                  />
-                ))}
-              </div>
-
-              {/* Submit */}
-              <button className="unlock-btn" onClick={handleSubmit}>
-                Set Pin & Lock
-              </button>
-
-              {/* OR + Biometrics */}
-              <div className="locker-links">
-                <span className="or-text">or</span>
-                <button className="link-btn">Use Biometrics</button>
-              </div>
-            </div>
+          <label className="pin-label">Enter 4-digit PIN</label>
+          <div className="pin-inputs">
+            {pin.map((digit, index) => (
+              <input
+                key={index}
+                id={`pin-${index}`}
+                type="text"
+                maxLength="1"
+                value={digit}
+                onChange={(e) => handleChange(e.target.value, index, "pin")}
+                className="pin-box"
+              />
+            ))}
           </div>
-        </>
-      )}
+
+          <label className="pin-label">Confirm 4-digit PIN</label>
+          <div className="pin-inputs">
+            {confirmPin.map((digit, index) => (
+              <input
+                key={index}
+                id={`confirm-${index}`}
+                type="text"
+                maxLength="1"
+                value={digit}
+                onChange={(e) => handleChange(e.target.value, index, "confirm")}
+                className="pin-box"
+              />
+            ))}
+          </div>
+
+          <button className="unlock-btn" onClick={handleSubmit}>
+            Set Pin & Lock
+          </button>
+
+          <div className="locker-links">
+            <span className="or-text">or</span>
+            <button className="link-btn">Use Biometrics</button>
+          </div>
+        </div>
+      </div>
 
       <style jsx>{`
         .open-tray-btn {
@@ -305,4 +282,4 @@ const LockerPinTray = () => {
   );
 };
 
-export default LockerPinTray;
+export default SetPinTray;

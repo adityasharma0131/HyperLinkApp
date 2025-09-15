@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 
-const LockerPinTray = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const LockerTray = ({ onClose, onUnlockSuccess }) => {
+  const [isOpen, setIsOpen] = useState(true); // Open on mount
   const [isVisible, setIsVisible] = useState(false);
   const [pin, setPin] = useState(["", "", "", ""]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const storedPin = localStorage.getItem("lockerPin");
 
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
       document.body.style.overflow = "hidden";
-    } else {
-      setIsVisible(false);
-      document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
@@ -30,7 +30,6 @@ const LockerPinTray = () => {
       newPin[index] = value;
       setPin(newPin);
 
-      // Auto move to next input
       if (value && index < 3) {
         document.getElementById(`pin-${index + 1}`).focus();
       }
@@ -40,44 +39,32 @@ const LockerPinTray = () => {
   const handleSubmit = () => {
     const enteredPin = pin.join("");
     if (enteredPin.length === 4) {
-      alert("PIN Entered: " + enteredPin);
+      if (enteredPin === storedPin) {
+        alert("✅ Locker Unlocked");
+        onUnlockSuccess();
+        handleClose();
+      } else {
+        setErrorMessage("❌ Incorrect PIN. Please try again.");
+      }
     } else {
-      alert("Please enter a 4-digit PIN");
+      setErrorMessage("⚠️ Please enter a 4-digit PIN.");
     }
   };
 
   return (
     <>
-      {/* Open Button */}
-      <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Unlock Locker
-      </button>
-
       {(isOpen || isVisible) && (
         <>
-          {/* Backdrop */}
           <div
             className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
-            onClick={handleClose}
+            onClick={() => {}}
           />
 
-          {/* Bottom Tray */}
           <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
-            {/* Handle bar */}
             <div className="bottom-tray-handle">
               <div className="bottom-tray-handle-bar"></div>
             </div>
 
-            {/* Close Button */}
-            <button
-              onClick={handleClose}
-              className="bottom-tray-close-btn"
-              aria-label="Close tray"
-            >
-              <FiX className="bottom-tray-close-icon" />
-            </button>
-
-            {/* Locker Content */}
             <div className="locker-container">
               <h2 className="locker-title">Enter Locker PIN</h2>
               <p className="locker-subtitle">
@@ -97,6 +84,8 @@ const LockerPinTray = () => {
                   />
                 ))}
               </div>
+
+              {errorMessage && <p className="error-text">{errorMessage}</p>}
 
               <button className="unlock-btn" onClick={handleSubmit}>
                 Unlock
@@ -268,4 +257,4 @@ const LockerPinTray = () => {
   );
 };
 
-export default LockerPinTray;
+export default LockerTray;

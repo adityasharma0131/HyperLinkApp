@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoIosAdd } from "react-icons/io";
 
-import UploadOptionsTray from "./UploadOptionsTray"; // Adjust path
-import UploadFileTray from "./UploadFileTray"; // Adjust path
+import UploadOptionsTray from "./UploadOptionsTray";
+import UploadFileTray from "./UploadFileTray";
+import SetPinTray from "./SetPinTray";
+import LockerTray from "./LockerTray";
 
 import healthrecordsaddrecords from "../../../../assets/healthrecordsaddrecords.svg";
 import healthrecordslockrecords from "../../../../assets/healthrecordslockrecords.svg";
@@ -19,16 +21,64 @@ const Home = () => {
   const [isUploadOptionsTrayOpen, setUploadOptionsTrayOpen] = useState(false);
   const [isUploadFileTrayOpen, setUploadFileTrayOpen] = useState(false);
   const [selectedUploadType, setSelectedUploadType] = useState("");
+  const [isLockerPinTrayOpen, setLockerPinTrayOpen] = useState(false);
+  const [isSetPinTrayOpen, setIsSetPinTrayOpen] = useState(false); // <-- Fixed declaration
+  const [isLocked, setIsLocked] = useState(false);
 
-  const openUploadOptionsTray = () => setUploadOptionsTrayOpen(true);
-  const closeUploadOptionsTray = () => setUploadOptionsTrayOpen(false);
+  useEffect(() => {
+    if (localStorage.getItem("healthRecordNewUser") === null) {
+      localStorage.setItem("healthRecordNewUser", "true");
+    }
 
-  const openUploadFileTray = (type) => {
-    setSelectedUploadType(type);
-    setUploadFileTrayOpen(true);
+    const isNewUser = localStorage.getItem("healthRecordNewUser") === "true";
+    if (!isNewUser) {
+      setIsLocked(true);
+    } else {
+      setIsSetPinTrayOpen(true);
+    }
+  }, []);
+
+  const openUploadOptionsTray = () => {
+    if (isLocked) {
+      setLockerPinTrayOpen(true);
+    } else {
+      setUploadOptionsTrayOpen(true);
+    }
   };
 
+  const openUploadFileTray = (type) => {
+    if (isLocked) {
+      setLockerPinTrayOpen(true);
+    } else {
+      setSelectedUploadType(type);
+      setUploadFileTrayOpen(true);
+    }
+  };
+
+  const closeUploadOptionsTray = () => setUploadOptionsTrayOpen(false);
   const closeUploadFileTray = () => setUploadFileTrayOpen(false);
+
+  const handleLockRecordsClick = () => {
+    const isNewUser = localStorage.getItem("healthRecordNewUser") === "true";
+    if (isNewUser) {
+      setIsSetPinTrayOpen(true);
+    } else {
+      setLockerPinTrayOpen(true);
+    }
+  };
+
+  const handlePinSet = (enteredPin) => {
+    localStorage.setItem("lockerPin", enteredPin);
+    localStorage.setItem("healthRecordNewUser", "false");
+    alert("✅ Locker secured successfully.");
+    setIsSetPinTrayOpen(false);
+    setIsLocked(false);
+  };
+
+  const handleUnlockSuccess = () => {
+    setIsLocked(false);
+    setLockerPinTrayOpen(false);
+  };
 
   return (
     <>
@@ -50,7 +100,6 @@ const Home = () => {
           <h2 className="quick-access-title">QUICK ACCESS</h2>
 
           <div className="quick-access-cards">
-            {/* Add Records Card – Now Opens UploadOptionsTray */}
             <div
               className="quick-access-item"
               onClick={openUploadOptionsTray}
@@ -62,7 +111,11 @@ const Home = () => {
               <p>Add Records</p>
             </div>
 
-            <div className="quick-access-item">
+            <div
+              className="quick-access-item"
+              onClick={handleLockRecordsClick}
+              style={{ cursor: "pointer" }}
+            >
               <div className="quick-access-card">
                 <img src={healthrecordslockrecords} alt="Lock Records" />
               </div>
@@ -84,7 +137,6 @@ const Home = () => {
               <h1 className="records-title">RECORDS</h1>
               <p className="records-subtitle">What are you looking for?</p>
             </div>
-            {/* Clicking this button also opens UploadOptionsTray */}
             <button className="add-btn" onClick={openUploadOptionsTray}>
               <IoIosAdd size={26} />
             </button>
@@ -154,6 +206,22 @@ const Home = () => {
         <UploadFileTray
           uploadType={selectedUploadType}
           onClose={closeUploadFileTray}
+        />
+      )}
+
+      {/* Locker PIN Set Tray */}
+      {isSetPinTrayOpen && (
+        <SetPinTray
+          onClose={() => setIsSetPinTrayOpen(false)}
+          onPinSet={handlePinSet}
+        />
+      )}
+
+      {/* Locker PIN Unlock Tray */}
+      {isLockerPinTrayOpen && (
+        <LockerTray
+          onClose={() => setLockerPinTrayOpen(false)}
+          onUnlockSuccess={handleUnlockSuccess}
         />
       )}
 
