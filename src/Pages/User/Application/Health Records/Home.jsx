@@ -1,17 +1,35 @@
 import React, { useState } from "react";
-import { FiArrowLeft, FiUpload } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
+import { IoIosAdd } from "react-icons/io";
+
+import UploadOptionsTray from "./UploadOptionsTray"; // Adjust path
+import UploadFileTray from "./UploadFileTray"; // Adjust path
+
 import healthrecordsaddrecords from "../../../../assets/healthrecordsaddrecords.svg";
-import healthrecordlockrecords from "../../../../assets/healthrecordslockrecords.svg";
-import healthrecordwellness from "../../../../assets/healthrecordswellness.svg";
+import healthrecordslockrecords from "../../../../assets/healthrecordslockrecords.svg";
+import healthrecordswellness from "../../../../assets/healthrecordswellness.svg";
 import healthrecordstestreportbg from "../../../../assets/healthrecordstestreportbg.svg";
 import healthrecordsprescriptionbg from "../../../../assets/healthrecordsprescriptionbg.svg";
 import healthrecordsvaccinationcertificatesbg from "../../../../assets/healthrecordsvaccinationcertificatesbg.svg";
 import healthrecordsdoctorconsultationbg from "../../../../assets/healthrecordsdoctorconsultationbg.svg";
-import { IoIosAdd } from "react-icons/io";
 
 import "./style.css";
 
 const Home = () => {
+  const [isUploadOptionsTrayOpen, setUploadOptionsTrayOpen] = useState(false);
+  const [isUploadFileTrayOpen, setUploadFileTrayOpen] = useState(false);
+  const [selectedUploadType, setSelectedUploadType] = useState("");
+
+  const openUploadOptionsTray = () => setUploadOptionsTrayOpen(true);
+  const closeUploadOptionsTray = () => setUploadOptionsTrayOpen(false);
+
+  const openUploadFileTray = (type) => {
+    setSelectedUploadType(type);
+    setUploadFileTrayOpen(true);
+  };
+
+  const closeUploadFileTray = () => setUploadFileTrayOpen(false);
+
   return (
     <>
       <div className="health-record-page">
@@ -27,11 +45,17 @@ const Home = () => {
             <h1 className="hero-title">HEALTH RECORDS</h1>
           </div>
         </div>
+
         <div className="quick-access">
           <h2 className="quick-access-title">QUICK ACCESS</h2>
 
           <div className="quick-access-cards">
-            <div className="quick-access-item">
+            {/* Add Records Card – Now Opens UploadOptionsTray */}
+            <div
+              className="quick-access-item"
+              onClick={openUploadOptionsTray}
+              style={{ cursor: "pointer" }}
+            >
               <div className="quick-access-card">
                 <img src={healthrecordsaddrecords} alt="Add Records" />
               </div>
@@ -40,68 +64,98 @@ const Home = () => {
 
             <div className="quick-access-item">
               <div className="quick-access-card">
-                <img src={healthrecordlockrecords} alt="Lock Records" />
+                <img src={healthrecordslockrecords} alt="Lock Records" />
               </div>
               <p>Lock Records</p>
             </div>
 
             <div className="quick-access-item">
               <div className="quick-access-card">
-                <img src={healthrecordwellness} alt="Wellness" />
+                <img src={healthrecordswellness} alt="Wellness" />
               </div>
               <p>Wellness</p>
             </div>
           </div>
         </div>
+
         <div className="records-container">
-          {/* Header */}
           <div className="records-header">
             <div>
               <h1 className="records-title">RECORDS</h1>
               <p className="records-subtitle">What are you looking for?</p>
             </div>
-            <button className="add-btn">
+            {/* Clicking this button also opens UploadOptionsTray */}
+            <button className="add-btn" onClick={openUploadOptionsTray}>
               <IoIosAdd size={26} />
             </button>
           </div>
 
-          {/* Records Grid */}
           <div className="records-grid">
-            <div className="record-card">
-              <img src={healthrecordstestreportbg} alt="Test Reports" />
-              <h2 className="record-title">Test Reports</h2>
-              <p className="record-meta">Total 1</p>
-              <p className="record-updated">Updated on 20th June 2025</p>
-            </div>
-
-            <div className="record-card">
-              <img src={healthrecordsprescriptionbg} alt="Prescriptions" />
-              <h2 className="record-title">Prescriptions</h2>
-              <p className="record-meta">Upload your Prescription</p>
-            </div>
-
-            <div className="record-card">
-              <img
-                src={healthrecordsvaccinationcertificatesbg}
-                alt="Vaccination Certificates"
-              />
-              <h2 className="record-title">Vaccination Certificates</h2>
-              <p className="record-meta">Total 1</p>
-              <p className="record-updated">Updated on 20th June 2025</p>
-            </div>
-
-            <div className="record-card">
-              <img
-                src={healthrecordsdoctorconsultationbg}
-                alt="Doctor Consultations"
-              />
-              <h2 className="record-title">Doctor Consultations</h2>
-              <p className="record-meta">Total 1</p>
-              <p className="record-updated">Updated on 20th June 2025</p>
-            </div>
+            {[
+              {
+                type: "Test Reports",
+                img: healthrecordstestreportbg,
+                title: "Test Reports",
+                meta: "Total 1",
+                updated: "Updated on 20th June 2025",
+              },
+              {
+                type: "Prescriptions",
+                img: healthrecordsprescriptionbg,
+                title: "Prescriptions",
+                meta: "Upload your Prescription",
+                updated: null,
+              },
+              {
+                type: "Vaccination Certificates",
+                img: healthrecordsvaccinationcertificatesbg,
+                title: "Vaccination Certificates",
+                meta: "Total 1",
+                updated: "Updated on 20th June 2025",
+              },
+              {
+                type: "Doctor Consultations",
+                img: healthrecordsdoctorconsultationbg,
+                title: "Doctor Consultations",
+                meta: "Total 1",
+                updated: "Updated on 20th June 2025",
+              },
+            ].map((record) => (
+              <div
+                key={record.type}
+                className="record-card"
+                onClick={() => openUploadFileTray(record.type)}
+                style={{ cursor: "pointer" }}
+              >
+                <img src={record.img} alt={record.title} />
+                <h2 className="record-title">{record.title}</h2>
+                <p className="record-meta">{record.meta}</p>
+                {record.updated && (
+                  <p className="record-updated">{record.updated}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Upload Options Tray */}
+      <UploadOptionsTray
+        isOpen={isUploadOptionsTrayOpen}
+        onClose={closeUploadOptionsTray}
+        onSelectOption={(option) => {
+          closeUploadOptionsTray();
+          openUploadFileTray(option);
+        }}
+      />
+
+      {/* Upload File Tray */}
+      {isUploadFileTrayOpen && (
+        <UploadFileTray
+          uploadType={selectedUploadType}
+          onClose={closeUploadFileTray}
+        />
+      )}
 
       <style>
         {`

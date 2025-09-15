@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FiX, FiChevronRight } from "react-icons/fi";
 
-const UploadOptionsTray = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const UploadOptionsTray = ({ isOpen, onClose, onSelectOption }) => {
   const [isVisible, setIsVisible] = useState(false);
+
+  const options = [
+    "Test Reports",
+    "Prescription",
+    "Vaccination Certificates",
+    "Doctor Consultations",
+  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -20,55 +26,56 @@ const UploadOptionsTray = () => {
 
   const handleClose = () => {
     setIsVisible(false);
-    setTimeout(() => setIsOpen(false), 300);
+    setTimeout(() => onClose(), 300);
   };
 
-  const options = [
-    "Test Reports",
-    "Prescription",
-    "Vaccination Certificates",
-    "Doctor Consultations",
-  ];
+  const handleOptionSelect = (option) => {
+    handleClose();
+    onSelectOption(option);
+  };
 
   return (
     <>
-      {/* Toggle Button */}
-      <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Upload Files
-      </button>
-
       {isOpen || isVisible ? (
         <>
-          {/* Backdrop */}
           <div
-            className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
+            className={`upload-option-backdrop ${
+              isVisible ? "upload-option-visible" : ""
+            }`}
             onClick={handleClose}
           />
 
-          {/* Tray */}
-          <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
-            <div className="bottom-tray-handle">
-              <div className="bottom-tray-handle-bar"></div>
+          <div
+            className={`upload-option-tray ${
+              isVisible ? "upload-option-visible" : ""
+            }`}
+          >
+            <div className="upload-option-handle">
+              <div className="upload-option-handle-bar"></div>
             </div>
 
-            {/* Close Button */}
             <button
               onClick={handleClose}
-              className="bottom-tray-close-btn"
+              className="upload-option-close-btn"
               aria-label="Close tray"
             >
-              <FiX className="bottom-tray-close-icon" />
+              <FiX className="upload-option-close-icon" />
             </button>
 
-            {/* Content */}
-            <div className="bottom-tray-content">
-              <h2 className="bottom-tray-title">What do you want to upload?</h2>
+            <div className="upload-option-content">
+              <h2 className="upload-option-title">
+                What do you want to upload?
+              </h2>
 
-              <ul className="upload-options-list">
+              <ul className="upload-option-list">
                 {options.map((item, idx) => (
-                  <li key={idx} className="upload-option">
+                  <li
+                    key={idx}
+                    className="upload-option-item"
+                    onClick={() => handleOptionSelect(item)}
+                  >
                     <span>{item}</span>
-                    <FiChevronRight className="arrow-icon" />
+                    <FiChevronRight className="upload-option-arrow-icon" />
                   </li>
                 ))}
               </ul>
@@ -78,22 +85,7 @@ const UploadOptionsTray = () => {
       ) : null}
 
       <style jsx>{`
-        .open-tray-btn {
-          padding: 10px 16px;
-          background-color: #553fb5;
-          color: #fff;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          font-size: 14px;
-          margin: 20px;
-          transition: background 0.2s ease;
-        }
-        .open-tray-btn:hover {
-          background-color: #452fa0;
-        }
-
-        .bottom-tray-backdrop {
+        .upload-option-backdrop {
           position: fixed;
           top: 0;
           left: 0;
@@ -105,12 +97,12 @@ const UploadOptionsTray = () => {
           transition: opacity 0.3s ease;
           pointer-events: none;
         }
-        .bottom-tray-backdrop.visible {
+        .upload-option-backdrop.upload-option-visible {
           opacity: 1;
           pointer-events: auto;
         }
 
-        .bottom-tray {
+        .upload-option-tray {
           position: fixed;
           left: 0;
           right: 0;
@@ -125,23 +117,23 @@ const UploadOptionsTray = () => {
           margin: 0 auto;
           border: 1px solid rgba(0, 0, 0, 0.05);
         }
-        .bottom-tray.visible {
+        .upload-option-tray.upload-option-visible {
           transform: translateY(0);
         }
 
-        .bottom-tray-handle {
+        .upload-option-handle {
           display: flex;
           justify-content: center;
           padding: 14px 0 10px;
         }
-        .bottom-tray-handle-bar {
+        .upload-option-handle-bar {
           width: 50px;
           height: 4px;
           background-color: rgba(0, 0, 0, 0.08);
           border-radius: 9999px;
         }
 
-        .bottom-tray-close-btn {
+        .upload-option-close-btn {
           position: absolute;
           top: 16px;
           right: 20px;
@@ -155,29 +147,29 @@ const UploadOptionsTray = () => {
           justify-content: center;
           backdrop-filter: blur(4px);
         }
-        .bottom-tray-close-icon {
+        .upload-option-close-icon {
           width: 20px;
           height: 20px;
           color: #64748b;
         }
 
-        .bottom-tray-content {
+        .upload-option-content {
           padding: 20px 24px 32px;
           text-align: left;
         }
-        .bottom-tray-title {
+        .upload-option-title {
           font-size: 18px;
           font-weight: 600;
           margin: 0 0 20px 0;
           color: #1e293b;
         }
 
-        .upload-options-list {
+        .upload-option-list {
           list-style: none;
           margin: 0;
           padding: 0;
         }
-        .upload-option {
+        .upload-option-item {
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -187,10 +179,11 @@ const UploadOptionsTray = () => {
           border-bottom: 1px solid #e5e7eb;
           cursor: pointer;
         }
-        .upload-option:last-child {
+        .upload-option-item:last-child {
           border-bottom: none;
         }
-        .arrow-icon {
+
+        .upload-option-arrow-icon {
           color: #2563eb;
           width: 18px;
           height: 18px;

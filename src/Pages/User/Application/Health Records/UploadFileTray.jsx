@@ -1,40 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 
-const UploadFileTray = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const UploadFileTray = ({ uploadType, onClose }) => {
+  const [isOpen, setIsOpen] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [testName, setTestName] = useState("");
-  const [labName, setLabName] = useState("");
   const [file, setFile] = useState(null);
   const [testDate, setTestDate] = useState("");
-  const [path, setPath] = useState("./");
+  const [newFolderName, setNewFolderName] = useState("");
+  const [folderOption, setFolderOption] = useState("./");
+  const [validationError, setValidationError] = useState("");
 
-  // Suggestions for test names
   const testSuggestions = ["Blood Test", "X-Ray", "MRI"];
+  const availableFolders = [
+    "./",
+    "./test-reports",
+    "./test-reports/blood",
+    "./test-reports/xray",
+    "./test-reports/mri",
+    "create-new-folder",
+  ];
 
   useEffect(() => {
-    // Default date = today
     const today = new Date().toISOString().split("T")[0];
     setTestDate(today);
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      setIsVisible(true);
-      document.body.style.overflow = "hidden";
-    } else {
-      setIsVisible(false);
-      document.body.style.overflow = "";
-    }
+    setIsVisible(true);
+    document.body.style.overflow = "hidden";
+
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    setTimeout(() => setIsOpen(false), 300);
+    setTimeout(() => onClose(), 300);
   };
 
   const handleFileChange = (e) => {
@@ -43,125 +46,137 @@ const UploadFileTray = () => {
 
     if (selectedFile) {
       const nameWithoutExt = selectedFile.name.replace(/\.[^/.]+$/, "");
-      // Default test name = file name (without extension)
       setTestName(nameWithoutExt);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ testName, labName, file, testDate, path });
+
+    if (folderOption === "./") {
+      setValidationError(
+        "❗ Cannot upload to root folder. Please select or create a folder."
+      );
+      return;
+    }
+
+    const finalPath =
+      folderOption === "create-new-folder"
+        ? `./test-reports/${newFolderName}`
+        : folderOption;
+
+    console.log({
+      uploadType,
+      testName,
+      file,
+      testDate,
+      finalPath,
+    });
+
+    setValidationError("");
     handleClose();
   };
 
   return (
     <>
-      {/* Toggle Button */}
-      <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Upload Test Report
-      </button>
+      <div
+        className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
+        onClick={handleClose}
+      />
 
-      {(isOpen || isVisible) && (
-        <>
-          {/* Backdrop */}
-          <div
-            className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
-            onClick={handleClose}
-          />
+      <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
+        <div className="bottom-tray-handle">
+          <div className="bottom-tray-handle-bar"></div>
+        </div>
 
-          {/* Bottom Tray */}
-          <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
-            {/* Handle bar */}
-            <div className="bottom-tray-handle">
-              <div className="bottom-tray-handle-bar"></div>
-            </div>
+        <button
+          onClick={handleClose}
+          className="bottom-tray-close-btn"
+          aria-label="Close tray"
+        >
+          <FiX className="bottom-tray-close-icon" />
+        </button>
 
-            {/* Close Button */}
-            <button
-              onClick={handleClose}
-              className="bottom-tray-close-btn"
-              aria-label="Close tray"
-            >
-              <FiX className="bottom-tray-close-icon" />
-            </button>
-
-            {/* Content */}
-            <div className="upload-container">
-              <div className="upload-header">
-                <h2>Upload test report</h2>
-              </div>
-
-              <form className="upload-form" onSubmit={handleSubmit}>
-                {/* Test Name */}
-                <label className="form-label">Test name</label>
-                <input
-                  type="text"
-                  value={testName}
-                  onChange={(e) => setTestName(e.target.value)}
-                  className="form-input"
-                  placeholder="Enter or select test name"
-                  list="test-suggestions"
-                />
-                <datalist id="test-suggestions">
-                  {testSuggestions.map((suggestion, idx) => (
-                    <option key={idx} value={suggestion} />
-                  ))}
-                </datalist>
-
-                {/* Lab Name */}
-                <label className="form-label">Lab name</label>
-                <input
-                  type="text"
-                  value={labName}
-                  onChange={(e) => setLabName(e.target.value)}
-                  className="form-input"
-                  placeholder="Enter lab name"
-                />
-
-                {/* Path Selection */}
-                <label className="form-label">Save to</label>
-                <select
-                  value={path}
-                  onChange={(e) => setPath(e.target.value)}
-                  className="form-input"
-                >
-                  <option value="./">Root ( ./ )</option>
-                  <option value="./test-reports">./test-reports</option>
-                  <option value="./test-reports/blood">
-                    ./test-reports/blood
-                  </option>
-                  <option value="./test-reports/xray">
-                    ./test-reports/xray
-                  </option>
-                  <option value="./test-reports/mri">./test-reports/mri</option>
-                </select>
-
-                {/* File Upload */}
-                <label className="file-label">Choose file</label>
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  className="form-input"
-                />
-
-                {/* Test Date */}
-                <label className="form-label">Select test date</label>
-                <input
-                  type="date"
-                  value={testDate}
-                  onChange={(e) => setTestDate(e.target.value)}
-                  className="form-input"
-                />
-
-                {/* Submit Button */}
-                <button type="submit" className="upload-btn">
-                  Upload test
-                </button>
-              </form>
-            </div>
+        <div className="upload-container">
+          <div className="upload-header">
+            <h2>Upload {uploadType}</h2>
           </div>
-        </>
-      )}
+
+          <form className="upload-form" onSubmit={handleSubmit}>
+            <label className="form-label">Test name</label>
+            <input
+              type="text"
+              value={testName}
+              onChange={(e) => setTestName(e.target.value)}
+              className="form-input"
+              placeholder="Enter or select test name"
+              list="test-suggestions"
+            />
+            <datalist id="test-suggestions">
+              {testSuggestions.map((suggestion, idx) => (
+                <option key={idx} value={suggestion} />
+              ))}
+            </datalist>
+
+            <label className="form-label">Save to</label>
+            <select
+              value={folderOption}
+              onChange={(e) => setFolderOption(e.target.value)}
+              className="form-input"
+            >
+              {availableFolders.map((folder, idx) => (
+                <option key={idx} value={folder}>
+                  {folder === "create-new-folder"
+                    ? "➕ Create New Folder"
+                    : folder}
+                </option>
+              ))}
+            </select>
+
+            {folderOption === "create-new-folder" && (
+              <>
+                <label className="form-label">
+                  New Folder Name (e.g., 'ultrasound')
+                </label>
+                <input
+                  type="text"
+                  value={newFolderName}
+                  onChange={(e) => setNewFolderName(e.target.value)}
+                  className="form-input"
+                  placeholder="Enter new folder name"
+                  required
+                />
+              </>
+            )}
+
+            {validationError && (
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {validationError}
+              </p>
+            )}
+
+            <label className="file-label">Choose file</label>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="form-input"
+              required
+            />
+
+            <label className="form-label">Select test date</label>
+            <input
+              type="date"
+              value={testDate}
+              onChange={(e) => setTestDate(e.target.value)}
+              className="form-input"
+            />
+
+            <button type="submit" className="upload-btn">
+              Upload {uploadType}
+            </button>
+          </form>
+        </div>
+      </div>
 
       <style jsx>{`
         .open-tray-btn {

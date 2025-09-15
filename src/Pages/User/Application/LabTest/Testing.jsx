@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
-import fingerprintIcon from "../../../../assets/fignerprintbg.svg";
 
-const LockerPinTray = () => {
+const UploadFileTray = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [testName, setTestName] = useState("");
+  const [labName, setLabName] = useState("");
+  const [file, setFile] = useState(null);
+  const [testDate, setTestDate] = useState("");
+  const [path, setPath] = useState("./");
+
+  // Suggestions for test names
+  const testSuggestions = ["Blood Test", "X-Ray", "MRI"];
+
+  useEffect(() => {
+    // Default date = today
+    const today = new Date().toISOString().split("T")[0];
+    setTestDate(today);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -24,56 +37,46 @@ const LockerPinTray = () => {
     setTimeout(() => setIsOpen(false), 300);
   };
 
-  const handleFingerprintScan = async () => {
-    try {
-      if (!window.PublicKeyCredential) {
-        alert("Your device does not support WebAuthn API.");
-        return;
-      }
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
 
-      const publicKeyCredentialRequestOptions = {
-        challenge: new Uint8Array([
-          /* Normally a random server-generated challenge */
-        ]),
-        allowCredentials: [],
-        timeout: 60000,
-        userVerification: "preferred",
-      };
-
-      const credential = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions,
-      });
-
-      if (credential) {
-        alert("Fingerprint scanned successfully!");
-        handleClose();
-      } else {
-        alert("Fingerprint scan failed or cancelled.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error during fingerprint scan: " + error.message);
+    if (selectedFile) {
+      const nameWithoutExt = selectedFile.name.replace(/\.[^/.]+$/, "");
+      // Default test name = file name (without extension)
+      setTestName(nameWithoutExt);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ testName, labName, file, testDate, path });
+    handleClose();
   };
 
   return (
     <>
+      {/* Toggle Button */}
       <button className="open-tray-btn" onClick={() => setIsOpen(true)}>
-        Secure Health Locker
+        Upload Test Report
       </button>
 
       {(isOpen || isVisible) && (
         <>
+          {/* Backdrop */}
           <div
             className={`bottom-tray-backdrop ${isVisible ? "visible" : ""}`}
             onClick={handleClose}
           />
 
+          {/* Bottom Tray */}
           <div className={`bottom-tray ${isVisible ? "visible" : ""}`}>
+            {/* Handle bar */}
             <div className="bottom-tray-handle">
               <div className="bottom-tray-handle-bar"></div>
             </div>
 
+            {/* Close Button */}
             <button
               onClick={handleClose}
               className="bottom-tray-close-btn"
@@ -82,25 +85,79 @@ const LockerPinTray = () => {
               <FiX className="bottom-tray-close-icon" />
             </button>
 
-            <div className="locker-container">
-              <h2 className="locker-title">Secure Your Health Locker</h2>
-              <p className="locker-subtitle">
-                Add biometrics to keep your health data private.
-              </p>
-
-              <div
-                className="fingerprint-section"
-                onClick={handleFingerprintScan}
-              >
-                <img
-                  src={fingerprintIcon}
-                  alt="Fingerprint Icon"
-                  className="fingerprint-icon"
-                />
-                <p className="fingerprint-text">Touch the fingerprint sensor</p>
-                <span className="or-text">or</span>
-                <button className="use-pin-btn">Use Pin</button>
+            {/* Content */}
+            <div className="upload-container">
+              <div className="upload-header">
+                <h2>Upload test report</h2>
               </div>
+
+              <form className="upload-form" onSubmit={handleSubmit}>
+                {/* Test Name */}
+                <label className="form-label">Test name</label>
+                <input
+                  type="text"
+                  value={testName}
+                  onChange={(e) => setTestName(e.target.value)}
+                  className="form-input"
+                  placeholder="Enter or select test name"
+                  list="test-suggestions"
+                />
+                <datalist id="test-suggestions">
+                  {testSuggestions.map((suggestion, idx) => (
+                    <option key={idx} value={suggestion} />
+                  ))}
+                </datalist>
+
+                {/* Lab Name */}
+                <label className="form-label">Lab name</label>
+                <input
+                  type="text"
+                  value={labName}
+                  onChange={(e) => setLabName(e.target.value)}
+                  className="form-input"
+                  placeholder="Enter lab name"
+                />
+
+                {/* Path Selection */}
+                <label className="form-label">Save to</label>
+                <select
+                  value={path}
+                  onChange={(e) => setPath(e.target.value)}
+                  className="form-input"
+                >
+                  <option value="./">Root ( ./ )</option>
+                  <option value="./test-reports">./test-reports</option>
+                  <option value="./test-reports/blood">
+                    ./test-reports/blood
+                  </option>
+                  <option value="./test-reports/xray">
+                    ./test-reports/xray
+                  </option>
+                  <option value="./test-reports/mri">./test-reports/mri</option>
+                </select>
+
+                {/* File Upload */}
+                <label className="file-label">Choose file</label>
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="form-input"
+                />
+
+                {/* Test Date */}
+                <label className="form-label">Select test date</label>
+                <input
+                  type="date"
+                  value={testDate}
+                  onChange={(e) => setTestDate(e.target.value)}
+                  className="form-input"
+                />
+
+                {/* Submit Button */}
+                <button type="submit" className="upload-btn">
+                  Upload test
+                </button>
+              </form>
             </div>
           </div>
         </>
@@ -116,9 +173,10 @@ const LockerPinTray = () => {
           cursor: pointer;
           font-size: 14px;
           margin: 20px;
+          transition: background 0.2s ease;
         }
         .open-tray-btn:hover {
-          background-color: #0056b3;
+          background-color: #452fa0;
         }
 
         .bottom-tray-backdrop {
@@ -189,67 +247,61 @@ const LockerPinTray = () => {
           color: #64748b;
         }
 
-        .locker-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 24px;
-          text-align: center;
+        .upload-container {
+          padding: 20px 24px;
         }
-
-        .locker-title {
+        .upload-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .upload-header h2 {
           font-size: 18px;
           font-weight: 600;
-          margin-bottom: 6px;
-          color: #000;
+          margin: 0;
         }
-
-        .locker-subtitle {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 24px;
-        }
-
-        .fingerprint-section {
+        .upload-form {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          cursor: pointer;
+          gap: 16px;
         }
-
-        .fingerprint-icon {
-          width: 80px;
-          height: 80px;
-          margin-bottom: 12px;
-        }
-
-        .fingerprint-text {
+        .form-label {
           font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .or-text {
-          font-size: 14px;
-          color: #555;
-          margin-bottom: 8px;
-        }
-
-        .use-pin-btn {
-          background: none;
-          border: none;
-          color: #553fb5;
-          cursor: pointer;
           font-weight: 500;
-          font-size: 14px;
+          color: #1e293b;
         }
-
-        .use-pin-btn:hover {
-          text-decoration: underline;
+        .file-label {
+          font-size: 14px;
+          font-weight: 500;
+          color: #2563eb;
+          cursor: pointer;
+        }
+        .form-input {
+          padding: 10px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 14px;
+          outline: none;
+        }
+        .form-input:focus {
+          border-color: #553fb5;
+        }
+        .upload-btn {
+          background: #553fb5;
+          color: #fff;
+          padding: 12px;
+          border: none;
+          border-radius: 8px;
+          font-size: 14px;
+          cursor: pointer;
+        }
+        .upload-btn:hover {
+          background: #005fa3;
         }
       `}</style>
     </>
   );
 };
 
-export default LockerPinTray;
+export default UploadFileTray;
