@@ -296,27 +296,29 @@ const DirectoryList = () => {
 }
 .folder-grid-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-items: center;
-  margin-top: 70px;
+  grid-template-columns: repeat(2, auto);  /* auto width, not stretching */
+  justify-content: center;                 /* center the whole grid */
+  align-items: start;
+  gap: 2rem;                                /* space between columns/rows */
+  margin-top: 80px;
   margin-bottom: 80px;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;                         /* prevents touching screen edges */
+  padding: 0 1rem;                          /* optional: some side breathing room */
 }
 
 .folder-wrapper {
   display: flex;
-  justify-content: center;
+  align-items: center;
   perspective: 1000px;
   width: 150px;
-  margin-top: 2rem;
   transition: height 0.3s ease;
 }
 
 /* Base Card */
 .folder-card {
-  width: 130px;
-  height: 80px;
+    width: 150px;
+    height: 100px;
   border-radius: 14px;
   display: flex;
   flex-direction: column;
@@ -354,9 +356,8 @@ const DirectoryList = () => {
 
 .folder-collapsed .collapsed-behind {
   position: absolute;
-  left: 0;
-  width: 130px;
-  height: 80px;
+  left: 0;    width: 150px;
+    height: 100px;
   pointer-events: none;
 }
 
