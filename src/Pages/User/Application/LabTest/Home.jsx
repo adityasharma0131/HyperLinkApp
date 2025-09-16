@@ -142,7 +142,12 @@ const Home = () => {
               <p className="prescription-subtext">
                 We'll suggest the best test for you.
               </p>
-              <button className="upload-prescription-button">
+              <button
+                className="upload-prescription-button"
+                onClick={() =>
+                  navigate("/app/prescription/upload-prescription")
+                }
+              >
                 Upload Prescription
               </button>
             </div>
