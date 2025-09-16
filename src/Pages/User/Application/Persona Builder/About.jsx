@@ -260,7 +260,10 @@ const About = () => {
               variant="secondary"
               onClick={() => setShowCompletion(false)}
             />
-            <AppButton text="Next" />
+            <AppButton
+              text="Next"
+              onClick={() => navigate("/app/persona-builder/physical-activity")}
+            />
           </div>
         </div>
       )}

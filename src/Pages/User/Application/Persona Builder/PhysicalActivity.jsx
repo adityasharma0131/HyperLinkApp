@@ -219,7 +219,16 @@ const PhysicalActivity = () => {
           onClick={handleBack}
           disabled={currentQuestion === 0}
         />
-        <AppButton text={"Next"} onClick={handleNext} disabled={isCompletion} />
+        <AppButton
+          text="Next"
+          onClick={() => {
+            if (isCompletion) {
+              navigate("/app/persona-builder/nutrition");
+            } else {
+              handleNext();
+            }
+          }}
+        />
       </div>
 
       <style>
