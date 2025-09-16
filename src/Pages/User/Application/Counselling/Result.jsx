@@ -99,7 +99,10 @@ const Result = () => {
             Your results and insights have been saved in your Locker. Access
             anytime from your Profile tab.
           </p>
-          <AppButton text="View Records" />
+          <AppButton
+            text="View Records"
+            onClick={() => navigate("/app/health-record")}
+          />
         </div>
         <div className="report-image">
           <img src={HealthRecord} alt="Health Record Secure" />
