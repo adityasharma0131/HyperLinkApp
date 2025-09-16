@@ -546,116 +546,6 @@ const SleepGoal = () => {
           </div>
         </div>
 
-        <div className="list-container">
-          {/* Alarm Sound */}
-          <div className="list-card">
-            <div className="list-left">
-              <div className="list-icon sound">
-                <FiMusic />
-              </div>
-              <div>
-                <div className="list-label">Alarm sound</div>
-                <div className="list-value">{alarmSound}</div>
-              </div>
-            </div>
-            <div className="list-right">
-              <span className="list-arrow">›</span>
-            </div>
-          </div>
-
-          {/* Alarm Volume */}
-          <div className="list-card">
-            <div className="list-left">
-              <div className="list-icon volume">
-                <FiVolume2 />
-              </div>
-              <div>
-                <div className="list-label">Alarm volume</div>
-                <div className="list-value">{alarmVolume}%</div>
-              </div>
-            </div>
-            <button
-              className="volume-btn"
-              onClick={toggleVolumeSlider}
-              aria-label="Adjust volume"
-            >
-              {showVolumeSlider ? (
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={alarmVolume}
-                  onChange={handleVolumeChange}
-                  className="volume-slider"
-                />
-              ) : (
-                <div className="volume-bars">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className={`volume-bar ${
-                        alarmVolume > i * 25 ? "active" : ""
-                      }`}
-                      style={{ height: `${i * 10 + 10}px` }}
-                    />
-                  ))}
-                </div>
-              )}
-            </button>
-          </div>
-
-          {/* Alarm Name */}
-          <div className="list-card">
-            <div className="list-left">
-              <div className="list-icon text">
-                <FiBell />
-              </div>
-              <div>
-                <div className="list-label">Alarm name</div>
-                {showNameInput ? (
-                  <input
-                    type="text"
-                    ref={nameInputRef}
-                    value={tempAlarmName}
-                    onChange={(e) => setTempAlarmName(e.target.value)}
-                    onBlur={handleNameSave}
-                    onKeyDown={(e) => e.key === "Enter" && handleNameSave()}
-                    className="name-input"
-                  />
-                ) : (
-                  <div className="list-value">{alarmName}</div>
-                )}
-              </div>
-            </div>
-            {showNameInput ? (
-              <div className="name-edit-buttons">
-                <button
-                  onClick={handleNameSave}
-                  className="name-edit-btn save"
-                  aria-label="Save name"
-                >
-                  ✓
-                </button>
-                <button
-                  onClick={handleNameCancel}
-                  className="name-edit-btn cancel"
-                  aria-label="Cancel edit"
-                >
-                  ✕
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={handleNameEdit}
-                className="edit-btn small"
-                aria-label="Edit name"
-              >
-                <FaEdit className="edit-icon" />
-              </button>
-            )}
-          </div>
-        </div>
-
         {/* Sound Picker Modal */}
         {showPicker && pickerType === "sound" && (
           <div className="sound-picker-modal">
@@ -1481,21 +1371,21 @@ const SleepGoal = () => {
 
 /* Submit Section Styles */
 .submit-section {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px;
-  background: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+ position: fixed;
+    display: flex;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    justify-content: center;
 }
 
 
 /* Adjust content-below-hero to account for fixed button */
-.content-below-hero {
-  padding-bottom: 80px; /* Make space for the fixed button */
-}
+
 /* Animations */
 @keyframes fadeIn {
   from {
