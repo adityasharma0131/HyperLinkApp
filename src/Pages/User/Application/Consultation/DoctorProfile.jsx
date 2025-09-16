@@ -75,12 +75,14 @@ const DoctorProfile = () => {
               <span>Available Today</span>
             </div>
           </div>
-          <AppButton
-            text={"Book Appointment"}
-            variant="secondary"
-            icon={BsCalendarCheck}
+
+          <button
+            className="appointment-btn"
             onClick={() => navigate("/app/consultation/scheduling")}
-          />
+          >
+            <BsCalendarCheck />
+            Book a Consultation
+          </button>
         </div>
 
         {/* About Section */}
@@ -202,16 +204,18 @@ const DoctorProfile = () => {
               <p className="timingsValue">Mon – Fri, 09:00 AM – 09:00 PM</p>
             </div>
 
-            <AppButton
-              text="View on Map"
-              icon={FiMapPin}
+            <button
+              className="view-btn"
               onClick={() =>
                 window.open(
                   "https://www.google.com/maps?q=19.1032133,72.910085",
                   "_blank"
                 )
               }
-            />
+            >
+              <FiMapPin />
+              View on Map
+            </button>
           </div>
         </section>
 
@@ -799,6 +803,47 @@ const DoctorProfile = () => {
     padding: 1.5rem 1rem;
     border-radius: 0;
   }
+}
+
+.appointment-btn {
+      background-color: #fff;
+    color: #553fb5;
+    border: none;
+    border-radius: 8px;
+    display: flex
+;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    font-family: "Outfit", sans-serif;
+    transition: background 0.2s 
+ease;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
+}
+.view-btn {
+      background-color: #553fb5;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    display: flex
+;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    font-family: "Outfit", sans-serif;
+    transition: background 0.2s 
+ease;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
 }
 
       `}

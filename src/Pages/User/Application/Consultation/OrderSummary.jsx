@@ -255,7 +255,8 @@ const OrderSummary = () => {
             <span>Total Payable</span>
             <span className="amount">₹449</span>
           </div>
-          <AppButton text={"Proceed to Payment"} />
+
+          <button className="proceed-btn">Proceed to Payment</button>
         </div>
       </div>
 
@@ -677,6 +678,27 @@ input:checked + .slider:before {
   font-size: 0.8rem;
   color: #718096;
   margin-top: 1rem;
+}
+
+.proceed-btn {
+      background-color: #553fb5;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    display: flex
+;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    font-family: "Outfit", sans-serif;
+    transition: background 0.2s 
+ease;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
 }
 `}
       </style>

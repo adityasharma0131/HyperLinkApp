@@ -118,11 +118,12 @@ const Scheduling = () => {
         </div>
 
         <div className="book-btn">
-          <AppButton
-            text={"Confirm Booking"}
-            disabled={!selectedTime}
+          <button
+            className="confirm-btn"
             onClick={() => navigate("/app/consultation/order-summary")}
-          />
+          >
+            Confirm Booking
+          </button>
         </div>
       </div>
       <style>
@@ -396,6 +397,27 @@ const Scheduling = () => {
   .booking-container {
     padding: 0 16px;
   }
+}
+
+.confirm-btn {
+      background-color: #553fb5;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    display: flex
+;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    font-family: "Outfit", sans-serif;
+    transition: background 0.2s 
+ease;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
 }
 `}
       </style>
