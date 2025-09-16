@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { FaMicrophone } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
@@ -18,6 +19,8 @@ import { FaRibbon } from "react-icons/fa6";
 import { FaUserCheck } from "react-icons/fa";
 
 const Vaccination = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="vaccination-page">
       <div className="vaccination-hero">
@@ -32,7 +35,12 @@ const Vaccination = () => {
             <div className="text-block">
               <h1>VACCINATION</h1>
               <p>Your Care, Personalized</p>
-              <AppButton text="Talk to an Expert" />
+              <button
+                className="talk-btn"
+                onClick={() => navigate("/app/consultation")}
+              >
+                Talk to an Expert
+              </button>
             </div>
           </div>
 
@@ -79,20 +87,21 @@ const Vaccination = () => {
         </div>
       </div>
       <div className="prescription-container">
-        <h2 className="section-title">Upload Your Prescription</h2>
-
         <div className="prescription-card">
           <div className="prescription-content">
+            <h2 className="prescription-heading">Upload Your Prescription</h2>
             <p className="prescription-subtext">
-              Let us handle the rest. Upload your prescription and we’ll check
-              for vaccines.
+              We'll suggest the best test for you.
             </p>
-            <AppButton text="Click to Upload" />
+            <button
+              className="upload-prescription-button"
+              onClick={() => navigate("/app/prescription/upload-prescription")}
+            >
+              Upload Prescription
+            </button>
           </div>
 
-          <div className="prescription-image">
-            <img src={PrescriptionBG} alt="Upload Illustration" />
-          </div>
+          <img src={PrescriptionBG} alt="Upload Illustration" />
         </div>
       </div>
 
@@ -121,7 +130,10 @@ const Vaccination = () => {
             Your results and insights have been saved in your Locker. Access
             anytime from your Profile tab.
           </p>
-          <AppButton text="View Records" />
+          <AppButton
+            text="View Records"
+            onClick={() => navigate("/app/health-record")}
+          />
         </div>
         <div className="report-image">
           <img src={HealthRecord} alt="Health Record Secure" />
@@ -130,7 +142,6 @@ const Vaccination = () => {
 
       <style>
         {`
-
 .vaccination-page {
   box-sizing: border-box;
   padding: 0;
@@ -390,8 +401,9 @@ const Vaccination = () => {
     flex: 1 1 100%;
   }
 }
+
 .prescription-container {
-  padding: 12px;
+  padding: 16px;
 }
 
 .section-title {
@@ -399,6 +411,9 @@ const Vaccination = () => {
   font-weight: 500;
   color: #1f2937;
   margin-bottom: 10px;
+}
+.prescription-container {
+  padding: 16px;
 }
 
 .prescription-card {
@@ -408,85 +423,83 @@ const Vaccination = () => {
   padding: 10px;
   color: white;
   overflow: visible;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   align-items: center;
-  justify-content: space-evenly;
+
+  justify-content: space-around;
   position: relative;
 }
 
-/* Decorative objects */
 .prescription-card::before,
 .prescription-card::after {
   content: "";
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.1); /* subtle overlay */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Top-left object */
 .prescription-card::before {
-  width: 50px;
-  height: 50px;
-  top: -10px;
-  left: -10px;
+  width: 60px;
+  height: 60px;
+  top: -15px;
+  left: -15px;
   border-radius: 0 0 100% 0;
 }
 
-/* Bottom-right object */
 .prescription-card::after {
-  width: 80px;
-  height: 80px;
-  bottom: -15px;
-  right: -1px;
+  width: 90px;
+  height: 90px;
+  bottom: -20px;
+  right: -5px;
   border-radius: 100% 0 0 0;
-  border: 2px solid rgba(255, 255, 255, 0.2); /* adds curved line effect */
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .prescription-content {
   max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .prescription-heading {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  line-height: 1.3;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .prescription-subtext {
-  font-size: 14px;
-  margin-bottom: 18px;
+  font-size: 12px;
+  white-space: nowrap;
   opacity: 0.95;
 }
 
-.upload-button {
-  background-color: #ff5e9e;
+.prescription-image img {
+  height: 144px;
+  max-width: 93%;
+  object-fit: contain;
+  border-radius: 12px;
+  position: absolute;
+  top: 2px;
+}
+
+.upload-prescription-button {
+  background-color: #e83f93;
   color: white;
-  padding: 10px 18px;
-  border-radius: 10px;
   font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  white-space: nowrap;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.upload-button:hover {
-  background-color: #ff3b89;
-  transform: scale(1.05);
-}
-
-.prescription-image {
-  position: relative;
-  z-index: 2;
-}
-
-.prescription-image img {
-  height: 160px;
-  max-width: 100%;
-  object-fit: cover;
-  border-radius: 12px;
+.upload-prescription-button:hover {
+  background-color: #ff4b3a;
+  transform: translateY(-2px);
 }
 
 
@@ -534,7 +547,7 @@ const Vaccination = () => {
   background: linear-gradient(180deg, #f0f4ff 0%, #e9dfff 100%);
   border-radius: 20px;
   padding: 1.2rem 1rem;
-  margin: 1rem 1rem 7rem 1rem;
+  margin:  1rem;
         gap: 1rem;
 
 }
@@ -579,6 +592,20 @@ const Vaccination = () => {
     font-size: 1.3rem;
   }
 }
+.talk-btn {
+  background-color: #553fb5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;          /* smaller padding */
+  font-size: 14px;             /* slightly smaller text */
+  font-weight: 500;
+  cursor: pointer;
+  width: auto;                 /* remove full width */
+  font-family: "Outfit", sans-serif;
+  transition: background 0.2s ease;
+}
+
 `}
       </style>
     </div>
