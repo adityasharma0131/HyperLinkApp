@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import UserNavigation from "../../../../Components/UserNavigation";
 import { MdOutlineVaccines } from "react-icons/md";
 import { FaAppleAlt, FaStethoscope } from "react-icons/fa";
@@ -13,58 +14,66 @@ const Services = () => {
   const startX = useRef(0);
   const lastRotation = useRef(0);
   const [userName] = useState("Sakshi");
+  const navigate = useNavigate();
 
   const cards = [
     {
       icon: <MdOutlineVaccines className="card-icon" />,
       title: "Vaccinations",
+      path: "/app/vaccination",
       desc: "Stay up-to-date with your vaccinations",
       color: "blue-card",
     },
     {
       icon: <FaAppleAlt className="card-icon" />,
       title: "Health Wellness",
+      path: "/app/wellness",
       desc: "Access resources for a healthier lifestyle",
       color: "red-card",
     },
     {
       icon: <GiStethoscope className="card-icon" />,
       title: "General Checkup",
+      path: "/app/consultation",
       desc: "Book your routine health checkups",
       color: "green-card",
     },
     {
       icon: <FaStethoscope className="card-icon" />,
       title: "Doctor Consultation",
+      path: "/app/consultation",
       desc: "Connect with doctors online",
       color: "pink-card",
     },
     {
       icon: <GiHealthNormal className="card-icon" />,
       title: "Health Resources",
+      path: "/app/consultation",
       desc: "Comprehensive health resources",
       color: "darkblue-card",
     },
     {
       icon: <GiStethoscope className="card-icon" />,
       title: "Emergency Care",
+      path: "/app",
       desc: "Quick help in emergencies",
       color: "purple-card",
     },
     {
       icon: <BiPulse className="card-icon" />,
       title: "Health Monitoring",
+      path: "/app/hyperlink360",
       desc: "Track your health stats",
       color: "orange-card",
     },
   ];
 
-  // Mouse + wheel scroll
+  // Handle scroll wheel rotation
   const handleWheel = (e) => {
     setRotation((prev) => prev + e.deltaY * 0.2);
   };
 
-  // Touch & drag handling
+  // Touch drag handlers (mobile)
   const handleTouchStart = (e) => {
     setIsDragging(true);
     startX.current = e.touches[0].clientX;
@@ -74,14 +83,14 @@ const Services = () => {
   const handleTouchMove = (e) => {
     if (!isDragging) return;
     const deltaX = e.touches[0].clientX - startX.current;
-    setRotation(lastRotation.current + deltaX * 0.5); // adjust 0.5 for sensitivity
+    setRotation(lastRotation.current + deltaX * 0.5);
   };
 
   const handleTouchEnd = () => {
     setIsDragging(false);
   };
 
-  // Mouse drag (desktop)
+  // Mouse drag handlers (desktop)
   const handleMouseDown = (e) => {
     setIsDragging(true);
     startX.current = e.clientX;
@@ -102,27 +111,22 @@ const Services = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Wheel
     container.addEventListener("wheel", handleWheel);
-
-    // Touch
     container.addEventListener("touchstart", handleTouchStart);
     container.addEventListener("touchmove", handleTouchMove);
     container.addEventListener("touchend", handleTouchEnd);
-
-    // Mouse drag
     container.addEventListener("mousedown", handleMouseDown);
+
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       container.removeEventListener("wheel", handleWheel);
-
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("touchend", handleTouchEnd);
-
       container.removeEventListener("mousedown", handleMouseDown);
+
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
@@ -160,6 +164,7 @@ const Services = () => {
                     (360 / cards.length) * index + 10
                   }deg) translateY(-170px)`,
                 }}
+                onClick={() => navigate(card.path)}
               >
                 <div className="card-content">
                   {card.icon}
