@@ -68,7 +68,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate("/app/vaccination");
+    navigate("/app/lab-test");
   };
 
   const steps = [
@@ -132,14 +132,18 @@ const Home = () => {
 
           <div className="quick-actions-grid">
             {/* DNA Test Card */}
-            <div className="action-card blue">
+            <div
+              className="action-card blue"
+              onClick={() => navigate("/app/wellness")}
+              style={{ cursor: "pointer" }} // makes it visually clickable
+            >
               <div className="card-content">
                 <div className="icon-wrapper">
                   <MdOutlineDateRange className="action-icon" />
                 </div>
                 <div className="text-content">
-                  <h3>Heath Wellness</h3>
-                  <p> resources for healthier lifestyle</p>
+                  <h3>Health Wellness</h3>
+                  <p>resources for healthier lifestyle</p>
                 </div>
                 <div className="hover-effect"></div>
                 <div className="corner-decoration"></div>
@@ -168,7 +172,11 @@ const Home = () => {
               </div>
               <div className="card-bg-pattern"></div>
             </div>
-            <div className="action-card pink">
+            <div
+              className="action-card pink"
+              onClick={() => navigate("/app/consultation")}
+              style={{ cursor: "pointer" }}
+            >
               <div className="card-content">
                 <div className="icon-wrapper">
                   <FaRobot className="action-icon" />
@@ -254,38 +262,15 @@ const Home = () => {
               ))}
             </div>
 
-            <button className="start-btn">
+            <button
+              className="start-btn"
+              onClick={() => navigate("/app/persona-builder/about")}
+            >
               Start Now <span className="arrow">➜</span>
             </button>
           </div>
         </div>
 
-        <div className="summary-section">
-          <h2 className="summary-title">Today’s Summary</h2>
-
-          <div className="summary-grid">
-            {data.map((item, index) => (
-              <div key={index} className="summary-card">
-                <div className="summary-header">
-                  <div className={`summary-icon icon-${item.color}`}>
-                    {item.icon}
-                  </div>
-                  <h3>{item.label}</h3>
-                </div>
-                <p className="summary-value">
-                  <strong>{item.value}</strong>{" "}
-                  <span className="summary-unit">/ {item.total}</span>
-                </p>
-                <div className="progress-bar">
-                  <div
-                    className={`progress-fill fill-${item.color}`}
-                    style={{ width: `${item.percent}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
         <div className="subscribe-banner">
           <div className="subscribe-text">
             <h1>
@@ -700,117 +685,6 @@ const Home = () => {
   .card-content {
     padding: 1rem;
   }
-}
-.summary-section {
-  padding: 24px;
-  background: #f9fafb;
-  max-width: 800px;
-  margin: auto;
-}
-
-.summary-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #1f2937;
-  margin: 0;
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.summary-card {
-  background: transparent;
-  border-radius: 16px;
-  padding: 12px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.summary-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.summary-header h3 {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.summary-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 16px;
-}
-
-/* Icon Gradient Fill */
-.icon-pink {
-  background: linear-gradient(135deg, #f472b6, #ec4899);
-}
-.icon-purple {
-  background: linear-gradient(135deg, #c084fc, #a855f7);
-}
-.icon-green {
-  background: linear-gradient(135deg, #34d399, #10b981);
-}
-.icon-blue {
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
-}
-
-.summary-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: #4b5563;
-  margin-bottom: 6px;
-}
-
-.summary-value strong {
-  font-size: 18px;
-  font-weight: 700;
-  color: #111827;
-}
-
-.summary-unit {
-  font-weight: 500;
-  color: #6b7280;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background: #e5e7eb;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.6s ease;
-}
-
-/* Progress Fill Gradients */
-.fill-pink {
-  background: linear-gradient(135deg, #f472b6, #ec4899);
-}
-.fill-purple {
-  background: linear-gradient(135deg, #c084fc, #a855f7);
-}
-.fill-green {
-  background: linear-gradient(135deg, #34d399, #10b981);
-}
-.fill-blue {
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
 }
 .subscribe-banner {
   display: flex;
