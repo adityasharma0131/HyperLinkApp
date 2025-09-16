@@ -25,8 +25,8 @@ const UserNavigation = () => {
       isPrimary: true,
     },
     {
-      label: "Health",
-      path: "healthfeeds",
+      label: "Records",
+      path: "health-record",
       icon: FaRegNewspaper,
       isPrimary: false,
     },

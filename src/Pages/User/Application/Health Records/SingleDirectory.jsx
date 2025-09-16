@@ -13,12 +13,13 @@ const SingleDirectory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const longPressTimer = useRef(null);
+  const longPressed = useRef(false);
 
   const reports = [
-    { date: "18 June 2025", title: "CBC REPORT" },
-    { date: "18 June 2025", title: "CBC REPORT" },
-    { date: "18 June 2025", title: "CBC REPORT" },
-    { date: "18 June 2025", title: "CBC REPORT" },
+    { id: 1, date: "18 June 2025", title: "CBC REPORT" },
+    { id: 2, date: "18 June 2025", title: "CBC REPORT" },
+    { id: 3, date: "18 June 2025", title: "CBC REPORT" },
+    { id: 4, date: "18 June 2025", title: "CBC REPORT" },
   ];
 
   // --- Long press logic ---
@@ -29,13 +30,31 @@ const SingleDirectory = () => {
   };
 
   const handleLongPressStart = (index) => {
+    longPressed.current = false;
     longPressTimer.current = setTimeout(() => {
       toggleChildSelection(index);
-    }, 600); // 600ms long press
+      longPressed.current = true;
+    }, 600); // 600ms threshold
   };
 
   const handleLongPressEnd = () => {
     clearTimeout(longPressTimer.current);
+  };
+
+  // --- Click to navigate ---
+  const handleCardClick = (index) => {
+    // Clear any pending long press
+    clearTimeout(longPressTimer.current);
+
+    // If it wasn't a long press, navigate
+    if (!longPressed.current) {
+      navigate("/app/health-record/single-folder", {
+        state: { report: reports[index] },
+      });
+    }
+
+    // Reset the long press flag
+    longPressed.current = false;
   };
 
   return (
@@ -71,14 +90,17 @@ const SingleDirectory = () => {
       <div className="report-grid">
         {reports.map((report, i) => (
           <div
+            key={report.id}
             className={`report-card ${
               selectedItems.includes(i) ? "child-selected" : ""
             }`}
-            key={i}
             onMouseDown={() => handleLongPressStart(i)}
             onMouseUp={handleLongPressEnd}
+            onMouseLeave={handleLongPressEnd} // Added to handle mouse leaving during long press
             onTouchStart={() => handleLongPressStart(i)}
             onTouchEnd={handleLongPressEnd}
+            onClick={() => handleCardClick(i)}
+            style={{ cursor: "pointer" }}
           >
             {/* ✅ Green check icon when selected */}
             {selectedItems.includes(i) && (

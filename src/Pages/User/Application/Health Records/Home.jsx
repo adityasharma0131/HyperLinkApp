@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoIosAdd } from "react-icons/io";
+import { useNavigate } from "react-router-dom"; // ⬅️ ADD THIS
 
 import UploadOptionsTray from "./UploadOptionsTray";
 import UploadFileTray from "./UploadFileTray";
@@ -22,8 +23,10 @@ const Home = () => {
   const [isUploadFileTrayOpen, setUploadFileTrayOpen] = useState(false);
   const [selectedUploadType, setSelectedUploadType] = useState("");
   const [isLockerPinTrayOpen, setLockerPinTrayOpen] = useState(false);
-  const [isSetPinTrayOpen, setIsSetPinTrayOpen] = useState(false); // <-- Fixed declaration
+  const [isSetPinTrayOpen, setIsSetPinTrayOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+
+  const navigate = useNavigate(); // ⬅️ INIT
 
   useEffect(() => {
     if (localStorage.getItem("healthRecordNewUser") === null) {
@@ -78,6 +81,22 @@ const Home = () => {
   const handleUnlockSuccess = () => {
     setIsLocked(false);
     setLockerPinTrayOpen(false);
+  };
+
+  // ✅ New function to handle click
+  const handleRecordCardClick = (type) => {
+    const navigateTypes = [
+      "Test Reports",
+      "Prescriptions",
+      "Vaccination Certificates",
+      "Doctor Consultations",
+    ];
+
+    if (navigateTypes.includes(type)) {
+      navigate("/app/health-record/folder-list");
+    } else {
+      openUploadFileTray(type);
+    }
   };
 
   return (
@@ -176,7 +195,7 @@ const Home = () => {
               <div
                 key={record.type}
                 className="record-card"
-                onClick={() => openUploadFileTray(record.type)}
+                onClick={() => handleRecordCardClick(record.type)}
                 style={{ cursor: "pointer" }}
               >
                 <img src={record.img} alt={record.title} />
