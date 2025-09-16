@@ -142,7 +142,7 @@ const Home = () => {
             </div>
             <button
               className="next-btn"
-              onClick={() => navigate("/app/nutrition/diet-dashboard")}
+              onClick={() => navigate("/app/nutrition")}
             >
               <IoIosArrowForward />
             </button>
@@ -240,7 +240,7 @@ const Home = () => {
           </div>
           <button
             className="next-btn"
-            onClick={() => navigate("/app/nutrition/diet-dashboard")}
+            onClick={() => navigate("/app/physical")}
           >
             <IoIosArrowForward />
           </button>
@@ -293,7 +293,7 @@ const Home = () => {
           </div>
           <button
             className="next-btn"
-            onClick={() => navigate("/app/nutrition/diet-dashboard")}
+            onClick={() => navigate("/app/sleep/goal")}
           >
             <IoIosArrowForward />
           </button>
