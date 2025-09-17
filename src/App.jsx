@@ -33,6 +33,9 @@ import QuestionnairesVaccination from "./Pages/User/Application/Vaccination/Ques
 import VaccinationPage from "./Pages/User/Application/Vaccination/VaccinationPage";
 import VaccinationCart from "./Pages/User/Application/Vaccination/VaccinationCart";
 import VaccinationAddLocation from "./Pages/User/Application/Vaccination/AddLocation";
+import VaccinationChildTracker from "./Pages/User/Application/Vaccination/ChildVaccinationTracker";
+import VaccinationAdultTracker from "./Pages/User/Application/Vaccination/AdultVaccinationTracker";
+import VaccinationTravelTracker from "./Pages/User/Application/Vaccination/TravelVaccinationTracker";
 
 import HomeCounselling from "./Pages/User/Application/Counselling/Home";
 import DetailsCounselling from "./Pages/User/Application/Counselling/PersonalDetails";
@@ -138,14 +141,24 @@ function App() {
             path="/app/vaccination/order-summary"
             element={<VaccinationPage />}
           />
-          <Route
-            path="/app/vaccination/cart"
-            element={<VaccinationCart />}
-          />
+          <Route path="/app/vaccination/cart" element={<VaccinationCart />} />
           <Route
             path="/app/vaccination/add-location"
             element={<VaccinationAddLocation />}
           />
+          <Route
+            path="/app/vaccination/child/tracker"
+            element={<VaccinationChildTracker />}
+          />
+          <Route
+            path="/app/vaccination/adult/tracker"
+            element={<VaccinationAdultTracker />}
+          />
+          <Route
+            path="/app/vaccination/travel/tracker"
+            element={<VaccinationTravelTracker />}
+          />
+
           <Route path="/app/user/add-location" element={<AddLocation />} />
 
           <Route path="/app/counselling/home" element={<HomeCounselling />} />
