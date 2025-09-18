@@ -93,12 +93,26 @@ const AdultVaccination = () => {
     setIsInfoTrayOpen(true);
   };
 
-  const handleDoseScheduleNow = () => {
-    if (doseTrayVaccine?.name) {
-      setNewUserTrayVaccineName(doseTrayVaccine.name);
-    }
+  const handleDoseScheduleNow = (doseNumber) => {
     setIsDoseTrayOpen(false);
-    setTimeout(() => setIsNewUserTrayOpen(true), 300);
+
+    const vaccineName = doseTrayVaccine?.name || "Selected Vaccine";
+
+    setTimeout(() => {
+      // ✅ Check if questionnaire is already completed
+      const hasCompletedQuestionnaire =
+        localStorage.getItem("vaccinationQuestionaries") === "true";
+
+      if (hasCompletedQuestionnaire) {
+        // ✅ Skip NewUserTray and go directly to order summary
+        navigate("/app/vaccination/order-summary", {
+          state: { vaccineName },
+        });
+      } else {
+        // ✅ Show NewUserTray as usual
+        setIsNewUserTrayOpen(true);
+      }
+    }, 300);
   };
 
   const VaccineCard = ({ vaccine }) => (

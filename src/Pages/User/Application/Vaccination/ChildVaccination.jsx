@@ -101,8 +101,23 @@ const ChildVaccination = () => {
 
   const handleDoseScheduleNow = (doseNumber) => {
     setIsDoseTrayOpen(false);
+
+    const vaccineName = doseTrayVaccine?.name || "Selected Vaccine";
+
     setTimeout(() => {
-      setIsNewUserTrayOpen(true);
+      // ✅ Check if questionnaire is already completed
+      const hasCompletedQuestionnaire =
+        localStorage.getItem("vaccinationQuestionaries") === "true";
+
+      if (hasCompletedQuestionnaire) {
+        // ✅ Skip NewUserTray and go directly to order summary
+        navigate("/app/vaccination/order-summary", {
+          state: { vaccineName },
+        });
+      } else {
+        // ✅ Show NewUserTray as usual
+        setIsNewUserTrayOpen(true);
+      }
     }, 300);
   };
 

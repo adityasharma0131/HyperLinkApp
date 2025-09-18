@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  FiArrowLeft,
-  FiChevronDown,
-  FiChevronRight,
-  FiCheck,
-  FiLock,
-} from "react-icons/fi";
+import { FiArrowLeft, FiChevronDown, FiChevronRight, FiLock, FiCheck } from "react-icons/fi";
 
 import QuestionnairesHero from "../../../../assets/QuestionnairesHero.svg";
 import AppButton from "../../../../Components/AppButton";
@@ -16,25 +10,18 @@ const Questionnaires = () => {
   const location = useLocation();
   const vaccineName = location.state?.vaccineName || "Selected Vaccine";
 
+  // ✅ If already completed, go to /app/vaccination
+  useEffect(() => {
+    const hasCompleted = localStorage.getItem("vaccinationQuestionaries") === "true";
+    if (hasCompleted) {
+      navigate("/app/vaccination");
+    }
+  }, [navigate]);
+
   const questions = [
-    {
-      id: 1,
-      text: "Are you allergic to anything?",
-      options: ["Yes", "No"],
-      weights: [3, 1],
-    },
-    {
-      id: 2,
-      text: "Do you currently have any fever or active infection?",
-      options: ["Yes", "No"],
-      weights: [3, 1],
-    },
-    {
-      id: 3,
-      text: "Are you currently on any kind of medications?",
-      options: ["Yes", "No"],
-      weights: [2, 1],
-    },
+    { id: 1, text: "Are you allergic to anything?", options: ["Yes", "No"] },
+    { id: 2, text: "Do you currently have any fever or active infection?", options: ["Yes", "No"] },
+    { id: 3, text: "Are you currently on any kind of medications?", options: ["Yes", "No"] },
   ];
 
   const [answers, setAnswers] = useState({});
@@ -42,6 +29,7 @@ const Questionnaires = () => {
   const [completedQuestions, setCompletedQuestions] = useState([]);
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
   const [animationDirection, setAnimationDirection] = useState("right");
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const completed = Object.keys(answers).map(Number);
@@ -57,12 +45,28 @@ const Questionnaires = () => {
     }
   };
 
+  const handleSubmit = () => {
+    if (!allQuestionsAnswered) {
+      alert("Please answer all the questions before submitting.");
+      return;
+    }
+    const allYes = questions.every((q) => answers[q.id] && answers[q.id].toLowerCase() === "yes");
+    if (allYes) {
+      setShowPopup(true);
+    } else {
+      localStorage.setItem("vaccinationQuestionaries", "true");
+      navigate("/app/vaccination/order-summary", { state: { vaccineName } });
+    }
+  };
+
+  const handleConsult = () => navigate("/app/consultation");
+  const handleContinueAnyway = () => {
+    localStorage.setItem("vaccinationQuestionaries", "true");
+    navigate("/app/vaccination/order-summary", { state: { vaccineName } });
+  };
+
   const handleQuestionClick = (questionId) => {
-    if (
-      questionId === 1 ||
-      answers[questionId - 1] ||
-      completedQuestions.includes(questionId)
-    ) {
+    if (questionId === 1 || answers[questionId - 1] || completedQuestions.includes(questionId)) {
       setAnimationDirection(questionId > activeQuestion ? "right" : "left");
       setActiveQuestion(questionId);
     }
@@ -74,22 +78,12 @@ const Questionnaires = () => {
       setActiveQuestion(activeQuestion + 1);
     }
   };
-
   const goToPrevQuestion = () => {
     if (activeQuestion > 1) {
       setAnimationDirection("left");
       setActiveQuestion(activeQuestion - 1);
     }
   };
-
-  const handleSubmit = () => {
-    if (allQuestionsAnswered) {
-      navigate("/app/vaccination/order-summary", {
-        state: { vaccineName }, // ✅ also pass it forward
-      });
-    }
-  };
-
   const resetQuestionnaire = () => {
     setAnswers({});
     setActiveQuestion(1);
@@ -103,23 +97,14 @@ const Questionnaires = () => {
             <FiArrowLeft className="hero-icon" />
           </button>
         </div>
-
         <div className="hero-content">
           <div className="hero-text">
-            <h1>
-              Hello! <br /> This is HELIX
-            </h1>
-            <p className="hero-subtitle">Your AI Genetic Guide </p>
-            {/* ✅ Show vaccine name */}
-            <p className="hero-vaccine-name">
-              Assessment for: <strong>{vaccineName}</strong>
-            </p>
+            <h1>Hello! <br /> This is HELIX</h1>
+            <p className="hero-subtitle">Your AI Genetic Guide</p>
+            <p className="hero-vaccine-name">Assessment for: <strong>{vaccineName}</strong></p>
           </div>
           <div className="hero-image">
-            <img
-              src={QuestionnairesHero}
-              alt="Genetic counseling illustration"
-            />
+            <img src={QuestionnairesHero} alt="Genetic counseling illustration" />
           </div>
         </div>
       </div>
@@ -129,28 +114,16 @@ const Questionnaires = () => {
           <div className="progress-indicator">
             <div
               className="progress-bar"
-              style={{
-                width: `${
-                  (completedQuestions.length / questions.length) * 100
-                }%`,
-              }}
+              style={{ width: `${(completedQuestions.length / questions.length) * 100}%` }}
             ></div>
           </div>
-          <span className="progress-text">
-            {completedQuestions.length} of {questions.length} completed
-          </span>
-
+          <span className="progress-text">{completedQuestions.length} of {questions.length} completed</span>
           <div className="question-navigation">
-            <AppButton
-              text={"Previous"}
-              onClick={goToPrevQuestion}
-              variant="secondary"
-            />
-            <AppButton text={"Next"} onClick={goToNextQuestion} />
+            <AppButton text="Previous" onClick={goToPrevQuestion} variant="secondary" />
+            <AppButton text="Next" onClick={goToNextQuestion} />
           </div>
         </div>
 
-        {/* Render questions */}
         <div className="questions-stack-container">
           {questions.map((question, index) => {
             const isAnswered = answers[question.id];
@@ -177,20 +150,28 @@ const Questionnaires = () => {
         </div>
 
         <div className="questionnaire-actions">
-          <button
-            className={`submit-btn ${!allQuestionsAnswered ? "disabled" : ""}`}
-            onClick={handleSubmit}
-          >
+          <button className={`submit-btn ${!allQuestionsAnswered ? "disabled" : ""}`} onClick={handleSubmit}>
             Submit Assessment
           </button>
-          <button
-            className={`reset-btn ${!allQuestionsAnswered ? "disabled" : ""}`}
-            onClick={resetQuestionnaire}
-          >
+          <button className="reset-btn" onClick={resetQuestionnaire}>
             Reset Answers
           </button>
         </div>
       </div>
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Health Advisory</h2>
+            <p>You should be physically fit to access vaccines. We suggest you consult a doctor.</p>
+            <div className="popup-actions">
+              <AppButton text="Consult a Doctor" onClick={handleConsult} />
+              <AppButton text="Continue Anyway" onClick={handleContinueAnyway} variant="secondary" />
+            </div>
+          </div>
+        </div>
+      )}
+
 
       <style>
         {`
@@ -769,6 +750,33 @@ const Questionnaires = () => {
             justify-content: center;
             align-items: center;
           }
+
+          .popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
 
 `}
       </style>
