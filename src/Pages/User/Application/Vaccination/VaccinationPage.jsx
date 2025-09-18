@@ -18,7 +18,8 @@ import {
 import { IoIosArrowForward } from "react-icons/io";
 
 import childVaccData from "./ChildVaccData.json";
-import adultVaccData from "./AdultVaccData.json"; // ✅ NEW
+import adultVaccData from "./AdultVaccData.json";
+import travelVaccData from "./TravelVaccData.json"; // ✅ NEW
 import GridInfoTray from "./GridInfoTray";
 
 const VaccinationPage = () => {
@@ -42,12 +43,14 @@ const VaccinationPage = () => {
     },
   ];
 
+  // ✅ Combine child + adult + travel data
   useEffect(() => {
     if (!vaccineName) return;
 
     const allVaccines = [
       ...(childVaccData?.vaccineData || []),
       ...(adultVaccData?.vaccineData || []),
+      ...(travelVaccData?.vaccineData || []), // ✅ Travel added
     ];
 
     const found = allVaccines.find((v) => v.name === vaccineName);

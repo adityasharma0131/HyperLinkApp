@@ -18,157 +18,26 @@ import VaccInfo from "./VaccInfo";
 import DoseTray from "./DoseTray";
 import NewUserTray from "./NewUserTray";
 
+import travelVaccData from "./TravelVaccData.json";
+
 const TravelVaccination = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
   const [selectedAge, setSelectedAge] = useState("all");
   const [activeFilter, setActiveFilter] = useState("all");
 
-  // State for vaccine trays
   const [selectedVaccine, setSelectedVaccine] = useState(null);
   const [isInfoTrayOpen, setIsInfoTrayOpen] = useState(false);
+
   const [isDoseTrayOpen, setIsDoseTrayOpen] = useState(false);
   const [doseTrayVaccine, setDoseTrayVaccine] = useState(null);
+
   const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
+  const [selectedVaccineName, setSelectedVaccineName] = useState(""); // ✅ NEW
 
-  const ageGroups = useMemo(
-    () => [
-      { value: "all", label: "All Ages" },
-      { value: "18-49 years", label: "18-49 years" },
-      { value: "50-64 years", label: "50-64 years" },
-      { value: "65+ years", label: "65+ years" },
-      { value: "Pregnant women", label: "Pregnant women" },
-      { value: "Healthcare workers", label: "Healthcare workers" },
-    ],
-    []
-  );
-
-  const vaccineData = useMemo(
-    () => [
-      {
-        id: 1,
-        name: "Yellow Fever Vaccine",
-        description:
-          "Required for travel to certain countries in Africa and South America.",
-        doses: 1,
-        price: 2500,
-        isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years"],
-        tag: "Travel",
-        scheduleAt: "10 days before travel",
-        benefits: [
-          "Required for entry in some countries",
-          "Provides lifetime immunity",
-          "Prevents yellow fever infection",
-        ],
-        countries: ["Brazil", "Ghana", "Kenya", "Peru"],
-        certificateRequired: true,
-      },
-      {
-        id: 2,
-        name: "Typhoid Vaccine",
-        description: "Recommended for travelers to areas with poor sanitation.",
-        doses: 1,
-        price: 1200,
-        isRecommended: true,
-        ageGroups: ["all"],
-        tag: "Travel",
-        scheduleAt: "2 weeks before travel",
-        benefits: [
-          "Protects against typhoid fever",
-          "Oral and injectable options available",
-          "Effective for 2-5 years",
-        ],
-        countries: ["India", "Pakistan", "Bangladesh", "Mexico"],
-      },
-      {
-        id: 3,
-        name: "Hepatitis A Vaccine",
-        description: "Recommended for most international travelers.",
-        doses: 2,
-        price: 1800,
-        isRecommended: true,
-        ageGroups: ["all"],
-        tag: "Travel",
-        scheduleAt: "6 months apart",
-        benefits: [
-          "Protects against food/water-borne illness",
-          "Provides long-term protection",
-          "Often combined with Hepatitis B vaccine",
-        ],
-        countries: ["All developing countries"],
-      },
-      {
-        id: 4,
-        name: "Japanese Encephalitis",
-        description: "Recommended for long-term travelers to rural Asia.",
-        doses: 2,
-        price: 3500,
-        isRecommended: false,
-        ageGroups: ["18-49 years", "50-64 years"],
-        tag: "Travel",
-        scheduleAt: "28 days apart",
-        benefits: [
-          "Protects against mosquito-borne disease",
-          "Recommended for rural travel",
-          "Important for long-term stays",
-        ],
-        countries: ["China", "India", "Thailand", "Vietnam"],
-      },
-      {
-        id: 5,
-        name: "Meningococcal Vaccine",
-        description: "Required for travel to the meningitis belt of Africa.",
-        doses: 1,
-        price: 2800,
-        isRecommended: true,
-        ageGroups: ["all"],
-        tag: "Travel",
-        scheduleAt: "Before travel",
-        benefits: [
-          "Required for Hajj pilgrimage",
-          "Protects against meningitis",
-          "Valid for 3-5 years",
-        ],
-        countries: ["Saudi Arabia", "Sudan", "Ethiopia"],
-        certificateRequired: true,
-      },
-      {
-        id: 6,
-        name: "Rabies Vaccine",
-        description: "Recommended for travelers at risk of animal bites.",
-        doses: 3,
-        price: 3200,
-        isRecommended: false,
-        ageGroups: ["all"],
-        tag: "Travel",
-        scheduleAt: "28 day series",
-        benefits: [
-          "Prevents rabies infection",
-          "Reduces need for post-exposure treatment",
-          "Important for adventure travelers",
-        ],
-        countries: ["All with animal exposure risk"],
-      },
-      {
-        id: 7,
-        name: "Cholera Vaccine",
-        description: "Recommended for travelers to outbreak areas.",
-        doses: 2,
-        price: 1500,
-        isRecommended: false,
-        ageGroups: ["all"],
-        tag: "Travel",
-        scheduleAt: "1-6 weeks apart",
-        benefits: [
-          "Protects against cholera",
-          "Oral vaccine available",
-          "Useful for humanitarian workers",
-        ],
-        countries: ["Yemen", "Haiti", "Zimbabwe"],
-      },
-    ],
-    []
+  const [vaccineData] = useState(travelVaccData.vaccineData || []);
+  const [ageGroups] = useState(
+    (travelVaccData.ageGroups || []).map((g) => ({ value: g, label: g }))
   );
 
   const filteredVaccines = useMemo(() => {
@@ -197,10 +66,6 @@ const TravelVaccination = () => {
     setIsAgeDropdownOpen(false);
   }, []);
 
-  const handleFilterSelect = useCallback((filter) => {
-    setActiveFilter(filter);
-  }, []);
-
   const formatINR = (amount) =>
     new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -209,6 +74,8 @@ const TravelVaccination = () => {
     }).format(amount);
 
   const handleScheduleClick = (vaccine) => {
+    setSelectedVaccineName(vaccine.name); // ✅ set the vaccine name
+
     const dosesArray = Array.from({ length: vaccine.doses }, (_, i) => ({
       number: i + 1,
       note: `${i + 1}${["st", "nd", "rd"][i] || "th"} dose for ${vaccine.name}`,
@@ -220,7 +87,7 @@ const TravelVaccination = () => {
 
     setDoseTrayVaccine({
       name: vaccine.name,
-      type: vaccine.tag.toUpperCase(),
+      type: vaccine.tag?.toUpperCase(),
       doses: dosesArray,
       countries: vaccine.countries,
       certificateRequired: vaccine.certificateRequired,
@@ -260,7 +127,7 @@ const TravelVaccination = () => {
         <div className="vaccine-info">
           <div className="info-header">
             <h2 className="vaccine-name">{vaccine.name}</h2>
-            <div className={`vaccine-tag ${vaccine.tag.toLowerCase()}`}>
+            <div className={`vaccine-tag ${vaccine.tag?.toLowerCase()}`}>
               {vaccine.tag}
             </div>
           </div>
@@ -310,6 +177,7 @@ const TravelVaccination = () => {
 
   return (
     <div className="travel-vaccine-page">
+      {/* --- HERO SECTION --- */}
       <div className="travel-vaccine-hero">
         <div className="hero-top-bar">
           <button className="icon-button" onClick={() => window.history.back()}>
@@ -345,7 +213,7 @@ const TravelVaccination = () => {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* --- FILTERS --- */}
       <div className="vaccine-filter-container">
         <div className="vacc-filter">
           <div className="filter-label">
@@ -388,7 +256,7 @@ const TravelVaccination = () => {
         </div>
       </div>
 
-      {/* Vaccine Cards */}
+      {/* --- VACCINE LIST --- */}
       <div className="vaccine-list-container">
         <div className="section-header">
           <h3 className="section-title">
@@ -448,13 +316,15 @@ const TravelVaccination = () => {
         />
       )}
 
-      {/* New User Tray */}
+      {/* ✅ New User Tray with vaccine name */}
       {isNewUserTrayOpen && (
         <NewUserTray
           onClose={() => setIsNewUserTrayOpen(false)}
           isTravelVaccine={true}
+          vaccineName={selectedVaccineName} // ✅ passing it here
         />
       )}
+
       <style>
         {`
         .travel-vaccine-page {

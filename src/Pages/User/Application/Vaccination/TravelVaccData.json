@@ -1,0 +1,197 @@
+{
+    "ageGroups": [
+        "all",
+        "18-49 years",
+        "50-64 years",
+        "65+ years",
+        "Pregnant women",
+        "Healthcare workers"
+    ],
+    "vaccineData": [
+        {
+            "id": 1,
+            "name": "Yellow Fever Vaccine",
+            "description": "Required for travel to certain countries in Africa and South America.",
+            "doses": 1,
+            "price": 2500,
+            "isRecommended": true,
+            "ageGroups": [
+                "18-49 years",
+                "50-64 years"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "10 days before travel",
+            "eligibility": "Travelers visiting countries in Africa or South America where yellow fever is endemic.",
+            "precautions": "Avoid in people with severe egg allergy or immunodeficiency; not recommended during pregnancy unless necessary.",
+            "administration": "Single dose given as a subcutaneous injection by a certified travel health provider.",
+            "benefits": [
+                "Required for entry in some countries",
+                "Provides lifetime immunity",
+                "Prevents yellow fever infection"
+            ],
+            "countries": [
+                "Brazil",
+                "Ghana",
+                "Kenya",
+                "Peru"
+            ],
+            "certificateRequired": true
+        },
+        {
+            "id": 2,
+            "name": "Typhoid Vaccine",
+            "description": "Recommended for travelers to areas with poor sanitation.",
+            "doses": 1,
+            "price": 1200,
+            "isRecommended": true,
+            "ageGroups": [
+                "all"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "2 weeks before travel",
+            "eligibility": "Travelers to parts of Asia, Africa, and Latin America where typhoid is common.",
+            "precautions": "Postpone if currently suffering from fever or acute illness.",
+            "administration": "Given as an intramuscular injection or oral capsules by a doctor.",
+            "benefits": [
+                "Protects against typhoid fever",
+                "Oral and injectable options available",
+                "Effective for 2-5 years"
+            ],
+            "countries": [
+                "India",
+                "Pakistan",
+                "Bangladesh",
+                "Mexico"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Hepatitis A Vaccine",
+            "description": "Recommended for most international travelers.",
+            "doses": 2,
+            "price": 1800,
+            "isRecommended": true,
+            "ageGroups": [
+                "all"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "6 months apart",
+            "eligibility": "All travelers to developing countries or areas with poor sanitation.",
+            "precautions": "Delay if the traveler has moderate or severe illness with fever.",
+            "administration": "Given as an intramuscular injection in the upper arm by a nurse or doctor.",
+            "benefits": [
+                "Protects against food/water-borne illness",
+                "Provides long-term protection",
+                "Often combined with Hepatitis B vaccine"
+            ],
+            "countries": [
+                "All developing countries"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Japanese Encephalitis",
+            "description": "Recommended for long-term travelers to rural Asia.",
+            "doses": 2,
+            "price": 3500,
+            "isRecommended": false,
+            "ageGroups": [
+                "18-49 years",
+                "50-64 years"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "28 days apart",
+            "eligibility": "Travelers spending more than a month in rural areas of Asia.",
+            "precautions": "Avoid in pregnant women unless the risk of infection is high.",
+            "administration": "Two-dose series given as intramuscular injections by a travel clinic.",
+            "benefits": [
+                "Protects against mosquito-borne disease",
+                "Recommended for rural travel",
+                "Important for long-term stays"
+            ],
+            "countries": [
+                "China",
+                "India",
+                "Thailand",
+                "Vietnam"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Meningococcal Vaccine",
+            "description": "Required for travel to the meningitis belt of Africa.",
+            "doses": 1,
+            "price": 2800,
+            "isRecommended": true,
+            "ageGroups": [
+                "all"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "Before travel",
+            "eligibility": "Mandatory for travelers to Saudi Arabia for Hajj and Umrah pilgrimage.",
+            "precautions": "Postpone if the person has a high fever or severe illness.",
+            "administration": "Single dose given as an intramuscular injection by a doctor or nurse.",
+            "benefits": [
+                "Required for Hajj pilgrimage",
+                "Protects against meningitis",
+                "Valid for 3-5 years"
+            ],
+            "countries": [
+                "Saudi Arabia",
+                "Sudan",
+                "Ethiopia"
+            ],
+            "certificateRequired": true
+        },
+        {
+            "id": 6,
+            "name": "Rabies Vaccine",
+            "description": "Recommended for travelers at risk of animal bites.",
+            "doses": 3,
+            "price": 3200,
+            "isRecommended": false,
+            "ageGroups": [
+                "all"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "28 day series",
+            "eligibility": "Travelers engaging in outdoor activities or working with animals in rabies-endemic areas.",
+            "precautions": "Avoid during pregnancy unless risk is high; postpone if sick with high fever.",
+            "administration": "Given as intramuscular injections on days 0, 7, and 28 by a healthcare provider.",
+            "benefits": [
+                "Prevents rabies infection",
+                "Reduces need for post-exposure treatment",
+                "Important for adventure travelers"
+            ],
+            "countries": [
+                "All with animal exposure risk"
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Cholera Vaccine",
+            "description": "Recommended for travelers to outbreak areas.",
+            "doses": 2,
+            "price": 1500,
+            "isRecommended": false,
+            "ageGroups": [
+                "all"
+            ],
+            "tag": "Travel",
+            "scheduleAt": "1-6 weeks apart",
+            "eligibility": "Travelers going to areas experiencing cholera outbreaks or with poor sanitation.",
+            "precautions": "Delay if the traveler has vomiting, diarrhea, or high fever.",
+            "administration": "Given orally as two doses at least 1 week apart by a healthcare worker.",
+            "benefits": [
+                "Protects against cholera",
+                "Oral vaccine available",
+                "Useful for humanitarian workers"
+            ],
+            "countries": [
+                "Yemen",
+                "Haiti",
+                "Zimbabwe"
+            ]
+        }
+    ]
+}
