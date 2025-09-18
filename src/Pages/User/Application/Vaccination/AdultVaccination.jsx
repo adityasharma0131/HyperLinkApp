@@ -18,6 +18,8 @@ import AppButton from "../../../../Components/AppButton";
 import VaccInfo from "./VaccInfo";
 import DoseTray from "./DoseTray";
 import NewUserTray from "./NewUserTray";
+import { PiPath } from "react-icons/pi";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // ⭐ Import data from JSON file
 import vaccineJson from "./AdultVaccData.json";
@@ -38,6 +40,7 @@ const AdultVaccination = () => {
 
   const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
   const [newUserTrayVaccineName, setNewUserTrayVaccineName] = useState("");
+  const navigate = useNavigate();
 
   const filteredVaccines = useMemo(() => {
     return vaccineData.filter((vaccine) => {
@@ -164,6 +167,12 @@ const AdultVaccination = () => {
         <div className="hero-top-bar">
           <button className="icon-button" onClick={() => window.history.back()}>
             <FiArrowLeft className="hero-icon" />
+          </button>
+          <button
+            className="icon-button"
+            onClick={() => navigate("/app/vaccination/adult/tracker")}
+          >
+            <PiPath className="hero-icon" />
           </button>
         </div>
         <div className="hero-content">

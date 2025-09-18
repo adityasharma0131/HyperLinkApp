@@ -18,6 +18,8 @@ import VaccInfo from "./VaccInfo";
 import DoseTray from "./DoseTray";
 import NewUserTray from "./NewUserTray";
 import childVaccData from "./ChildVaccData.json";
+import { PiPath } from "react-icons/pi";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ChildVaccination = () => {
   const [vaccines, setVaccines] = useState([]);
@@ -37,6 +39,7 @@ const ChildVaccination = () => {
   const [doseTrayVaccine, setDoseTrayVaccine] = useState(null);
 
   const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
+  const navigate = useNavigate();
 
   // 📌 Load vaccine data from JSON file
   useEffect(() => {
@@ -165,7 +168,6 @@ const ChildVaccination = () => {
 
   if (loading) return <div className="loading">Loading vaccines...</div>;
   if (error) return <div className="error">{error}</div>;
-
   return (
     <div className="child-vaccine-page">
       {/* Hero */}
@@ -173,6 +175,12 @@ const ChildVaccination = () => {
         <div className="hero-top-bar">
           <button className="icon-button" onClick={() => window.history.back()}>
             <FiArrowLeft className="hero-icon" />
+          </button>
+          <button
+            className="icon-button"
+            onClick={() => navigate("/app/vaccination/child/tracker")}
+          >
+            <PiPath className="hero-icon" />
           </button>
         </div>
         <div className="hero-content">
