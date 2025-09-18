@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiX, FiInfo, FiClipboard, FiUserCheck } from "react-icons/fi";
-import { GiLoveInjection } from "react-icons/gi";
-import { IoIosArrowForward } from "react-icons/io";
+import { FiX } from "react-icons/fi";
 
 const GridInfoTray = ({ isOpen, onClose, content }) => {
   const [closing, setClosing] = useState(false);
@@ -11,7 +9,7 @@ const GridInfoTray = ({ isOpen, onClose, content }) => {
     setTimeout(() => {
       onClose();
       setClosing(false);
-    }, 300); // Matches animation duration
+    }, 300); // Matches CSS animation duration
   };
 
   // Prevent body scroll when tray is open
@@ -21,7 +19,6 @@ const GridInfoTray = ({ isOpen, onClose, content }) => {
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -46,7 +43,7 @@ const GridInfoTray = ({ isOpen, onClose, content }) => {
         {/* Content */}
         <div className="bottom-tray-content">
           <div className="bottom-tray-header">
-            <h1 className="bottom-tray-title">{content?.title}</h1>
+            <h1 className="bottom-tray-title">{content?.title || "Details"}</h1>
             <button
               type="button"
               className="bottom-tray-close-btn"
@@ -57,9 +54,12 @@ const GridInfoTray = ({ isOpen, onClose, content }) => {
             </button>
           </div>
 
-          <div className="bottom-tray-body">{content?.body}</div>
+          <div className="bottom-tray-body">
+            {content?.body || "No additional information available."}
+          </div>
         </div>
       </div>
+
       <style>
         {`
           /* Backdrop */

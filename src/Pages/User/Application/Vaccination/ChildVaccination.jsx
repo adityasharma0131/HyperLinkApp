@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   FiArrowLeft,
   FiFilter,
@@ -17,8 +17,14 @@ import AppButton from "../../../../Components/AppButton";
 import VaccInfo from "./VaccInfo";
 import DoseTray from "./DoseTray";
 import NewUserTray from "./NewUserTray";
+import childVaccData from "./ChildVaccData.json";
 
 const ChildVaccination = () => {
+  const [vaccines, setVaccines] = useState([]);
+  const [ageGroups, setAgeGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [searchQuery, setSearchQuery] = useState("");
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
   const [selectedAge, setSelectedAge] = useState("all");
@@ -32,58 +38,15 @@ const ChildVaccination = () => {
 
   const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
 
-  const ageGroups = [
-    "all",
-    "0-2 weeks",
-    "1-6 months",
-    "6-12 months",
-    "1-2 years",
-    "2-5 years",
-  ];
-
-  const vaccineData = useMemo(
-    () => [
-      {
-        id: 1,
-        name: "BCG Vaccine",
-        description:
-          "Protects against tuberculosis, recommended for all newborns.",
-        doses: 1,
-        price: 479,
-        isRecommended: true,
-        ageGroups: ["0-2 weeks"],
-        tag: "Essential",
-        scheduleAt: "At birth",
-      },
-      {
-        id: 2,
-        name: "Hepatitis B",
-        description:
-          "Prevents hepatitis B infection; reduces risk of chronic liver disease.",
-        doses: 3,
-        price: 650,
-        isRecommended: true,
-        ageGroups: ["0-2 weeks", "1-6 months"],
-        tag: "Essential",
-        scheduleAt: "At birth",
-      },
-      {
-        id: 3,
-        name: "OPV (Polio)",
-        description: "Oral polio vaccine for birth and infancy.",
-        doses: 4,
-        price: 320,
-        isRecommended: false,
-        ageGroups: ["0-2 weeks", "1-6 months", "6-12 months"],
-        tag: "Essential",
-        scheduleAt: "At birth & infancy",
-      },
-    ],
-    []
-  );
+  // 📌 Load vaccine data from JSON file
+  useEffect(() => {
+    setVaccines(childVaccData.vaccineData || []);
+    setAgeGroups(childVaccData.ageGroups || []);
+    setLoading(false);
+  }, []);
 
   const filteredVaccines = useMemo(() => {
-    return vaccineData.filter((vaccine) => {
+    return vaccines.filter((vaccine) => {
       const matchesSearch =
         vaccine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         vaccine.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -100,7 +63,7 @@ const ChildVaccination = () => {
 
       return matchesSearch && matchesAge && matchesFilter;
     });
-  }, [vaccineData, searchQuery, selectedAge, activeFilter]);
+  }, [vaccines, searchQuery, selectedAge, activeFilter]);
 
   const handleAgeSelect = useCallback((age) => {
     setSelectedAge(age);
@@ -200,8 +163,12 @@ const ChildVaccination = () => {
     </div>
   );
 
+  if (loading) return <div className="loading">Loading vaccines...</div>;
+  if (error) return <div className="error">{error}</div>;
+
   return (
     <div className="child-vaccine-page">
+      {/* Hero */}
       <div className="child-vaccine-hero">
         <div className="hero-top-bar">
           <button className="icon-button" onClick={() => window.history.back()}>
@@ -212,15 +179,13 @@ const ChildVaccination = () => {
           <div className="hero-text">
             <h1>
               Childhood
-              <br />
-              Vaccination
+              <br /> Vaccination
             </h1>
             <p className="hero-subtitle">
               Protect your child with the right vaccines at the right time.
             </p>
           </div>
           <div className="hero-image">
-            <span className="image-decoration" />
             <img src={ChildVaccineHero} alt="Child receiving vaccine" />
           </div>
         </div>
@@ -334,7 +299,10 @@ const ChildVaccination = () => {
 
       {/* New User Tray */}
       {isNewUserTrayOpen && (
-        <NewUserTray onClose={() => setIsNewUserTrayOpen(false)} />
+        <NewUserTray
+          onClose={() => setIsNewUserTrayOpen(false)}
+          vaccineName={doseTrayVaccine?.name || "Unknown Vaccine"}
+        />
       )}
 
       <style>

@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FiX } from "react-icons/fi";
 import AppButton from "../../../../Components/AppButton";
 
-const NewUserTray = ({ onClose }) => {
+const NewUserTray = ({ onClose, vaccineName }) => {
   const [closing, setClosing] = useState(false);
   const navigate = useNavigate();
+
   const handleClose = () => {
     setClosing(true);
     setTimeout(onClose, 300); // Matches animation duration
@@ -18,6 +19,12 @@ const NewUserTray = ({ onClose }) => {
       document.body.style.overflow = "";
     };
   }, []);
+
+  const handleContinue = () => {
+    navigate("/app/vaccination/details", {
+      state: { vaccineName: vaccineName || "Unknown Vaccine" },
+    });
+  };
 
   return (
     <div
@@ -50,19 +57,18 @@ const NewUserTray = ({ onClose }) => {
           </div>
 
           <p className="new-user-text">
-            Before scheduling your vaccination, we’ll need a quick health
-            assessment to ensure this vaccine is right for you. This only takes
-            a minute.
+            Before scheduling your{" "}
+            <strong>{vaccineName || "vaccination"}</strong>, we’ll need a quick
+            health assessment to ensure this vaccine is right for you. This only
+            takes a minute.
           </p>
 
-          <button
-            onClick={() => navigate("/app/vaccination/details")}
-            className="continue-btn"
-          >
+          <button onClick={handleContinue} className="continue-btn">
             Continue
           </button>
         </div>
       </div>
+
       <style>
         {`
           /* Backdrop */

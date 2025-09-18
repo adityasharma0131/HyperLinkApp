@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   FiArrowLeft,
   FiInfo,
@@ -17,25 +17,20 @@ import BookingDetailTray from "../LabTest/BookingDetailTray";
 
 const VaccinationCart = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const trayRef = useRef();
+
+  const passedData = location.state; // vaccineName, price, doses, tag
 
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [schedule, setSchedule] = useState(null);
   const [showSchedulingTray, setShowSchedulingTray] = useState(false);
   const [showBookingTray, setShowBookingTray] = useState(false);
   const [userAddresses, setUserAddresses] = useState([]);
-  const [cartItems, setCartItems] = useState([
-    {
-      title: "HPV (Human Papillomavirus) Vaccine",
-      doseInfo: "Only 3 doses",
-      protection: "Protection 10+ years",
-      price: 1500,
-      original: 2000,
-      offer: "25% off",
-      qty: 1,
-    },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
+  const [cartLoaded, setCartLoaded] = useState(false);
 
+  // Load addresses + cart
   useEffect(() => {
     const storedAddresses = localStorage.getItem("userAddresses");
     if (storedAddresses) {
@@ -49,20 +44,49 @@ const VaccinationCart = () => {
     }
 
     const storedCart = localStorage.getItem("vaccineCart");
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
-    }
-  }, []);
+    let updatedCart = [];
 
+    if (storedCart) {
+      updatedCart = JSON.parse(storedCart);
+    }
+
+    if (passedData) {
+      const newItem = {
+        title: `${passedData.vaccineName} Vaccine`,
+        doseInfo: `${passedData.doses} dose(s)`,
+        protection: passedData.tag || "General Protection",
+        price: passedData.price,
+        original: passedData.price,
+        offer: "Best Price",
+        qty: 1,
+      };
+
+      // Only add if it's not already present
+      const exists = updatedCart.some((item) => item.title === newItem.title);
+      if (!exists) {
+        updatedCart.push(newItem);
+      }
+    }
+
+    setCartItems(updatedCart);
+    setCartLoaded(true);
+  }, [passedData]);
+
+  // Persist cart
   useEffect(() => {
-    localStorage.setItem("vaccineCart", JSON.stringify(cartItems));
+    if (cartItems.length > 0) {
+      localStorage.setItem("vaccineCart", JSON.stringify(cartItems));
+    } else {
+      localStorage.removeItem("vaccineCart");
+    }
   }, [cartItems]);
 
+  // Go back if cart is empty after loading
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (cartLoaded && cartItems.length === 0) {
       navigate(-1);
     }
-  }, [cartItems, navigate]);
+  }, [cartLoaded, cartItems, navigate]);
 
   const formatAddress = (address) => {
     if (!address || !address.details) return "";
@@ -81,11 +105,10 @@ const VaccinationCart = () => {
     setSchedule(time);
     setShowSchedulingTray(false);
   };
-
   const handleIncrement = (idx) => {
     setCartItems((prev) =>
       prev.map((item, i) =>
-        i === idx ? { ...item, qty: Math.min(item.qty + 1, 5) } : item
+        i === idx ? { ...item, qty: Math.min(Number(item.qty) + 1, 5) } : item
       )
     );
   };
@@ -93,11 +116,14 @@ const VaccinationCart = () => {
   const handleDecrement = (idx) => {
     setCartItems((prev) => {
       const updated = [...prev];
-      if (updated[idx].qty > 1) {
-        updated[idx].qty -= 1;
+      const currentQty = Number(updated[idx].qty) || 1;
+
+      if (currentQty > 1) {
+        updated[idx] = { ...updated[idx], qty: currentQty - 1 };
       } else {
         updated.splice(idx, 1);
       }
+
       return updated;
     });
   };
@@ -121,7 +147,9 @@ const VaccinationCart = () => {
             <button className="icon-button" onClick={() => navigate(-1)}>
               <FiArrowLeft className="hero-icon" />
             </button>
-            <h2 className="hero-title">HPV VACCINE CART</h2>
+            <h2 className="hero-title">
+              {cartItems[0]?.title?.toUpperCase() || "VACCINE CART"}
+            </h2>
           </div>
         </div>
       </div>
@@ -152,7 +180,7 @@ const VaccinationCart = () => {
                   <div className="test-meta">
                     <div className="test-meta-content">
                       <span className="test-report-time">{item.doseInfo}</span>
-                      <span className="test-fasting"> {item.protection}</span>
+                      <span className="test-fasting">{item.protection}</span>
 
                       <div className="price-container">
                         <div className="price-section">

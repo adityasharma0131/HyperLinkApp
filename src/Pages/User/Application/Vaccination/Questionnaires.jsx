@@ -1,40 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   FiArrowLeft,
-  FiChevronRight,
   FiChevronDown,
-  FiLock,
+  FiChevronRight,
   FiCheck,
+  FiLock,
 } from "react-icons/fi";
+
 import QuestionnairesHero from "../../../../assets/QuestionnairesHero.svg";
 import AppButton from "../../../../Components/AppButton";
 
 const Questionnaires = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const vaccineName = location.state?.vaccineName || "Selected Vaccine";
+
   const questions = [
     {
       id: 1,
-      text: "Do you have any of the following conditions? (Select all that apply)",
-      options: [
-        "Autoimmune disorder",
-        "HIV or immunocompromised",
-        "Severe allergies (e.g., latex, medications)",
-        "None of the above",
-      ],
-      weights: [3, 2, 0, 1],
+      text: "Are you allergic to anything?",
+      options: ["Yes", "No"],
+      weights: [3, 1],
     },
     {
       id: 2,
-      text: "Have you experienced a severe allergic reaction to any vaccine in the past?",
-      options: ["Yes", "No", "Not sure"],
-      weights: [3, 2, 1],
+      text: "Do you currently have any fever or active infection?",
+      options: ["Yes", "No"],
+      weights: [3, 1],
     },
     {
       id: 3,
-      text: "Do you have a fever or active infection right now?",
+      text: "Are you currently on any kind of medications?",
       options: ["Yes", "No"],
-      weights: [3, 2],
+      weights: [2, 1],
     },
   ];
 
@@ -85,7 +84,9 @@ const Questionnaires = () => {
 
   const handleSubmit = () => {
     if (allQuestionsAnswered) {
-      navigate("/app/vaccination/order-summary");
+      navigate("/app/vaccination/order-summary", {
+        state: { vaccineName }, // ✅ also pass it forward
+      });
     }
   };
 
@@ -109,6 +110,10 @@ const Questionnaires = () => {
               Hello! <br /> This is HELIX
             </h1>
             <p className="hero-subtitle">Your AI Genetic Guide </p>
+            {/* ✅ Show vaccine name */}
+            <p className="hero-vaccine-name">
+              Assessment for: <strong>{vaccineName}</strong>
+            </p>
           </div>
           <div className="hero-image">
             <img
@@ -145,6 +150,7 @@ const Questionnaires = () => {
           </div>
         </div>
 
+        {/* Render questions */}
         <div className="questions-stack-container">
           {questions.map((question, index) => {
             const isAnswered = answers[question.id];
@@ -181,7 +187,7 @@ const Questionnaires = () => {
             className={`reset-btn ${!allQuestionsAnswered ? "disabled" : ""}`}
             onClick={resetQuestionnaire}
           >
-            Reset AnswersReset Answers
+            Reset Answers
           </button>
         </div>
       </div>

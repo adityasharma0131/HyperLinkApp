@@ -1,0 +1,212 @@
+{
+    "ageGroups": [
+        "all",
+        "0-2 weeks",
+        "1-6 months",
+        "6-12 months",
+        "1-2 years",
+        "2-5 years",
+        "5+ years"
+    ],
+    "vaccineData": [
+        {
+            "id": 1,
+            "name": "BCG",
+            "description": "Protects against tuberculosis, given at birth.",
+            "doses": 1,
+            "price": 479,
+            "isRecommended": true,
+            "ageGroups": [
+                "0-2 weeks"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "At birth",
+            "eligibility": "Newborn babies, usually given within 2 weeks of birth.",
+            "precautions": "Avoid if the baby has a severe illness or immune deficiency.",
+            "administration": "Given as an intradermal injection in the upper arm by a nurse."
+        },
+        {
+            "id": 2,
+            "name": "OPV (Polio)",
+            "description": "Oral polio vaccine to prevent poliomyelitis.",
+            "doses": 4,
+            "price": 320,
+            "isRecommended": true,
+            "ageGroups": [
+                "0-2 weeks",
+                "1-6 months"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "At birth & infancy",
+            "eligibility": "All infants and children under 5 years of age.",
+            "precautions": "Avoid in children with severe immunodeficiency disorders.",
+            "administration": "Given orally as drops by a nurse or health worker."
+        },
+        {
+            "id": 3,
+            "name": "Hepatitis B",
+            "description": "Prevents hepatitis B infection and liver disease.",
+            "doses": 4,
+            "price": 650,
+            "isRecommended": true,
+            "ageGroups": [
+                "0-2 weeks",
+                "1-6 months",
+                "6-12 months"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "At birth, 6w, 10w, 14w",
+            "eligibility": "All newborns, infants and unvaccinated children.",
+            "precautions": "Check for previous allergic reaction to Hep B vaccine or yeast.",
+            "administration": "Intramuscular injection in the thigh or upper arm by a nurse."
+        },
+        {
+            "id": 4,
+            "name": "IPV",
+            "description": "Inactivated Polio Vaccine (injectable) to prevent polio.",
+            "doses": 4,
+            "price": 350,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-6 months",
+                "2-5 years"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "6w, 10w, 14w, 4.5-5y booster",
+            "eligibility": "All infants and children.",
+            "precautions": "Avoid during severe illness with fever.",
+            "administration": "Given as an injection in the thigh or arm by a nurse."
+        },
+        {
+            "id": 5,
+            "name": "DTaP / DTwP",
+            "description": "Diphtheria, Tetanus, and Pertussis vaccine.",
+            "doses": 5,
+            "price": 700,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-6 months",
+                "2-5 years"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "6w, 10w, 14w, 18m booster, 4.5-5y booster",
+            "eligibility": "Infants and young children up to 7 years.",
+            "precautions": "Postpone if the child has high fever or neurological illness.",
+            "administration": "Intramuscular injection in the thigh or arm by a nurse."
+        },
+        {
+            "id": 6,
+            "name": "Hib",
+            "description": "Haemophilus influenzae type b vaccine.",
+            "doses": 4,
+            "price": 500,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-6 months"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "6w, 10w, 14w, 18m booster",
+            "eligibility": "Infants from 6 weeks to 5 years of age.",
+            "precautions": "Delay if the child has a moderate/severe illness with fever.",
+            "administration": "Intramuscular injection in the thigh by a nurse."
+        },
+        {
+            "id": 7,
+            "name": "Rotavirus",
+            "description": "Protects against rotavirus-induced diarrhoea.",
+            "doses": 3,
+            "price": 450,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-6 months"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "6w, 10w, 14w",
+            "eligibility": "Infants starting at 6 weeks of age.",
+            "precautions": "Do not give if child has severe combined immunodeficiency.",
+            "administration": "Given orally as drops by a nurse."
+        },
+        {
+            "id": 8,
+            "name": "MMR",
+            "description": "Protects against measles, mumps and rubella.",
+            "doses": 2,
+            "price": 600,
+            "isRecommended": true,
+            "ageGroups": [
+                "6-12 months",
+                "1-2 years"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "9m, 12-15m",
+            "eligibility": "All children from 9 months to 15 months.",
+            "precautions": "Avoid during pregnancy or in immunocompromised children.",
+            "administration": "Subcutaneous injection in the upper arm by a nurse."
+        },
+        {
+            "id": 9,
+            "name": "Typhoid",
+            "description": "Protects against typhoid fever.",
+            "doses": 2,
+            "price": 800,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-2 years",
+                "2-5 years"
+            ],
+            "tag": "Optional",
+            "scheduleAt": "9m-2y, after 2y booster",
+            "eligibility": "Children from 9 months and above in typhoid-prone areas.",
+            "precautions": "Postpone if the child is currently sick with fever.",
+            "administration": "Injection given in the upper arm by a nurse."
+        },
+        {
+            "id": 10,
+            "name": "Hepatitis A",
+            "description": "Protects against hepatitis A infection.",
+            "doses": 2,
+            "price": 950,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-2 years"
+            ],
+            "tag": "Optional",
+            "scheduleAt": "12-15m, 18-20m",
+            "eligibility": "Children from 12 months and older.",
+            "precautions": "Delay if child has moderate or severe illness with fever.",
+            "administration": "Injection given in the thigh or upper arm by a nurse."
+        },
+        {
+            "id": 11,
+            "name": "Chickenpox",
+            "description": "Protects against varicella (chickenpox).",
+            "doses": 2,
+            "price": 900,
+            "isRecommended": true,
+            "ageGroups": [
+                "1-2 years"
+            ],
+            "tag": "Optional",
+            "scheduleAt": "15m, 18-20m",
+            "eligibility": "Children from 12 months and older.",
+            "precautions": "Avoid during pregnancy or severe immune deficiency.",
+            "administration": "Subcutaneous injection in the upper arm by a nurse."
+        },
+        {
+            "id": 12,
+            "name": "Td / TT / Tdap",
+            "description": "Booster against tetanus, diphtheria and pertussis.",
+            "doses": 2,
+            "price": 400,
+            "isRecommended": true,
+            "ageGroups": [
+                "5+ years"
+            ],
+            "tag": "Essential",
+            "scheduleAt": "9.5-10y, 15-16y",
+            "eligibility": "School children and adolescents.",
+            "precautions": "Delay if currently sick with high fever.",
+            "administration": "Injection given in the upper arm by a nurse."
+        }
+    ]
+}

@@ -1,112 +1,100 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   FiArrowLeft,
   FiShare2,
   FiShoppingCart,
-  FiChevronDown,
-  FiInfo,
-  FiClipboard,
-  FiUserCheck,
   FiClock,
+  FiChevronDown,
 } from "react-icons/fi";
+import {
+  FaSyringe,
+  FaShieldAlt,
+  FaCalendarAlt,
+  FaUser,
+  FaClipboard,
+  FaUserCheck,
+} from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaSyringe, FaUser, FaShieldAlt, FaCalendarAlt } from "react-icons/fa";
-import AppButton from "../../../../Components/AppButton";
+import childVaccData from "./ChildVaccData.json";
 import GridInfoTray from "./GridInfoTray";
 
-const HPVVaccine = () => {
+const VaccinationPage = () => {
   const navigate = useNavigate();
-  const [openIndex, setOpenIndex] = useState(0);
+  const location = useLocation();
+  const { vaccineName } = location.state || {};
+
+  const [vaccineData, setVaccineData] = useState(null);
   const [trayOpen, setTrayOpen] = useState(false);
-  const [trayContent, setTrayContent] = useState({});
+  const [trayContent, setTrayContent] = useState("");
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const faqs = [
+    {
+      question: "Is this vaccine safe?",
+      answer: "Yes, it is safe for eligible children.",
+    },
+    {
+      question: "Are there side effects?",
+      answer: "Only mild side effects like soreness or fever.",
+    },
+  ];
+
+  useEffect(() => {
+    if (vaccineName && childVaccData?.vaccineData) {
+      const found = childVaccData.vaccineData.find(
+        (v) => v.name === vaccineName
+      );
+      setVaccineData(found || null);
+    }
+  }, [vaccineName]);
+
+  const handleCardClick = (type) => {
+    let content = {};
+
+    switch (type) {
+      case "doses":
+        content = {
+          title: "Doses Required",
+          body: `${vaccineData.doses} dose(s) are recommended as per the schedule: ${vaccineData.scheduleAt}`,
+        };
+        break;
+      case "eligibility":
+        content = {
+          title: "Eligibility",
+          body: vaccineData.eligibility,
+        };
+        break;
+      case "precautions":
+        content = {
+          title: "Precautions",
+          body: vaccineData.precautions,
+        };
+        break;
+      case "administration":
+        content = {
+          title: "Administration",
+          body: vaccineData.administration,
+        };
+        break;
+      default:
+        content = {
+          title: "Details",
+          body: "No information available",
+        };
+    }
+
+    setTrayContent(content);
+    setTrayOpen(true);
+  };
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // Content for info cards
-  const cardContents = {
-    doses: {
-      title: "Number of Doses",
-      body: (
-        <div>
-          <p>The HPV vaccine is administered in multiple doses based on age:</p>
-          <ul>
-            <li>2 doses (6–12 months apart) for ages 9–14 years</li>
-            <li>3 doses (0, 1–2, and 6 months) for ages 15+ years</li>
-          </ul>
-        </div>
-      ),
-    },
-    eligibility: {
-      title: "Who Can Get It?",
-      body: (
-        <div>
-          <p>Recommended for:</p>
-          <ul>
-            <li>Girls and boys aged 9–14 years (most effective)</li>
-            <li>Young adults up to 26 years can also benefit</li>
-            <li>Adults 27–45 can discuss with their doctor if at risk</li>
-          </ul>
-        </div>
-      ),
-    },
-    precautions: {
-      title: "Before Getting Vaccinated",
-      body: (
-        <div>
-          <p>Inform the healthcare provider if:</p>
-          <ul>
-            <li>You are pregnant or planning pregnancy</li>
-            <li>You have a severe illness or fever currently</li>
-            <li>You had allergic reactions to any vaccine before</li>
-          </ul>
-        </div>
-      ),
-    },
-    administration: {
-      title: "How It’s Given",
-      body: (
-        <div>
-          <p>The HPV vaccine is given by trained nurses or doctors:</p>
-          <ul>
-            <li>Administered as an injection in the upper arm</li>
-            <li>Uses sterile single-use syringes</li>
-            <li>Takes only a few minutes</li>
-          </ul>
-        </div>
-      ),
-    },
-  };
-
-  const handleCardClick = (contentKey) => {
-    setTrayContent(cardContents[contentKey]);
-    setTrayOpen(true);
-  };
-
-  const faqs = [
-    {
-      question: "What is the HPV vaccine?",
-      answer:
-        "It is a vaccine that protects against certain strains of Human Papillomavirus (HPV) which can cause cervical and other cancers.",
-    },
-    {
-      question: "At what age should it be given?",
-      answer:
-        "It’s best between ages 9–14, but can be given up to age 26, and sometimes up to 45 on doctor’s advice.",
-    },
-    {
-      question: "Are there any side effects?",
-      answer:
-        "Mild side effects may include soreness, redness, or fever, which usually go away quickly.",
-    },
-    {
-      question: "Does it protect completely?",
-      answer:
-        "It protects against the most common high-risk HPV strains, but regular screening is still advised.",
-    },
-  ];
+  if (!vaccineData) {
+    return <div>Loading vaccine details...</div>;
+  }
 
   return (
     <div className="labtest-test-page">
@@ -117,7 +105,9 @@ const HPVVaccine = () => {
             <button className="icon-button" onClick={() => navigate(-1)}>
               <FiArrowLeft className="hero-icon" />
             </button>
-            <h2 className="hero-title">HPV VACCINE DETAILS</h2>
+            <h2 className="hero-title">
+              {vaccineData.name.toUpperCase()} VACCINE DETAILS
+            </h2>
           </div>
 
           <div className="hero-right">
@@ -139,12 +129,10 @@ const HPVVaccine = () => {
               <FaSyringe className="test-icon" />
             </div>
             <div className="test-text-content">
-              <h2 className="test-title">HPV (Human Papillomavirus) Vaccine</h2>
+              <h2 className="test-title">{vaccineData.name} Vaccine</h2>
             </div>
           </div>
-          <p className="test-subtitle">
-            Protects against HPV strains that cause cervical and other cancers.
-          </p>
+          <p className="test-subtitle">{vaccineData.description}</p>
 
           <div className="divider"></div>
 
@@ -154,8 +142,8 @@ const HPVVaccine = () => {
                 <FiClock className="extra-icon" />
               </div>
               <div>
-                <p className="extra-label">Full protection after</p>
-                <p className="extra-value">All doses completed</p>
+                <p className="extra-label">Doses Required</p>
+                <p className="extra-value">{vaccineData.doses}</p>
               </div>
             </div>
             <div className="extra-card">
@@ -163,8 +151,8 @@ const HPVVaccine = () => {
                 <FaShieldAlt className="extra-icon" />
               </div>
               <div>
-                <p className="extra-label">Provides protection</p>
-                <p className="extra-value">Up to 10+ years</p>
+                <p className="extra-label">Tag</p>
+                <p className="extra-value">{vaccineData.tag}</p>
               </div>
             </div>
           </div>
@@ -174,9 +162,7 @@ const HPVVaccine = () => {
           <h2 className="section-title">Know more about this vaccine</h2>
 
           <div className="test-description">
-            The HPV vaccine helps prevent infections caused by certain strains
-            of Human Papillomavirus (HPV). It is most effective when given
-            before exposure to the virus, typically during preteen years.
+            {vaccineData.description}
             <span> See more</span>
           </div>
 
@@ -188,7 +174,7 @@ const HPVVaccine = () => {
               </div>
               <div className="card-content">
                 <h3>Doses</h3>
-                <p>2 or 3 depending on age</p>
+                <p>{vaccineData.doses}</p>
               </div>
             </div>
 
@@ -202,7 +188,7 @@ const HPVVaccine = () => {
               </div>
               <div className="card-content">
                 <h3>Eligibility</h3>
-                <p>9–26 years</p>
+                <p>{vaccineData.eligibility.slice(0, 20)}...</p>
               </div>
             </div>
 
@@ -211,7 +197,7 @@ const HPVVaccine = () => {
               onClick={() => handleCardClick("precautions")}
             >
               <div className="card-icons">
-                <FiClipboard className="card-icon" />
+                <FaClipboard className="card-icon" />
                 <IoIosArrowForward className="arrow-icon" />
               </div>
               <div className="card-content">
@@ -226,7 +212,7 @@ const HPVVaccine = () => {
             onClick={() => handleCardClick("administration")}
           >
             <div className="card-icons">
-              <FiUserCheck className="card-icon" />
+              <FaUserCheck className="card-icon" />
               <IoIosArrowForward className="arrow-icon" />
             </div>
             <div>
@@ -277,16 +263,23 @@ const HPVVaccine = () => {
       <div className="pricing-container">
         <div className="price-info">
           <div className="price-main">
-            <span className="current-price">₹1,500</span>
-            <span className="original-price">₹2,000</span>
-            <span className="discount-badge">25% off</span>
+            <span className="current-price">₹{vaccineData.price} /-</span>
           </div>
           <p className="price-note">Inclusive of all taxes</p>
         </div>
 
         <button
           className="book-test-button"
-          onClick={() => navigate(`/app/vaccination/cart`)}
+          onClick={() =>
+            navigate(`/app/vaccination/cart`, {
+              state: {
+                vaccineName: vaccineData.name,
+                price: vaccineData.price,
+                doses: vaccineData.doses,
+                tag: vaccineData.tag,
+              },
+            })
+          }
         >
           Add to Cart
         </button>
@@ -771,7 +764,6 @@ const HPVVaccine = () => {
 /* Container */
 .faq-container {
   max-width: 750px;
-  margin: 0 auto;
 }
 
 /* Heading */
@@ -889,4 +881,4 @@ const HPVVaccine = () => {
   );
 };
 
-export default HPVVaccine;
+export default VaccinationPage;

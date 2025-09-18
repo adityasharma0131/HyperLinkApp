@@ -338,6 +338,7 @@ const AddLocation = () => {
 
     const savedAddresses =
       JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+
     const existingIndex = savedAddresses.findIndex(
       (addr) => addr.userId === userid
     );
@@ -359,7 +360,8 @@ const AddLocation = () => {
       localStorage.setItem("currentUser", JSON.stringify(updatedUser));
     }
 
-    navigate("/app/vaccination/cart");
+    // ✅ Go back to the previous page instead of going to cart directly
+    navigate(-1);
   };
 
   const clearSearch = () => {

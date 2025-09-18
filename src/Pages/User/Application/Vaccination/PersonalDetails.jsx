@@ -3,10 +3,12 @@ import { FiArrowLeft } from "react-icons/fi";
 import { FaUser, FaPlus } from "react-icons/fa";
 import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import AppButton from "../../../../Components/AppButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const PersonalDetails = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const vaccineName = location.state?.vaccineName || "VACCINE";
 
   const [users, setUsers] = useState([
     {
@@ -84,7 +86,7 @@ const PersonalDetails = () => {
             <FiArrowLeft className="hero-icon" />
           </button>
           <div className="hero-text">
-            <h1 className="hero-title">HPV ASSESSMENT</h1>
+            <h1 className="hero-title">{vaccineName} ASSESSMENT</h1>
             <p className="hero-subtitle">
               Answer a few health questions to check your eligibility
             </p>
@@ -248,7 +250,11 @@ const PersonalDetails = () => {
         </div>
 
         <button
-          onClick={() => navigate("/app/vaccination/questionnaires")}
+          onClick={() =>
+            navigate("/app/vaccination/questionnaires", {
+              state: { vaccineName },
+            })
+          }
           className="start-btn"
         >
           Start Assessment
