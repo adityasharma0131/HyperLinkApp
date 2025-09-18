@@ -136,7 +136,7 @@ const Nutrition = () => {
             >
               <FiArrowLeft className="hero-icon" />
             </button>
-            <h2 className="hero-title">Physical Activity</h2>
+            <h2 className="hero-title">Nutrition</h2>
           </div>
         </div>
 
@@ -331,13 +331,15 @@ const Nutrition = () => {
           onClick={handleBack}
           disabled={currentQuestion === 0}
         />
-        <AppButton text={"Next"} onClick={handleNext} disabled={isCompletion} />
+        <AppButton
+          text="Next"
+          onClick={() =>
+            isCompletion
+              ? navigate("/app/persona-builder/sleep")
+              : setCurrentQuestion((prev) => prev + 1)
+          }
+        />
       </div>
-
-      <style>
-        {`
-      `}
-      </style>
 
       <style>
         {`
