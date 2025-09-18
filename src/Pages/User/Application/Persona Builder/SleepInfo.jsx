@@ -335,12 +335,11 @@ const SleepInfo = () => {
 
             <div className="completion-text">
               <p>
-                A healthy diet throughout life promotes healthy pregnancy
-                outcomes, supports normal growth, development and aging, helps
-                to maintain a healthy body weight, and reduces the risk of
-                chronic disease leading to overall health and well-being.{" "}
+                When you have a medical condition, keeping a track of your
+                health involves paying extra attention to certain parameters of
+                health.
               </p>
-              <p>Now, let's talk about your nutrition.</p>
+              <p>Now, let's talk about your medical conditions.</p>
             </div>
           </div>
         ) : (

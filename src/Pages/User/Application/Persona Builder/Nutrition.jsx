@@ -184,12 +184,11 @@ const Nutrition = () => {
 
           <div className="completion-text">
             <p>
-              A healthy diet throughout life promotes healthy pregnancy
-              outcomes, supports normal growth, development and aging, helps to
-              maintain a healthy body weight, and reduces the risk of chronic
-              disease leading to overall health and well-being.{" "}
+              The human body cycles through two phases of sleep, (1) rapid eye
+              movement (REM) and (2) non-rapid eye movement (NREM) sleep, which
+              is further divided into three stages, N1-N3.
             </p>
-            <p>Now, let’s talk about your nutrition.</p>
+            <p>Now, let’s talk about your sleep.</p>
           </div>
         </div>
       ) : (
