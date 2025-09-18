@@ -278,7 +278,10 @@ const Home = () => {
               AS UNIQUE AS <br />
               <span className="gradient-text">YOUR DNA</span>
             </h1>
-            <button className="start-btn">
+            <button
+              className="start-btn"
+              onClick={() => navigate("/app/subscription")}
+            >
               SUBSCRIBE NOW! <span className="arrow">➜</span>
             </button>
           </div>
