@@ -16,7 +16,9 @@ import {
   FaUserCheck,
 } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
+
 import childVaccData from "./ChildVaccData.json";
+import adultVaccData from "./AdultVaccData.json"; // ✅ NEW
 import GridInfoTray from "./GridInfoTray";
 
 const VaccinationPage = () => {
@@ -32,7 +34,7 @@ const VaccinationPage = () => {
   const faqs = [
     {
       question: "Is this vaccine safe?",
-      answer: "Yes, it is safe for eligible children.",
+      answer: "Yes, it is safe for eligible individuals.",
     },
     {
       question: "Are there side effects?",
@@ -41,17 +43,21 @@ const VaccinationPage = () => {
   ];
 
   useEffect(() => {
-    if (vaccineName && childVaccData?.vaccineData) {
-      const found = childVaccData.vaccineData.find(
-        (v) => v.name === vaccineName
-      );
-      setVaccineData(found || null);
-    }
+    if (!vaccineName) return;
+
+    const allVaccines = [
+      ...(childVaccData?.vaccineData || []),
+      ...(adultVaccData?.vaccineData || []),
+    ];
+
+    const found = allVaccines.find((v) => v.name === vaccineName);
+    setVaccineData(found || null);
   }, [vaccineName]);
 
   const handleCardClick = (type) => {
-    let content = {};
+    if (!vaccineData) return;
 
+    let content = {};
     switch (type) {
       case "doses":
         content = {
@@ -188,7 +194,7 @@ const VaccinationPage = () => {
               </div>
               <div className="card-content">
                 <h3>Eligibility</h3>
-                <p>{vaccineData.eligibility.slice(0, 20)}...</p>
+                <p>{vaccineData.eligibility?.slice(0, 20)}...</p>
               </div>
             </div>
 

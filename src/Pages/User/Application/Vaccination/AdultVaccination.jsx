@@ -9,8 +9,9 @@ import {
   FiInfo,
 } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
-import { IoIosSearch } from "react-icons/io";
 import { IoChevronDownSharp } from "react-icons/io5";
+
+import { IoIosSearch } from "react-icons/io";
 import { GiLoveInjection } from "react-icons/gi";
 import AdultVaccineHero from "../../../../assets/AdultVaccineHero.svg";
 import AppButton from "../../../../Components/AppButton";
@@ -18,7 +19,12 @@ import VaccInfo from "./VaccInfo";
 import DoseTray from "./DoseTray";
 import NewUserTray from "./NewUserTray";
 
+// ⭐ Import data from JSON file
+import vaccineJson from "./AdultVaccData.json";
+
 const AdultVaccination = () => {
+  const { ageGroups, vaccineData } = vaccineJson;
+
   const [searchQuery, setSearchQuery] = useState("");
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
   const [selectedAge, setSelectedAge] = useState("all");
@@ -31,80 +37,7 @@ const AdultVaccination = () => {
   const [doseTrayVaccine, setDoseTrayVaccine] = useState(null);
 
   const [isNewUserTrayOpen, setIsNewUserTrayOpen] = useState(false);
-
-  const ageGroups = [
-    "all",
-    "18-49 years",
-    "50-64 years",
-    "65+ years",
-    "Pregnant women",
-    "Healthcare workers",
-  ];
-
-  const vaccineData = useMemo(
-    () => [
-      {
-        id: 1,
-        name: "Influenza (Flu) Vaccine",
-        description:
-          "Annual vaccine to protect against seasonal influenza viruses.",
-        doses: 1,
-        price: 1200,
-        isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years", "65+ years"],
-        tag: "Recommended",
-        scheduleAt: "Annual",
-      },
-      {
-        id: 2,
-        name: "Tdap (Tetanus, Diphtheria, Pertussis)",
-        description:
-          "Protects against tetanus, diphtheria, and whooping cough.",
-        doses: 1,
-        price: 850,
-        isRecommended: true,
-        ageGroups: ["18-49 years", "50-64 years"],
-        tag: "Essential",
-        scheduleAt: "Every 10 years",
-      },
-      {
-        id: 3,
-        name: "Shingles (Herpes Zoster)",
-        description:
-          "Prevents shingles in older adults, recommended for adults 50+.",
-        doses: 2,
-        price: 3500,
-        isRecommended: true,
-        ageGroups: ["50-64 years", "65+ years"],
-        tag: "Recommended",
-        scheduleAt: "2 doses, 2-6 months apart",
-      },
-      {
-        id: 4,
-        name: "Pneumococcal Vaccine",
-        description: "Protects against pneumococcal diseases like pneumonia.",
-        doses: 1,
-        price: 2800,
-        isRecommended: true,
-        ageGroups: ["65+ years"],
-        tag: "Essential",
-        scheduleAt: "Once after 65",
-      },
-      {
-        id: 5,
-        name: "HPV Vaccine",
-        description:
-          "Protects against human papillomavirus and related cancers.",
-        doses: 2,
-        price: 3200,
-        isRecommended: true,
-        ageGroups: ["18-49 years"],
-        tag: "Recommended",
-        scheduleAt: "2 doses, 6-12 months apart",
-      },
-    ],
-    []
-  );
+  const [newUserTrayVaccineName, setNewUserTrayVaccineName] = useState("");
 
   const filteredVaccines = useMemo(() => {
     return vaccineData.filter((vaccine) => {
@@ -157,11 +90,12 @@ const AdultVaccination = () => {
     setIsInfoTrayOpen(true);
   };
 
-  const handleDoseScheduleNow = (doseNumber) => {
+  const handleDoseScheduleNow = () => {
+    if (doseTrayVaccine?.name) {
+      setNewUserTrayVaccineName(doseTrayVaccine.name);
+    }
     setIsDoseTrayOpen(false);
-    setTimeout(() => {
-      setIsNewUserTrayOpen(true);
-    }, 300);
+    setTimeout(() => setIsNewUserTrayOpen(true), 300);
   };
 
   const VaccineCard = ({ vaccine }) => (
@@ -301,7 +235,6 @@ const AdultVaccination = () => {
         </div>
       </div>
 
-      {/* Vaccine Cards */}
       <div className="vaccine-list-container">
         <div className="section-header">
           <h3 className="section-title">
@@ -313,8 +246,8 @@ const AdultVaccination = () => {
 
         {filteredVaccines.length > 0 ? (
           <div className="vaccine-list">
-            {filteredVaccines.map((vaccine) => (
-              <VaccineCard key={vaccine.id} vaccine={vaccine} />
+            {filteredVaccines.map((v) => (
+              <VaccineCard key={v.id} vaccine={v} />
             ))}
           </div>
         ) : (
@@ -334,7 +267,6 @@ const AdultVaccination = () => {
         )}
       </div>
 
-      {/* Info Tray */}
       <VaccInfo
         isOpen={isInfoTrayOpen}
         onClose={() => setIsInfoTrayOpen(false)}
@@ -342,7 +274,6 @@ const AdultVaccination = () => {
         handleScheduleClick={handleScheduleClick}
       />
 
-      {/* Dose Tray */}
       {doseTrayVaccine && (
         <DoseTray
           isOpen={isDoseTrayOpen}
@@ -357,10 +288,13 @@ const AdultVaccination = () => {
         />
       )}
 
-      {/* New User Tray */}
       {isNewUserTrayOpen && (
-        <NewUserTray onClose={() => setIsNewUserTrayOpen(false)} />
+        <NewUserTray
+          vaccineName={newUserTrayVaccineName}
+          onClose={() => setIsNewUserTrayOpen(false)}
+        />
       )}
+
       <style>
         {`
         .adult-vaccine-page {
