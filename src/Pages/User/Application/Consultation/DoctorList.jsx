@@ -5,13 +5,17 @@ import { FaMicrophone } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import { CiCircleInfo } from "react-icons/ci";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 import DoctorList1 from "../../../../assets/doctorlist1.png";
 import AppButton from "../../../../Components/AppButton";
 
 const DoctorList = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+
+  // Get category name sent from previous page
+  const categoryName = location.state?.category || "Specialist";
   const doctors = [
     {
       name: "Dr. Kavita Madhuri",
@@ -59,8 +63,9 @@ const DoctorList = () => {
               <FiArrowLeft className="hero-icon" />
             </button>
 
-            <h1 className="hero-title">Diabetologist</h1>
+            <h1 className="hero-title">{categoryName}</h1>
           </div>
+
           <div className="search-bar hero-search">
             <IoIosSearch className="search-icon" />
             <input

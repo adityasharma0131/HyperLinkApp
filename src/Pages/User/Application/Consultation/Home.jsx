@@ -11,27 +11,29 @@ import {
   FaHeartbeat,
   FaLungs,
 } from "react-icons/fa";
-import { GiBrain, GiKidneys, GiStomach, GiMuscleUp } from "react-icons/gi";
+import { GiMuscleUp } from "react-icons/gi";
 
 import ConsultationBg from "../../../../assets/consultationherobg.png";
+import consultationwhy1 from "../../../../assets/consultationwhy1.png";
+import consultationwhy2 from "../../../../assets/consultationwhy2.png";
+import consultationwhy3 from "../../../../assets/consultationwhy3.png";
+import consultationwhy4 from "../../../../assets/consultationwhy4.png";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    navigate("/app/consultation/doctors-list");
+  const handleCardClick = (categoryName) => {
+    navigate("/app/consultation/doctors-list", {
+      state: { category: categoryName }, // Pass category in route state
+    });
   };
   const doctorSpecialities = [
     { icon: <MdBloodtype />, label: "Diabetologist" },
-    { icon: <FaHandHoldingHeart />, label: "Cardiologist" },
-    { icon: <FaRibbon />, label: "Oncologist" },
-    { icon: <GiBrain />, label: "Psychiatrist" },
-    { icon: <FaLungs />, label: "Pulmonologist" },
-    { icon: <GiKidneys />, label: "Nephrologist" },
-    { icon: <GiStomach />, label: "Gastroentero-logist" },
+    { icon: <FaHandHoldingHeart />, label: "Genetic Counselor" },
+    { icon: <FaRibbon />, label: "Nutrigenomist" },
     { icon: <FaHeartbeat />, label: "General Physician" },
-    { icon: <GiMuscleUp />, label: "Orthopedist" },
+    { icon: <GiMuscleUp />, label: "Physiotherapist" },
   ];
 
   const steps = [
@@ -59,7 +61,16 @@ const Home = () => {
         "The doctor will share a complete prescription and customized health guidance based on your consultation.",
     },
   ];
-
+  const stats = [
+    { img: consultationwhy1, number: "150+", label: "Qualified Doctors" },
+    { img: consultationwhy2, number: "20+", label: "Specialties" },
+    {
+      img: consultationwhy3,
+      number: "1000+",
+      label: "Successful Consultations",
+    },
+    { img: consultationwhy4, number: "24/7", label: "Available Support" },
+  ];
   return (
     <>
       <div className="consultation-page">
@@ -109,9 +120,9 @@ const Home = () => {
                 className="consultation-category-card"
                 role="button"
                 tabIndex={0}
-                onClick={handleCardClick}
+                onClick={() => handleCardClick(label)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") handleCardClick();
+                  if (e.key === "Enter") handleCardClick(label);
                 }}
               >
                 <div className="icon-wrapper">{icon}</div>
@@ -120,36 +131,36 @@ const Home = () => {
             ))}
           </div>
         </div>
-        <div className="how-it-works-container">
-          <h2 className="how-it-works-title">
-            <span className="title-decoration"></span>
-            How Our Genetic Assessment Works
-            <span className="title-decoration"></span>
-          </h2>
-          <div className="steps-wrapper">
+
+        <div className="howitworks-container">
+          <h1 className="howitworks-title">How it works</h1>
+          <div className="steps-list">
             {steps.map((step) => (
-              <div key={step.number} className="step-box">
-                <div className="step-number-container">
-                  <div className="step-number">{step.number}</div>
-                  {step.number < steps.length && (
-                    <div className="step-connector"></div>
-                  )}
-                </div>
+              <div key={step.number} className="step-item">
+                <div className="step-number">{step.number}</div>
                 <div className="step-content">
-                  <h3 className="step-title">{step.title}</h3>
+                  <h2 className="step-title">{step.title}</h2>
                   {step.description && (
                     <p className="step-description">{step.description}</p>
                   )}
-                  {step.details && (
-                    <div className="step-details">
-                      {step.details.map((detail, i) => (
-                        <div key={i} className="detail-item">
-                          <span className="detail-icon">•</span>
-                          <span>{detail}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="whyconsult-container">
+          <h1 className="whyconsult-title">Why consult on Hyperlink?</h1>
+
+          <div className="whyconsult-grid">
+            {stats.map((item, idx) => (
+              <div key={idx} className="whyconsult-card">
+                <div className="whyconsult-icon">
+                  <img src={item.img} alt={item.label} />
+                </div>
+                <div className="whyconsult-info">
+                  <h2>{item.number}</h2>
+                  <p>{item.label}</p>
                 </div>
               </div>
             ))}
@@ -441,198 +452,136 @@ display: flex
   }
 }
 
-/* Modern How It Works Section */
-.how-it-works-container {
-  background: linear-gradient(145deg, #f8faff, #ffffff);
-  border-radius: 24px;
-  padding: 40px;
-  max-width: 800px;
-  margin: 60px auto;
-  box-shadow: 0 10px 30px rgba(0, 46, 109, 0.1);
-  position: relative;
-  overflow: hidden;
+.howitworks-container {
+  max-width: 600px;
+  margin: 1rem;
+  padding: 24px;
+  border-radius: 16px;
+background: linear-gradient(180deg, #d6efff 20%, #8c60e2 150%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
-.how-it-works-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: linear-gradient(90deg, #4361ee, #3a0ca3);
+.howitworks-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #fff;
 }
 
-.how-it-works-title {
-  font-size: 32px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 40px;
-  text-align: center;
+.steps-list {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 20px;
 }
 
-.title-decoration {
-  width: 40px;
-  height: 4px;
-  background: linear-gradient(90deg, #4361ee, #3a0ca3);
-  border-radius: 2px;
-  opacity: 0.7;
-}
-
-.steps-wrapper {
+.step-item {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  position: relative;
-}
-
-.step-box {
-  display: flex;
-  gap: 24px;
   align-items: flex-start;
-  position: relative;
-  z-index: 1;
-}
-
-.step-number-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+  gap: 16px;
 }
 
 .step-number {
-  background: linear-gradient(135deg, #4361ee, #3a0ca3);
-  color: white;
-  font-weight: 700;
-  font-size: 18px;
-  width: 44px;
-  height: 44px;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background-color: #3b82f6; /* blue */
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
-  position: relative;
-  z-index: 2;
-  border: 3px solid white;
-}
-
-.step-connector {
-  flex: 1;
-  width: 2px;
-  background: linear-gradient(to bottom, #4361ee, #7209b7);
-  margin: 8px 0;
-  opacity: 0.3;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .step-content {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
   flex: 1;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.step-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .step-title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  color: #1a1a1a;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.step-title::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: #4361ee;
-  border-radius: 50%;
+  color: #333;
 }
 
 .step-description {
-  font-size: 16px;
-  color: #4a4a4a;
-  line-height: 1.6;
-  margin: 0 0 16px 0;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+.whyconsult-container {
+  max-width: 700px; /* smaller overall width */
+  margin: 60px auto;
+  padding: 0 20px;
+  text-align: center;
 }
 
-.step-details {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px dashed #e0e0e0;
+.whyconsult-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
 }
 
-.detail-item {
+.whyconsult-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Force 2x2 grid */
+  gap: 20px;
+  justify-items: center;
+}
+
+.whyconsult-card {
+  position: relative;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 10px ;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    display: flex
+;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whyconsult-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.whyconsult-icon {
   display: flex;
-  gap: 8px;
-  align-items: flex-start;
-  margin-bottom: 8px;
-  font-size: 15px;
-  color: #555;
+  justify-content: center;
+  width: 100%;
 }
 
-.detail-icon {
-  color: #4361ee;
-  font-weight: bold;
-  flex-shrink: 0;
-  margin-top: 2px;
+.whyconsult-icon img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .how-it-works-container {
-    padding: 30px 20px;
-    margin: 40px 20px;
-    border-radius: 16px;
-  }
-
-  .how-it-works-title {
-    font-size: 24px;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .title-decoration {
-    width: 60px;
-  }
-
-  .step-box {
-    gap: 16px;
-  }
-
-  .step-number {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-
-  .step-content {
-    padding: 18px;
-  }
-
-  .step-title {
-    font-size: 18px;
-  }
-
-  .step-description {
-    font-size: 15px;
-  }
+.whyconsult-info {
+  text-align: center;
+  margin-top: 12px;
 }
+
+.whyconsult-info h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3b82f6;
+  margin: 0;
+}
+
+.whyconsult-info p {
+  font-size: 12px;
+  color: #666;
+  margin-top: 3px;
+}
+
 `}
       </style>
     </>
