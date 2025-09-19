@@ -4,12 +4,24 @@ import { FiArrowLeft, FiUpload } from "react-icons/fi";
 import { FaCamera, FaShieldAlt } from "react-icons/fa";
 import { RiGalleryFill } from "react-icons/ri";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-
-import { LuBone } from "react-icons/lu";
-import { GrTest } from "react-icons/gr";
-import { GiHeartBeats, GiKidneys, GiLiver } from "react-icons/gi";
-import { MdBloodtype } from "react-icons/md";
-
+import {
+  GiRunningShoe,
+  GiHeartOrgan,
+  GiBrain,
+  GiStomach,
+  GiLiver,
+} from "react-icons/gi";
+import {
+  MdRestaurant,
+  MdFace,
+  MdPsychology,
+  MdOutlineSick,
+  MdBloodtype,
+} from "react-icons/md";
+import { FaFemale, FaAllergies, FaEye } from "react-icons/fa";
+import { TbHeartbeat } from "react-icons/tb";
+import { RiMentalHealthFill } from "react-icons/ri";
+import { LuBrainCircuit } from "react-icons/lu";
 const UploadReports = () => {
   const navigate = useNavigate();
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -55,12 +67,21 @@ const UploadReports = () => {
   };
 
   const labTestCategories = [
-    { icon: <LuBone />, label: "Bone" },
-    { icon: <GrTest />, label: "Blood Sugar" },
-    { icon: <GiHeartBeats />, label: "Heart" },
-    { icon: <GiKidneys />, label: "Kidney" },
-    { icon: <MdBloodtype />, label: "Blood Picture" },
-    { icon: <GiLiver />, label: "Liver" },
+    { icon: <GiRunningShoe />, label: "Sports" },
+    { icon: <MdRestaurant />, label: "Nutrition" },
+    { icon: <MdFace />, label: "Skin" },
+    { icon: <GiBrain />, label: "Lifestyle" },
+    { icon: <FaFemale />, label: "Female Conditions" },
+    { icon: <MdPsychology />, label: "Behavioural" },
+    { icon: <GiHeartOrgan />, label: "Cardiovascular" },
+    { icon: <FaAllergies />, label: "Food Allergies" },
+    { icon: <TbHeartbeat />, label: "Cardiovascular Diseases" },
+    { icon: <MdBloodtype />, label: "Endocrine" },
+    { icon: <MdOutlineSick />, label: "Cancer" },
+    { icon: <GiLiver />, label: "Liver, Gastro and Renal" },
+    { icon: <RiMentalHealthFill />, label: "Neuro and Psychiatry" },
+    { icon: <LuBrainCircuit />, label: "Inflammatory" },
+    { icon: <FaEye />, label: "Eyes, Skin and Hair" },
   ];
 
   return (
@@ -74,7 +95,7 @@ const UploadReports = () => {
           >
             <FiArrowLeft className="hero-icon" />
           </button>
-          <h1 className="hero-title">PHYSICAL HEALTH</h1>
+          <h1 className="hero-title">GENOME PROFILE</h1>
         </div>
       </div>
 

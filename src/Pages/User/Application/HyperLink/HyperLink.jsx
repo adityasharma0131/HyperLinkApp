@@ -19,10 +19,10 @@ const HyperLink = () => {
   const navigate = useNavigate(); // ✅ Hook for navigation
 
   const cards = [
+    { title: "Genome Profile", img: hyperlink360s4 },
     { title: "Physical Health", img: hyperlink360s1 },
     { title: "Key Vitals", img: hyperlink360s2 },
     { title: "Lifestyle", img: hyperlink360s3 },
-    { title: "Genome Patri", img: hyperlink360s4 },
     { title: "Conditions", img: hyperlink360s5 },
   ];
 
