@@ -15,6 +15,7 @@ const FolderGroup = ({ folders }) => {
   const [mainSelected, setMainSelected] = useState(false);
   const folderRef = useRef(null);
   const longPressTimer = useRef(null);
+  const navigate = useNavigate(); // ✅ NEW
 
   // Close on outside click
   useEffect(() => {
@@ -24,7 +25,6 @@ const FolderGroup = ({ folders }) => {
         folderRef.current &&
         !folderRef.current.contains(e.target)
       ) {
-        // Only collapse, do not clear selection
         setExpanded(false);
       }
     };
@@ -33,11 +33,11 @@ const FolderGroup = ({ folders }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [expanded]);
 
-  // Handle long press logic for child items
+  // Long press logic
   const handleLongPressStart = (index) => {
     longPressTimer.current = setTimeout(() => {
       toggleChildSelection(index);
-    }, 600); // 600ms
+    }, 600);
   };
 
   const handleLongPressEnd = () => {
@@ -52,23 +52,31 @@ const FolderGroup = ({ folders }) => {
       } else {
         updated.add(index);
       }
-      // if not all are selected anymore, unset mainSelected
       if (updated.size !== folders.length) setMainSelected(false);
       return updated;
     });
   };
 
-  // ✅ NEW: Handle main folder selection
   const handleMainSelect = () => {
     if (mainSelected) {
-      // deselect all
       setMainSelected(false);
       setSelected(new Set());
     } else {
-      // select all
       const all = new Set(folders.map((_, i) => i));
       setMainSelected(true);
       setSelected(all);
+    }
+  };
+
+  const handleFolderClick = (f, i) => {
+    if (selected.size > 0) {
+      toggleChildSelection(i);
+    } else {
+      if (f.color !== "folder-blue") {
+        navigate("/app/health-record/single-folder", {
+          state: { folderName: f.name },
+        });
+      }
     }
   };
 
@@ -93,7 +101,7 @@ const FolderGroup = ({ folders }) => {
               key={i}
               className={`folder-card ${f.color} ${
                 i === folders.length - 1 ? "top-card" : "collapsed-behind"
-              } ${mainSelected ? "selected-outline" : ""}`} // ✅
+              } ${mainSelected ? "selected-outline" : ""}`}
             >
               {mainSelected && i === folders.length - 1 && (
                 <MdCheckCircle className="check-icon" />
@@ -115,9 +123,7 @@ const FolderGroup = ({ folders }) => {
               onMouseLeave={handleLongPressEnd}
               onTouchStart={() => handleLongPressStart(i)}
               onTouchEnd={handleLongPressEnd}
-              onClick={() => {
-                if (selected.size > 0) toggleChildSelection(i);
-              }}
+              onClick={() => handleFolderClick(f, i)} // ✅ CLICK HANDLER
             >
               {selected.has(i) && <MdCheckCircle className="check-icon" />}
               <div className="folder-title-container">
