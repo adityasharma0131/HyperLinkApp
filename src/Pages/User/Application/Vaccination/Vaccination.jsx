@@ -29,7 +29,7 @@ const Vaccination = () => {
             <button className="icon-button">
               <FiArrowLeft
                 className="hero-icon"
-                onClick={() => window.history.back()}
+                onClick={() => navigate("/app")}
               />
             </button>
             <div className="text-block">
